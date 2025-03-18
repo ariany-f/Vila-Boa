@@ -51,34 +51,39 @@ class AppController extends Controller
         $usuario = $this->Authentication->getIdentity();
         if ($usuario) {
            
-             // Buscar o usuário na tabela Users e carregar as associações de 'Roles'
-            $usuario = $this->getTableLocator()->get('Users')->get($usuario->get('id'), [
-                'contain' => ['Roles'],
-            ]);
+            $usuarioId = $usuario->get('id');
+            $menus = $this->request->getSession()->read('menus.' . $usuarioId);
 
-            $roles = $usuario->get('roles') ?? [];
-           
-            if($roles) {
+            if (!$menus) {
+                $usuario = $this->getTableLocator()->get('Users')->get($usuario->get('id'), [
+                    'contain' => ['Roles'],
+                ]);
+    
+                $roles = $usuario->get('roles') ?? [];
+                 
+                if($roles) {
 
-                $roleIds = array_map(function ($role) {
-                    return $role->id;
-                }, $roles);
-
-                // Carregar os menus disponíveis para o usuário, com base nos roles
-                $menus = $this->Menus->find()
-                ->matching('Roles', function ($q) use ($roleIds) {
-                    return $q->where(['Roles.id IN' => $roleIds]);
-                })
-                ->contain(['ChildMenus'])  // Carregar submenus
-                ->where(['Menus.parent_id IS' => null])  // Filtrar menus principais
-                ->order(['Menus.position' => 'ASC'])
-                ->all();
-            }
-            else
-            {
-                $menus = [];
-            }
-            
+                    $roleIds = array_map(function ($role) {
+                        return $role->id;
+                    }, $roles);
+                    // Buscar menus no banco de dados
+                    $menus = $this->Menus->find()
+                        ->matching('Roles', function ($q) use ($roleIds) {
+                            return $q->where(['Roles.id IN' => $roleIds]);
+                        })
+                        ->contain(['ChildMenus'])
+                        ->where(['Menus.parent_id IS' => null])
+                        ->order(['Menus.position' => 'ASC'])
+                        ->all();
+                }
+                else
+                {
+                    $menus = [];
+                }
+                    
+                // Armazenar os menus na sessão
+                $this->request->getSession()->write('menus.' . $usuarioId, $menus);
+            }            
             // Tornar os menus e o usuário disponíveis para todas as views
             $this->set(compact('menus', 'usuario'));
         } else {
