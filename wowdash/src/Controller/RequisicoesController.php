@@ -68,6 +68,9 @@ class RequisicoesController extends AppController
 
     public function diversos()
     {
+        $this->set('title', 'Requisição');
+        $this->set('subTitle', 'Diversos');
+
         $form = $this->RequisicoesLogs->newEmptyEntity();
         
         if ($this->request->is('post')) {
@@ -106,6 +109,9 @@ class RequisicoesController extends AppController
 
     public function poda()
     {
+        $this->set('title', 'Requisição');
+        $this->set('subTitle', 'Poda');
+
         $form = $this->RequisicoesLogs->newEmptyEntity();
         
         if ($this->request->is('post')) {
@@ -144,6 +150,9 @@ class RequisicoesController extends AppController
 
     public function recolha()
     {
+        $this->set('title', 'Requisição');
+        $this->set('subTitle', 'Recolha');
+
         $form = $this->RequisicoesLogs->newEmptyEntity();
         
         if ($this->request->is('post')) {

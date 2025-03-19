@@ -17,6 +17,9 @@ class MenusController extends AppController
      */
     public function index()
     {
+        $this->set('title', 'Menus');
+        $this->set('subTitle', 'Todos os menus disponíveis');
+        
         $query = $this->Menus->find()
             ->contain(['ParentMenus']);
         $menusView = $this->paginate($query);

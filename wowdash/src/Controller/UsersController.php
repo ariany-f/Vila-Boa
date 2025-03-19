@@ -47,6 +47,8 @@ class UsersController extends AppController
 
     public function index()
     {
+        $this->set('title', 'Usuários');
+        $this->set('subTitle', 'Todos os usuários disponíveis');
         $query = $this->Users->find();
         $users = $this->paginate($query);
     

@@ -40,7 +40,8 @@
                                     </blockquote>
                                 </div>
                             <?php endif; ?>
-                            <iframe height="600px" width="100%" src="<?= $relatorio->link_iframe ?>">
+                            
+                            <iframe height="600px" width="100%" src="<?= $relatorio->link_iframe ?>"></iframe>
                         </div>
                     </div>
                 </div>
@@ -50,25 +51,3 @@
         </div>
     </div>
 </div>
-
-
-
-<?php $this->start('script'); ?>
-    
-    <script>
-    // ========================= Adjust Textarea Height depending of text lines(default height 40px) Js Start ===========================
-    function adjustHeight(textarea) {
-        // Calculate the scroll height of the content
-        let scrollHeight = textarea.scrollHeight;
-
-        // Set the textarea height to the scroll height, but not exceeding the maximum height
-        if (scrollHeight > 44 && scrollHeight <= 60) {
-            textarea.style.height = scrollHeight + 'px';
-        } else if (scrollHeight > 60) {
-            // textarea.style.height = '60px !important';
-            textarea.setAttribute('style', 'height: 60px !important;');
-        }
-    }
-    // ========================= Adjust Textarea Height depending of text lines(default height 40px) Js End ===========================
-</script>
-<?php $this->end(); ?>
