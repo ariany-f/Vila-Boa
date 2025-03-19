@@ -46,6 +46,7 @@
                         </th>
                         <th scope="col">Nome</th>
                         <th scope="col">Descrição</th>
+                        <th scope="col">Link</th>
                         <th scope="col" class="text-center">Ações</th>
                     </tr>
                 </thead>
@@ -61,6 +62,7 @@
                                 </div>
                             </td>
                             <td><?= h($relatorio->titulo) ?></td>
+                            <td><?= h($relatorio->link_iframe) ?></td>
                             <td>
                                 <p class="max-w-500-px"><?= h($relatorio->descricao) ?></p>
                             </td>

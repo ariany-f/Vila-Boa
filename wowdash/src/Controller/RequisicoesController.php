@@ -13,6 +13,7 @@ use Cake\Utility\Xml;
  */
 class RequisicoesController extends AppController
 {
+    protected $RequisicoesLogs;
 
     public function initialize(): void
     {

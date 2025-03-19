@@ -25,21 +25,22 @@ class MenusSeed extends AbstractSeed
             ['id' => 6, 'name' => 'Mapas', 'url' => '#', 'parent_id' => null, 'position' => 3, 'icon' => 'map-marker', 'allow_delete' => false, 'created' => $now, 'modified' => $now],
             ['id' => 7, 'name' => 'Roçada', 'url' => '/mapas/rocada', 'parent_id' => 6, 'position' => 1, 'icon' => null, 'allow_delete' => false, 'created' => $now, 'modified' => $now],
             ['id' => 8, 'name' => 'Capina', 'url' => '/mapas/capina', 'parent_id' => 6, 'position' => 2, 'icon' => null, 'allow_delete' => false, 'created' => $now, 'modified' => $now],
+            ['id' => 9, 'name' => 'Poda', 'url' => '/mapas/poda', 'parent_id' => 6, 'position' => 3, 'icon' => null, 'allow_delete' => false, 'created' => $now, 'modified' => $now],
 
             // Programação
-            ['id' => 9, 'name' => 'Programação', 'url' => '/programacao', 'parent_id' => null, 'position' => 4, 'icon' => 'calendar', 'allow_delete' => false, 'created' => $now, 'modified' => $now],
+            ['id' => 10, 'name' => 'Programação', 'url' => '/programacao', 'parent_id' => null, 'position' => 4, 'icon' => 'calendar', 'allow_delete' => false, 'created' => $now, 'modified' => $now],
 
             // Gerenciamento
-            ['id' => 10, 'name' => 'Gerenciamento', 'url' => '#', 'parent_id' => null, 'position' => 5, 'icon' => 'settings', 'allow_delete' => false, 'created' => $now, 'modified' => $now],
-            ['id' => 11, 'name' => 'Usuários', 'url' => '/users', 'parent_id' => 10, 'position' => 1, 'icon' => null, 'allow_delete' => false, 'created' => $now, 'modified' => $now],
-            ['id' => 12, 'name' => 'Menus', 'url' => '/menus', 'parent_id' => 10, 'position' => 2, 'icon' => null, 'allow_delete' => false, 'created' => $now, 'modified' => $now],
-            ['id' => 13, 'name' => 'Relatórios', 'url' => '/relatorios/gerenciar', 'parent_id' => 10, 'position' => 3, 'icon' => null, 'allow_delete' => false, 'created' => $now, 'modified' => $now],
+            ['id' => 11, 'name' => 'Gerenciamento', 'url' => '#', 'parent_id' => null, 'position' => 5, 'icon' => 'settings', 'allow_delete' => false, 'created' => $now, 'modified' => $now],
+            ['id' => 12, 'name' => 'Usuários', 'url' => '/users', 'parent_id' => 10, 'position' => 1, 'icon' => null, 'allow_delete' => false, 'created' => $now, 'modified' => $now],
+            ['id' => 13, 'name' => 'Menus', 'url' => '/menus', 'parent_id' => 10, 'position' => 2, 'icon' => null, 'allow_delete' => false, 'created' => $now, 'modified' => $now],
+            ['id' => 14, 'name' => 'Relatórios', 'url' => '/relatorios/gerenciar', 'parent_id' => 10, 'position' => 3, 'icon' => null, 'allow_delete' => false, 'created' => $now, 'modified' => $now],
 
             // Acompanhamento
-            ['id' => 14, 'name' => 'Acompanhamento', 'url' => '/acompanhamento', 'parent_id' => null, 'position' => 6, 'icon' => 'dashboard-chart-arrow', 'allow_delete' => false, 'created' => $now, 'modified' => $now],
+            ['id' => 15, 'name' => 'Acompanhamento', 'url' => '/acompanhamento', 'parent_id' => null, 'position' => 6, 'icon' => 'dashboard-chart-arrow', 'allow_delete' => false, 'created' => $now, 'modified' => $now],
             
             // Relatórios
-            ['id' => 15, 'name' => 'Relatórios', 'url' => '/relatorios', 'parent_id' => null, 'position' => 7, 'icon' => 'dashboard-chart', 'allow_delete' => false, 'created' => $now, 'modified' => $now],
+            ['id' => 16, 'name' => 'Relatórios', 'url' => '/relatorios', 'parent_id' => null, 'position' => 7, 'icon' => 'dashboard-chart', 'allow_delete' => false, 'created' => $now, 'modified' => $now],
         ];
 
         // Insere os dados

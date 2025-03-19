@@ -196,7 +196,11 @@ return function (RouteBuilder $routes): void {
         });
 
         $builder->scope('/relatorios', ['controller' => 'Relatorios'], function ($routes) {
-            $routes->connect('/', ['action' => 'list']);
+            $routes->connect('/', ['action' => 'list'], ['_name' => 'listRelatorios']);
+            $routes->connect('/view/{id}',  // Aqui usamos {id} ao invés de :id
+                ['action' => 'view'],
+                ['pass' => ['id'], 'id' => '\d+', '_name' => 'viewRelatorio']
+            );
             $routes->connect('/gerenciar', ['action' => 'index']);
             $routes->connect('/add', ['action' => 'add']);
         });        

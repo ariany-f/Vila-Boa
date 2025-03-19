@@ -21,6 +21,9 @@ use Cake\Http\Session;
  */
 class AppController extends Controller
 {
+    protected $Menus;
+    protected $UsersRoles;
+    
     /**
      * Initialization hook method.
      *
@@ -49,8 +52,8 @@ class AppController extends Controller
         
         // Verifica se o usuário está logado
         $usuario = $this->Authentication->getIdentity();
-        if ($usuario) {
-           
+        if ($usuario) 
+        {
             $usuarioId = $usuario->get('id');
             $menus = $this->request->getSession()->read('menus.' . $usuarioId);
 
@@ -83,7 +86,8 @@ class AppController extends Controller
                     
                 // Armazenar os menus na sessão
                 $this->request->getSession()->write('menus.' . $usuarioId, $menus);
-            }            
+            }
+               
             // Tornar os menus e o usuário disponíveis para todas as views
             $this->set(compact('menus', 'usuario'));
         } else {

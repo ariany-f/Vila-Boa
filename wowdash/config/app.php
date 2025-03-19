@@ -89,8 +89,8 @@ return [
      * enable timestamping regardless of debug value.
      */
     'Asset' => [
-        //'timestamp' => true,
-        // 'cacheTime' => '+1 year'
+        'timestamp' => true,
+        'cacheTime' => '+1 month'
     ],
 
     /*
@@ -100,11 +100,11 @@ return [
         'default' => [
             'className' => \Cake\Cache\Engine\FileEngine::class,
             'path' => CACHE,
-            'duration' => '+1 month',
+            'duration' => '+1 minute',
         ],
-        '_cake_core_' => [
+        '_cake_translations_' => [
             'className' => \Cake\Cache\Engine\FileEngine::class,
-            'prefix' => 'cake_core_',
+            'prefix' => 'cake_translations_',
             'path' => CACHE . 'persistent/',
             'serialize' => true,
             'duration' => '+1 year',
@@ -264,16 +264,29 @@ return [
          * Environment variable-based configurations can be loaded here or
          * in app_local.php depending on the application's needs.
          */
-       
         'default' => [
             'className' => Connection::class,
             'driver' => Postgres::class, // Verifique se o driver é o PostgreSQL
-            'host' => env('POSTGRES_HOST', 'localhost'),
-            'username' => env('POSTGRES_USER', 'root'),
+            'host' => env('POSTGRES_HOST', ''),
+            'username' => env('POSTGRES_USER', ''),
             'password' => env('POSTGRES_PASSWORD', ''),
-            'database' => env('POSTGRES_DATABASE', 'default_db'),
+            'database' => env('POSTGRES_DATABASE', ''),
             'encoding' => 'utf8',
             'timezone' => 'UTC',
+            'persistent' => false,
+        ],
+        'remote' => [
+            'className' => Connection::class,
+            'driver' => Postgres::class, // Verifique se o driver é o PostgreSQL
+            'host' => env('POSTGRES_REMOTE_HOST', '209.126.9.138'),
+            'username' => env('POSTGRES_REMOTE_USER', 'postgres'),
+            'password' => env('POSTGRES_REMOTE_PASSWORD', 'Vil@Bo@182'),
+            'database' => env('POSTGRES_REMOTE_DATABASE', 'umovme_dbview_vbbase'),
+            'encoding' => 'utf8',
+            'timezone' => 'UTC',
+            'readOnly' => true, // Conexão somente leitura
+            'cacheMetadata' => true,
+            'log' => false,
             'persistent' => false,
         ],
         // 'default' => [

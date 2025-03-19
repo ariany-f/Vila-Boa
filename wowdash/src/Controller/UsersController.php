@@ -83,6 +83,8 @@ class UsersController extends AppController
     public function signout()
     {
         $this->Authentication->logout();
+        $session = $this->request->getSession();
+        $session->destroy(); // Apaga todos os dados da sessão
         return $this->redirect(['controller' => 'Authentication', 'action' => 'signin']);
     }
 }

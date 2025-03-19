@@ -99,11 +99,19 @@ class MapasController extends AppController
 
     public function rocada()
     {
-
+        $this->set('title', 'Mapas');
+        $this->set('subTitle', 'Roçada');
     }
 
     public function capina()
     {
-        
+        $this->set('title', 'Mapas');
+        $this->set('subTitle', 'Capina');
+    }
+
+    public function poda()
+    {
+        $this->set('title', 'Mapas');
+        $this->set('subTitle', 'Poda');
     }
 }
