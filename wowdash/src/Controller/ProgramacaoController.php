@@ -41,7 +41,7 @@ class ProgramacaoController extends AppController
         $this->set('title', 'Programação');
         $this->set('subTitle', 'Poda');
         // Usa o componente para buscar os dados
-        $resultados = $this->ProgramacaoComponent->buscarDadosRemotos();
+        $resultados = $this->ProgramacaoComponent->buscarDadosRemotos('Poda');
         // Passa os resultados para a view
         $this->set(compact('resultados'));
     }
@@ -55,7 +55,21 @@ class ProgramacaoController extends AppController
         $this->set('title', 'Programação');
         $this->set('subTitle', 'Capina');
         // Usa o componente para buscar os dados
-        $resultados = $this->ProgramacaoComponent->buscarDadosRemotos();
+        $resultados = $this->ProgramacaoComponent->buscarDadosRemotos('Capina');
+        // Passa os resultados para a view
+        $this->set(compact('resultados'));
+    }
+
+    /**
+     * Roçada method
+     *
+     */
+    public function rocada()
+    {
+        $this->set('title', 'Programação');
+        $this->set('subTitle', 'Capina');
+        // Usa o componente para buscar os dados
+        $resultados = $this->ProgramacaoComponent->buscarDadosRemotos('Roçada');
         // Passa os resultados para a view
         $this->set(compact('resultados'));
     }

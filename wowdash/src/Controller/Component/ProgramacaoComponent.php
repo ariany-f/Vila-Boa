@@ -20,7 +20,7 @@ class ProgramacaoComponent extends Component
      *
      * @return array
      */
-    public function buscarDadosRemotos(): array
+    public function buscarDadosRemotos($filter): array
     {
         // Obtém a conexão com o banco remoto
         $conexaoRemota = ConnectionManager::get('remote');
@@ -29,7 +29,7 @@ class ProgramacaoComponent extends Component
         $query = "
             SELECT *
             FROM (
-                SELECT 'Roçada' as ambiente,
+                SELECT '$filter' as ambiente,
                        a.age_name,
                        loc_description,
                        l.loc_neighborhood,
@@ -38,7 +38,7 @@ class ProgramacaoComponent extends Component
                        tsk_priority,
                        tsk_scheduleinitialdatehour,
                        lor_executionorder,
-                       'Roçada' as e_servicos,
+                       '$filter' as e_servicos,
                        tsk_observation,
                        ROW_NUMBER() OVER (PARTITION BY t.age_id
                                           ORDER BY tsk_priority, lor_executionorder, tsk_scheduleinitialdatehour) AS RN
