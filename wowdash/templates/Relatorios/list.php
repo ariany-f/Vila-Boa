@@ -46,10 +46,6 @@
                             </div>
                             <a href="<?= $this->Url->build(['_name' => 'viewRelatorio', 'id' => $relatorio->id]) ?>" 
                                 class="text-primary-light fw-medium text-md text-line-1 w-190-px">
-                                <?= h($relatorio->id) ?>
-                            </a>
-                            <a href="<?= $this->Url->build(['_name' => 'viewRelatorio', 'id' => $relatorio->id]) ?>" 
-                                class="text-primary-light fw-medium text-md text-line-1 w-190-px">
                                 <?= h($relatorio->titulo) ?>
                             </a>
 
