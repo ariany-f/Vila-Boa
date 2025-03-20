@@ -15158,3 +15158,27 @@ td.fc-header-center {
   color: #fff;
   border-radius: 0 8px 8px 0;
 }
+
+#resultadosTable_processing {
+  position: absolute !important;
+  color: transparent;
+  z-index: 1050 !important;
+}
+
+.dt-buttons {
+  display: flex!important;
+  gap: 5px;
+}
+
+.dt-button {
+  background: transparent!important;
+  border: none!important;
+  padding: initial!important;
+  font-size: 14px!important;
+}
+
+.dt-button span {
+  display: flex!important;
+  justify-content: center!important;
+  align-items: center!important;
+}

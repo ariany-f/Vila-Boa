@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="<?= $this->Url->assetUrl('assets/css/lib/apexcharts.css') ?>">
     <!-- Data Table css -->
     <link rel="stylesheet" href="<?= $this->Url->assetUrl('assets/css/lib/dataTables.min.css') ?>">
+    <!-- Buttons Plugin CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.dataTables.css">
     <!-- Text Editor css -->
     <link rel="stylesheet" href="<?= $this->Url->assetUrl('assets/css/lib/editor-katex.min.css') ?>">
     <link rel="stylesheet" href="<?= $this->Url->assetUrl('assets/css/lib/editor.atom-one-dark.min.css') ?>">

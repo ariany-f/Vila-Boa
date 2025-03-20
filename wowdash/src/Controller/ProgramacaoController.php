@@ -68,9 +68,32 @@ class ProgramacaoController extends AppController
     {
         $this->set('title', 'Programação');
         $this->set('subTitle', 'Capina');
-        // Usa o componente para buscar os dados
+
+        if ($this->request->is('ajax')) {
+            // Captura parâmetros do DataTables
+            $search = $this->request->getQuery('search')['value'] ?? null;
+            $start = (int) $this->request->getQuery('start', 0);
+            $length = (int) $this->request->getQuery('length', 10);
+            $draw = (int) $this->request->getQuery('draw', 1);
+            $isExport = $this->request->getQuery('export');
+    
+            // Busca dados paginados do banco
+            $dados = $this->ProgramacaoComponent->buscarDadosRemotos('Roçada', $length, $start, $search, $isExport);
+    
+            // Conta o total de registros
+            $totalRecords = count($this->ProgramacaoComponent->buscarDadosRemotos('Roçada', PHP_INT_MAX, 0));
+    
+            // Retorna JSON para DataTables
+            return $this->response->withType('application/json')->withStringBody(json_encode([
+                'draw' => $draw,
+                'recordsTotal' => $totalRecords,
+                'recordsFiltered' => empty($search) ? $totalRecords : count($dados),
+                'data' => array_values($dados)
+            ]));
+        }
+    
+        // Renderiza a view normalmente para acessos normais
         $resultados = $this->ProgramacaoComponent->buscarDadosRemotos('Roçada');
-        // Passa os resultados para a view
         $this->set(compact('resultados'));
     }
 }

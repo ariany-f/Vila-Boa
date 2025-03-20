@@ -6,6 +6,17 @@
 <script src="<?= $this->Url->assetUrl('assets/js/lib/apexcharts.min.js') ?>"></script>
 <!-- Data Table js -->
 <script src="<?= $this->Url->assetUrl('assets/js/lib/dataTables.min.js') ?>"></script>
+<!-- DataTables Buttons Plugin JS -->
+<script src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.dataTables.js"></script>
+<!-- PDFMake (necessário para exportação em PDF) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<!-- JSZip (necessário para exportação em Excel) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<!-- Button para Excel e PDF -->
+<script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
 <!-- Iconify Font js -->
 <script src="<?= $this->Url->assetUrl('assets/js/lib/iconify-icon.min.js') ?>"></script>
 <!-- jQuery UI js -->
