@@ -67,7 +67,7 @@ class ProgramacaoController extends AppController
     public function rocada()
     {
         $this->set('title', 'Programação');
-        $this->set('subTitle', 'Capina');
+        $this->set('subTitle', 'Roçada');
 
         if ($this->request->is('ajax')) {
             // Captura parâmetros do DataTables
