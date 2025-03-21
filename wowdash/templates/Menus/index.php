@@ -83,7 +83,7 @@
                 "info": "Mostrando _START_ a _END_ de _TOTAL_ menus",
                 "infoEmpty": "Nenhum menu disponível",
                 "infoFiltered": "(filtrado de _MAX_ menus no total)",
-                "search": "Buscar",
+                "search": "",
             }
         });
         $('.remove-item-btn').on('click', function () {
