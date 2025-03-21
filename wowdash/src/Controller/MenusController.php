@@ -20,11 +20,20 @@ class MenusController extends AppController
         $this->set('title', 'Menus');
         $this->set('subTitle', 'Todos os menus disponíveis');
         
-        $query = $this->Menus->find()
-            ->contain(['ParentMenus']);
-        $menusView = $this->paginate($query);
+        $menusView = $this->Menus->find()
+            ->contain(['ParentMenus'])
+            ->order(['Menus.id' => 'ASC']) // Ordenação crescente por ID
+            ->all();
 
-        $this->set(compact('menusView'));
+        $parentMenus = $this->Menus->find()
+        ->select(['id', 'name', 'icon']) // Seleciona os campos necessários
+        ->where(['parent_id IS' => null]) // Filtra apenas menus sem parent_id
+        ->all();
+
+        // Busca todas as roles disponíveis
+        $roles = $this->Menus->Roles->find('list')->all();
+
+        $this->set(compact('menusView', 'parentMenus', 'roles'));
     }
 
     /**
@@ -48,17 +57,26 @@ class MenusController extends AppController
     public function add()
     {
         $menu = $this->Menus->newEmptyEntity();
+    
         if ($this->request->is('post')) {
-            $menu = $this->Menus->patchEntity($menu, $this->request->getData());
-            if ($this->Menus->save($menu)) {
-                $this->Flash->success(__('The menu has been saved.'));
+            $data = $this->request->getData();
+            $menu = $this->Menus->patchEntity($menu, $data);
 
+            // Adiciona a data de criação
+            $menu->data_criacao = date('Y-m-d H:i:s');
+
+            if ($this->Menus->save($menu)) {
+                $this->Flash->success(__('O menu foi salvo com sucesso.'));
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The menu could not be saved. Please, try again.'));
+            $this->Flash->error(__('O menu não pôde ser salvo. Tente novamente.'));
         }
-        $parentMenus = $this->Menus->ParentMenus->find('list', limit: 200)->all();
-        $roles = $this->Menus->Roles->find('list', limit: 200)->all();
+
+        // Busca os menus que podem ser pais
+        $parentMenus = $this->Menus->find('list')->all();
+        // Busca todas as roles disponíveis
+        $roles = $this->Menus->Roles->find('list')->all();
+
         $this->set(compact('menu', 'parentMenus', 'roles'));
     }
 
@@ -79,7 +97,7 @@ class MenusController extends AppController
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The menu could not be saved. Please, try again.'));
+            $this->Flash->error(__('O menu não pôde ser salvo. Tente novamente.'));
         }
         $parentMenus = $this->Menus->ParentMenus->find('list', limit: 200)->all();
         $roles = $this->Menus->Roles->find('list', limit: 200)->all();

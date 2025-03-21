@@ -13,23 +13,17 @@
                     ]) ?>
                     <div class="row">
                         <div class="col-12 mb-20">
-                            <label class="form-label fw-semibold text-primary-light text-sm mb-8">Nome do Relatório</label>
-                            <input type="text" name="titulo" class="form-control radius-8" placeholder="Enter Titulo">
+                            <input type="text" name="titulo" class="form-control radius-8" placeholder="Nome do Relatório">
                         </div>
                         <div class="col-12 mb-20">
-                            <label for="desc" class="form-label fw-semibold text-primary-light text-sm mb-8">Descrição</label>
-                            <textarea class="form-control" id="desc" name="descricao" rows="4" cols="50" placeholder="Write some text"></textarea>
+                            <textarea class="form-control" id="desc" name="descricao" rows="4" cols="50" placeholder="Descrição"></textarea>
                         </div>
                         <div class="col-12 mb-20">
-                            <label class="form-label fw-semibold text-primary-light text-sm mb-8">Link</label>
-                            <input type="text" name="link_iframe" class="form-control radius-8" placeholder="Insert Link">
+                            <input type="text" name="link_iframe" class="form-control radius-8" placeholder="Link">
                         </div>
-                        <div class="d-flex align-items-center justify-content-center gap-3 mt-24">
-                            <button type="reset" class="border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-40 py-11 radius-8">
-                                Cancel
-                            </button>
+                        <div class="d-flex align-items-center gap-3 mt-24 justify-content-end">
                             <button type="submit" class="btn btn-primary border border-primary-600 text-md px-48 py-12 radius-8">
-                                Save
+                                Salvar
                             </button>
                         </div>
                     </div>

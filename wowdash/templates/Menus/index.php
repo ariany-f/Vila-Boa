@@ -5,20 +5,7 @@
  */
 ?>
 <div class="card h-100 p-0 radius-12">
-    <div class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center flex-wrap gap-3 justify-content-between">
-        <div class="d-flex align-items-center flex-wrap gap-3">
-            <span class="text-md fw-medium text-secondary-light mb-0">Show</span>
-            <select class="form-select form-select-sm w-auto ps-12 py-6 radius-12 h-40-px">
-                <option>5</option>
-                <option>10</option>
-                <option>15</option>
-                <option>20</option>
-            </select>
-            <form class="navbar-search">
-                <input type="text" class="bg-base h-40-px w-auto" name="search" placeholder="Search">
-                <iconify-icon icon="ion:search-outline" class="icon"></iconify-icon>
-            </form>
-        </div>
+    <div class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center flex-wrap gap-3 justify-content-end">
         <button type="button" class="btn btn-primary text-sm btn-sm px-12 py-12 radius-8 d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#addMenuModal">
             <iconify-icon icon="ic:baseline-plus" class="icon text-xl line-height-1"></iconify-icon>
             Adicionar Menu
@@ -43,12 +30,17 @@
                             <td><?= h($menu->id) ?></td>
                             <td><?= h($menu->name) ?></td>
                             <td><?= h($menu->url) ?></td>
-                            <td><iconify-icon icon="<?= h($menu->icon) ?>" class="menu-icon"></iconify-icon></td>
+                            <td class="text-center">
+                                <div class="d-flex align-items-center gap-10 justify-content-start">
+                                    <?php if($menu->icon) : ?>
+                                    <iconify-icon icon="mage:<?= h($menu->icon) ?>" class="menu-icon fs-2"></iconify-icon>
+                                    <?php else: ?>
+                                        Sem ícone
+                                    <?php endif; ?>
+                                </div>
+                            </td>
                             <td class="text-center">
                                 <div class="d-flex align-items-center gap-10 justify-content-center">
-                                    <a href="<?= $this->Url->build(['action' => 'view', $menu->id]) ?>" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                        <iconify-icon icon="lucide:eye" class="menu-icon"></iconify-icon>
-                                    </a>
                                     <?php if($menu->allow_delete): ?>
                                         <a href="<?= $this->Url->build(['action' => 'edit', $menu->id]) ?>" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
                                             <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
@@ -72,15 +64,67 @@
         </div>
         <?= $this->Flash->render() ?>
     </div>
-    <?php //echo $this->element('Menus/add', ['menu' => $menu]) ?>
+    <?php echo $this->element('Menus/add', ['menu' => $menu]) ?>
 </div>
 
 <?php $this->start('script'); ?>
 <script>
-    $(document).ready(function() {
+        $(document).ready(function() {
+            $('#menusTable').DataTable({
+            "paging": true,            // Ativar paginação
+            "lengthMenu": [10, 15, 20], // Opções de itens por página
+            "pageLength": 10,           // Padrão: mostrar 5 por página
+            "ordering": false,          // Ativar ordenação das colunas
+            "searching": true,         // Ativar barra de pesquisa
+            "info": true,              // Mostrar informações (Ex: "Mostrando 1-5 de 20")
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "zeroRecords": "Nenhum menu encontrado",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ menus",
+                "infoEmpty": "Nenhum menu disponível",
+                "infoFiltered": "(filtrado de _MAX_ menus no total)",
+                "search": "Buscar",
+            }
+        });
         $('.remove-item-btn').on('click', function () {
             $(this).closest('tr').addClass('d-none');
         });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let iconSelect = document.getElementById("iconSelect");
+        let iconPreview = document.getElementById("icon-preview");
+
+        let iconSelectParent = document.getElementById("iconSelectParent");
+        let iconPreviewParent = document.getElementById("icon-preview-parent");
+
+        iconSelect.addEventListener("change", function () {
+            iconPreview.setAttribute("icon", this.value);
+        });
+
+        iconSelectParent.addEventListener("change", function () {
+            let selectedOption = this.options[this.selectedIndex]; // Obtém a opção selecionad
+            let iconValue = selectedOption.getAttribute("data-icon"); // Pega o data-icon
+            iconPreviewParent.setAttribute("icon", iconValue);
+        });
+        
+        let parentMenuSelect = document.getElementById("iconSelectParent");
+        let iconSelectContainer = document.getElementById("iconSelectContainer");
+
+        function toggleIconSelectContainer() {
+            if (parentMenuSelect.value === "null") {
+                iconSelectContainer.style.display = "block"; // Mostra o seletor de ícones
+            } else {
+                iconSelectContainer.style.display = "none"; // Esconde o seletor de ícones
+            }
+        }
+
+        // Executa ao carregar a página (para estado inicial correto)
+        toggleIconSelectContainer();
+
+        // Evento de mudança no select do menu pai
+        parentMenuSelect.addEventListener("change", toggleIconSelectContainer);
     });
 </script>
 <?php $this->end(); ?>
