@@ -48,6 +48,7 @@ class MenusTable extends Table
         $this->belongsTo('ParentMenus', [
             'className' => 'Menus',
             'foreignKey' => 'parent_id',
+            'joinType' => 'LEFT', // Permite que o menu não tenha um menu pai
         ]);
     
         $this->belongsToMany('Roles', [
@@ -68,27 +69,22 @@ class MenusTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    // public function validationDefault(Validator $validator): Validator
-    // {
-    //     $validator
-    //         ->scalar('titulo')
-    //         ->maxLength('titulo', 255)
-    //         ->requirePresence('titulo', 'create')
-    //         ->notEmptyString('titulo');
+      /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
+    public function validationDefault(Validator $validator): Validator
+    {
+        $validator
+            ->scalar('name')
+            ->maxLength('name', 255)
+            ->requirePresence('name', 'create')
+            ->notEmptyString('name', 'Nome é obrigatório');
 
-    //     $validator
-    //         ->scalar('descricao')
-    //         ->allowEmptyString('descricao');
-        
-    //     $validator
-    //         ->scalar('link_iframe')
-    //         ->allowEmptyString('link_iframe');
+        // Validações adicionais aqui, caso necessário
 
-    //     $validator
-    //         ->dateTime('data_criacao')
-    //         ->requirePresence('data_criacao', 'create')
-    //         ->notEmptyDateTime('data_criacao');
-
-    //     return $validator;
-    // }
+        return $validator;
+    }
 }

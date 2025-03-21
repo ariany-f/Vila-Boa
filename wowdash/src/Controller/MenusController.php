@@ -54,30 +54,55 @@ class MenusController extends AppController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($menu = null)
     {
-        $menu = $this->Menus->newEmptyEntity();
-    
-        if ($this->request->is('post')) {
-            $data = $this->request->getData();
-            $menu = $this->Menus->patchEntity($menu, $data);
-
-            // Adiciona a data de criação
-            $menu->data_criacao = date('Y-m-d H:i:s');
-
+        if ($this->request->is('post') && $menu) {
+            $menu = $this->Menus->patchEntity($menu, $this->request->getData());
             if ($this->Menus->save($menu)) {
-                $this->Flash->success(__('O menu foi salvo com sucesso.'));
-                return $this->redirect(['action' => 'index']);
+                $this->Flash->success(__('The relatorio has been saved.'));
+                return $this->redirect(['action' => 'index']); // Redireciona para a página de índice
             }
-            $this->Flash->error(__('O menu não pôde ser salvo. Tente novamente.'));
+            $this->Flash->error(__('The relatorio could not be saved. Please, try again.'));
         }
-
-        // Busca os menus que podem ser pais
-        $parentMenus = $this->Menus->find('list')->all();
-        // Busca todas as roles disponíveis
-        $roles = $this->Menus->Roles->find('list')->all();
-
-        $this->set(compact('menu', 'parentMenus', 'roles'));
+        else
+        {
+            $menu = $this->Menus->newEmptyEntity();
+            $menu->name = $this->request->getData('name');
+            $menu->url = $this->request->getData('url');
+            $menu->icon = $this->request->getData('icon');
+            $parent_id = $this->request->getData('parent_id');
+            if($parent_id && $parent_id != 'null')
+            {
+                $menu->parent_id = $parent_id;
+            }
+            else
+            {
+                $menu->parent_id = null;
+            }
+            
+            $menu->data_criacao = date('Y-m-d H:i:s');
+            
+            // Associa os roles selecionados
+            $roles = $this->request->getData('roles'); // Supondo que 'roles' seja um array de IDs de roles
+           
+            if ($this->Menus->save($menu)) {
+                  // Agora, associamos os roles ao menu
+                if (!empty($roles)) {
+                    $menu->roles = $roles; // Associa os roles ao menu
+                    $this->Menus->save($menu); // Atualiza a tabela de relacionamento
+                }
+                $this->Flash->success(__('O menu foi salvo com sucesso.'));
+                return $this->redirect(['action' => 'index']); // Redireciona para a página de índice
+            }
+            else
+            {
+                $this->Flash->error(__('O menu não pôde ser salvo. Tente novamente.'));
+                return $this->redirect(['action' => 'index']); // Redireciona para a página de índice
+            }
+        }
+        
+        // Não é necessário renderizar um template, pois o formulário está no modal
+        return $this->redirect(['action' => 'index']);
     }
 
     /**
