@@ -68,7 +68,7 @@
             "pageLength": 10,
             "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50]],
             "language": {
-                "search": "Buscar:",
+                "search": "",
                 "processing": "Carregando...",
                 "lengthMenu": "Mostrar _MENU_ registros por página",
                 "zeroRecords": "Nenhum resultado encontrado",
@@ -83,8 +83,8 @@
                     "buttons": [
                         {
                             "extend": "excel",
-                            "text": '<iconify-icon icon="ri:file-excel-2-line" class="icon fs-2"></iconify-icon> Excel', // Ícone do Excel (Font Awesome)
-                            "titleAttr": 'XLS',
+                            "text": '<iconify-icon icon="ri:file-excel-2-line" class="icon"></iconify-icon> <p>Excel</p>', // Ícone do Excel (Font Awesome)
+                            "titleAttr": 'Exportar XLS',
                             "className": 'text-secondary-light d-flex',
                             "filename": 'Programação Roçada',
                             "title": 'Progração Roçada',
@@ -101,8 +101,8 @@
 
                                     $('#LoadAll').val('False');
                                     
-                                    // Volta para a primeira página após a exportação
-                                    table.page('first').draw('page');
+                                    // Volta para 10 registros por página
+                                    table.page.len(10).draw();
                                 });
                             }
                         },
@@ -111,8 +111,8 @@
                             "orientation": 'landscape',
                             "className": 'text-secondary-light d-flex',
                             "pageSize": 'A4',
-                            "text": '<iconify-icon icon="ri:file-pdf-2-line" class="icon fs-2"></iconify-icon> PDF',
-                            "titleAttr": 'PDF',
+                            "text": '<iconify-icon icon="ri:file-pdf-2-line" class="icon"></iconify-icon> <p>PDF</p>',
+                            "titleAttr": 'Exportar PDF',
                             "filename": 'Programação Roçada',
                             "title": 'Progração Roçada',
                             "action": function (e, dt, node, config) {
@@ -129,8 +129,8 @@
 
                                     $('#LoadAll').val('False');
                                     
-                                    // Volta para a primeira página após a exportação
-                                    table.page('first').draw('page');
+                                    // Volta para 10 registros por página
+                                    table.page.len(10).draw();
                                 });
                             }
                         }
