@@ -14,42 +14,27 @@
                             <iconify-icon icon="tabler:reload" class="icon"></iconify-icon>
                         </button>
                         <form class="navbar-search d-lg-block d-none">
-                            <input type="text" class="bg-base h-40-px w-auto" name="search" placeholder="Search">
+                            <input type="text" class="bg-base h-40-px w-auto" name="search" id="searchInput" placeholder="Search">
                             <iconify-icon icon="ion:search-outline" class="icon"></iconify-icon>
                         </form>
-                    </div>
-                    <div class="d-flex align-items-center gap-3">
-                        <span class="text-secondary-light line-height-1">1-12 of 1,253</span>
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link d-flex bg-base border text-secondary-light text-xl" href="javascript:void(0)">
-                                        <iconify-icon icon="iconamoon:arrow-left-2" class="icon"></iconify-icon>
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link d-flex bg-base border text-secondary-light text-xl" href="javascript:void(0)">
-                                        <iconify-icon icon="iconamoon:arrow-right-2" class="icon"></iconify-icon>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
                     </div>
                 </div>
             </div>
             <div class="card-body p-0">
-                <ul class="overflow-x-auto">
+                <ul id="relatorioList" class="overflow-x-auto">
                     <?php foreach ($relatorios as $relatorio): ?>
-                        <li class="email-item px-24 py-16 d-flex gap-4 align-items-center border-bottom cursor-pointer bg-hover-neutral-200 min-w-max-content ">
+                        <li class="email-item px-24 py-16 gap-4 align-items-center border-bottom cursor-pointer bg-hover-neutral-200 min-w-max-content "
+                        style="display: flex;" 
+                        data-titulo="<?= h($relatorio->titulo) ?>"> 
                             <div class="form-check style-check d-flex align-items-center">
                                 <input class="form-check-input radius-4 border border-neutral-400" type="checkbox" name="checkbox">
                             </div>
-                            <a href="<?= $this->Url->build(['_name' => 'viewRelatorio', 'id' => $relatorio->id]) ?>" 
+                            <a target="_blank" href="<?= h($relatorio->link_iframe) ?>" 
                                 class="text-primary-light fw-medium text-md text-line-1 w-190-px">
                                 <?= h($relatorio->titulo) ?>
                             </a>
 
-                            <a href="<?= $this->Url->build(['_name' => 'viewRelatorio', 'id' => $relatorio->id]) ?>" 
+                            <a target="_blank" href="<?= h($relatorio->link_iframe) ?>" 
                                 class="text-primary-light fw-medium mb-0 text-line-1 max-w-740-px">
                                 <?= h($relatorio->link_iframe) ?>
                             </a>
@@ -65,40 +50,19 @@
 
 <?php $this->start('script'); ?>
     <script>
-    // Table Header Checkbox checked all js Start
-    $('#selectAll').on('change', function () {
-        $('.form-check .form-check-input').prop('checked', $(this).prop('checked'));
 
-        if ($(this).prop('checked')) {
-            $('.email-item').addClass('active');
-        } else {
-            $('.email-item').removeClass('active');
-        }
-    });
-
-    // Active Item with js
-    $('.form-check .form-check-input').on('change', function () {
-        if ($(this).is(':checked')) {
-            $(this).closest('.email-item').addClass('active');
-        } else {
-            $(this).closest('.email-item').removeClass('active');
-        }
-    });
-
-    // Selected Checkbox count amount js Start
-    $('.email-card .form-check-input').on('change', function () {
-        let selectedCount = $('.email-card .form-check-input:checked').length;
-
-        if (selectedCount > 0) {
-            $('.delete-button').removeClass('d-none');
-        } else {
-            $('.delete-button').addClass('d-none')
-        }
-    });
-    // Selected Checkbox count amount js End
-
-    $('.delete-button').on('click', function () {
-        $('.email-item.active').addClass('d-none')
+    // Search functionality
+    $('#searchInput').on('input', function () {
+        var searchQuery = $(this).val().toLowerCase();  // Pega o texto da pesquisa
+       
+        $('#relatorioList .email-item').each(function () {
+            var titulo = $(this).data('titulo').toLowerCase();  // Pega o título de cada item
+            if (titulo.indexOf(searchQuery) !== -1) {
+                $(this).attr('style', 'display: flex!important;');  // Mostra o item se ele corresponder à pesquisa
+            } else {
+                $(this).attr('style', 'display: none!important;'); 
+            }
+        });
     });
 
     // Page Reload Js
@@ -106,9 +70,5 @@
         history.go(0);
     });
 
-    // Starred Button js
-    $('.starred-button').on('click', function () {
-        $(this).toggleClass('active')
-    });
 </script>
 <?php $this->end(); ?>
