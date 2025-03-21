@@ -33,7 +33,7 @@
                             <td class="text-center">
                                 <div class="d-flex align-items-center gap-10 justify-content-start">
                                     <?php if($menu->icon) : ?>
-                                    <iconify-icon icon="mage:<?= h($menu->icon) ?>" class="menu-icon fs-2"></iconify-icon>
+                                    <iconify-icon icon="mage:<?= h($menu->icon) ?>" class="menu-icon"></iconify-icon>
                                     <?php else: ?>
                                         Sem ícone
                                     <?php endif; ?>
