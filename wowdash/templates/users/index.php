@@ -1,34 +1,9 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var iterable<\App\Model\Entity\User> $users
- */
-?>
 <div class="card h-100 p-0 radius-12">
-    <div class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center flex-wrap gap-3 justify-content-between">
-        <div class="d-flex align-items-center flex-wrap gap-3">
-            <span class="text-md fw-medium text-secondary-light mb-0">Show</span>
-            <select class="form-select form-select-sm w-auto ps-12 py-6 radius-12 h-40-px">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-            </select>
-            <form class="navbar-search">
-                <input type="text" class="bg-base h-40-px w-auto" name="search" placeholder="Search">
-                <iconify-icon icon="ion:search-outline" class="icon"></iconify-icon>
-            </form>
-        </div>
-        <button type="button" class="btn btn-primary text-sm btn-sm px-12 py-12 radius-8 d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#addUserModal">
+    <div class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center flex-wrap gap-3 justify-content-end">
+        <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'add']) ?>" class="btn btn-primary text-sm btn-sm px-12 py-12 radius-8 d-flex align-items-center gap-2">
             <iconify-icon icon="ic:baseline-plus" class="icon text-xl line-height-1"></iconify-icon>
             Adicionar Usuário
-        </button>
+        </a>
     </div>
 
     <div class="card-body p-24">
@@ -62,21 +37,21 @@
                             <td><?= h($user->email) ?></td>
                             <td class="text-center">
                                 <div class="d-flex align-items-center gap-10 justify-content-center">
-                                    <a href="<?= $this->Url->build(['action' => 'view', $user->id]) ?>" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                        <iconify-icon icon="lucide:eye" class="menu-icon"></iconify-icon>
-                                    </a>
                                     <a href="<?= $this->Url->build(['action' => 'edit', $user->id]) ?>" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
                                         <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
                                     </a>
-                                    <?= $this->Form->postLink(
-                                        '<iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>',
-                                        ['action' => 'delete', $user->id],
-                                        [
-                                            'class' => 'remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle',
-                                            'escape' => false,
-                                            'confirm' => 'Tem certeza?'
-                                        ]
-                                    ) ?>
+                                    <!-- Verifica se o usuário logado é o mesmo que o usuário da linha e oculta o botão de excluir -->
+                                    <?php if ($user->id !== $loggedUserId): ?>
+                                        <?= $this->Form->postLink(
+                                            '<iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>',
+                                            ['action' => 'delete', $user->id],
+                                            [
+                                                'class' => 'remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle',
+                                                'escape' => false,
+                                                'confirm' => 'Tem certeza?'
+                                            ]
+                                        )?>
+                                    <?php endif; ?>
                                 </div>
                             </td>
                         </tr>
@@ -87,13 +62,28 @@
         
         <?= $this->Flash->render() ?>
     </div>
-    <!-- Renderiza o conteúdo do add.php dentro do index.php -->
-    <?php //echo $this->element('Users/add', ['user' => $user]) ?>
 </div>
 
 <?php $this->start('script'); ?>
 <script>
     $(document).ready(function() {
+        // Inicializa o DataTable com paginação, busca e ordenação
+        $('#usersTable').DataTable({
+            "paging": true,  // Habilita paginação
+            "searching": true,  // Habilita busca
+            "ordering": true,  // Habilita ordenação
+            "info": true,  // Exibe informações da paginação
+            "lengthMenu": [5, 10, 15, 20],  // Define opções de itens por página
+            "pageLength": 10,  // Define o número padrão de itens por página
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "zeroRecords": "Nenhum menu encontrado",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ menus",
+                "infoEmpty": "Nenhum menu disponível",
+                "infoFiltered": "(filtrado de _MAX_ menus no total)",
+                "search": "",
+            }
+        });
 
         $('.remove-item-btn').on('click', function () {
             $(this).closest('tr').addClass('d-none');

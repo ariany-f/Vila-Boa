@@ -12,11 +12,6 @@ class UsersSeed extends BaseSeed
     /**
      * Run Method.
      *
-     * Write your database seeder using this method.
-     *
-     * More information on writing seeds is available here:
-     * https://book.cakephp.org/migrations/4/en/seeding.html
-     *
      * @return void
      */
     public function run(): void
@@ -24,20 +19,27 @@ class UsersSeed extends BaseSeed
         $faker = Factory::create();
         $data = [];
 
-        $adminRole = $rolesTable->find()->where(['nome' => 'Admin'])->first();
+        // Buscar o role "Admin"
+        $rolesTable = $this->fetchTable('Roles');
+        $adminRole = $rolesTable->find()->where(['name' => 'Admin'])->first();
 
-        // Criando um admin real
+        // Criar um admin real
         $data[] = [
+            'name' => 'Admin User',
             'email' => 'admin@email.com',
             'password' => password_hash('senha_super_secreta', PASSWORD_DEFAULT),
-            'roles' => [$adminRole], // Associando o role 'admin'
+            'role_id' => $adminRole ? $adminRole->id : null, // Associando o role 'admin'
+            'profile_image' => 'admin_profile.jpg', // A imagem de perfil do admin
         ];
 
         // Criando usuários fake
         for ($i = 0; $i < 10; $i++) {
             $data[] = [
+                'name' => $faker->name,
                 'email' => $faker->email,
-                'password' => password_hash('123456', PASSWORD_DEFAULT)
+                'password' => password_hash('123456', PASSWORD_DEFAULT),
+                'role_id' => $adminRole ? $adminRole->id : null, // Associando role, ou defina como 'user'
+                'profile_image' => $faker->imageUrl(200, 200), // Imagem de perfil fake
             ];
         }
 
