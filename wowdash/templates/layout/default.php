@@ -20,5 +20,8 @@
     
     <!-- This is a comment about fetching the 'script' block -->
     <?= $this->fetch('script') ?>
+    <div id="page-loader">
+      <div class="spinner"></div>
+    </div>
   </body>
 </html>
