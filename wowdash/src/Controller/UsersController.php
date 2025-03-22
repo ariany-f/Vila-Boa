@@ -94,6 +94,17 @@ class UsersController extends AppController
     {
         $this->set('title', 'Perfil');
         $this->set('subTitle', 'Perfil');
+
+        // Supondo que você esteja usando a autenticação para pegar o usuário logado
+        $user = $this->Authentication->getIdentity(); // Pega os dados do usuário logado
+
+        // Carrega as informações adicionais do banco se necessário
+        $userDetails = $this->Users->find()
+            ->where(['id' => $user['id']])
+            ->first();
+
+        // Passa os dados do usuário para a view
+        $this->set(compact('user', 'userDetails'));
     }
 
     public function forgotPassword()
