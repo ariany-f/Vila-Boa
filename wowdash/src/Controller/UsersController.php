@@ -96,15 +96,15 @@ class UsersController extends AppController
         $this->set('subTitle', 'Perfil');
 
         // Supondo que você esteja usando a autenticação para pegar o usuário logado
-        $user = $this->Authentication->getIdentity(); // Pega os dados do usuário logado
-
+        $userId = $this->Authentication->getIdentity()->id; // Pega os dados do usuário logado
+       
         // Carrega as informações adicionais do banco se necessário
-        $userDetails = $this->Users->find()
-            ->where(['id' => $user['id']])
+        $user = $this->Users->find()
+            ->where(['id' => $userId])
             ->first();
-
+            
         // Passa os dados do usuário para a view
-        $this->set(compact('user', 'userDetails'));
+        $this->set(compact('user'));
     }
 
     public function forgotPassword()
@@ -182,7 +182,6 @@ class UsersController extends AppController
             'contain' => ['Roles'], // Carrega os papéis do usuário
         ]);
 
-        
         if ($this->request->is(['post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
           

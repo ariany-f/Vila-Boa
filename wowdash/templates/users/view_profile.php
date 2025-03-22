@@ -6,20 +6,20 @@
                 <div class="text-center border border-top-0 border-start-0 border-end-0">
                     <img src="<?= $this->Url->assetUrl('assets/images/user-grid/user-grid-img14.png') ?>" alt="" class="border br-white border-width-2-px w-200-px h-200-px rounded-circle object-fit-cover">
                     <!-- Nome do usuário -->
-                    <h6 class="mb-0 mt-16"><?= h($userDetails->name) ?></h6>
+                    <h6 class="mb-0 mt-16"><?= h($user->name) ?></h6>
                     <!-- Email do usuário -->
-                    <span class="text-secondary-light mb-16"><?= h($userDetails->email) ?></span>
+                    <span class="text-secondary-light mb-16"><?= h($user->email) ?></span>
                 </div>
                 <div class="mt-24">
                     <h6 class="text-xl mb-16">Informações Pessoais</h6>
                     <ul>
                     <li class="d-flex align-items-center gap-1 mb-12">
                             <span class="w-30 text-md fw-semibold text-primary-light">Nome Completo</span>
-                            <span class="w-70 text-secondary-light fw-medium">: <?= h($userDetails->name) ?></span>
+                            <span class="w-70 text-secondary-light fw-medium">: <?= h($user->name) ?></span>
                         </li>
                         <li class="d-flex align-items-center gap-1 mb-12">
                             <span class="w-30 text-md fw-semibold text-primary-light">Email</span>
-                            <span class="w-70 text-secondary-light fw-medium">: <?= h($userDetails->email) ?></span>
+                            <span class="w-70 text-secondary-light fw-medium">: <?= h($user->email) ?></span>
                         </li>
                     </ul>
                 </div>
@@ -66,18 +66,21 @@
                             </div>
                         </div>
                         <!-- Upload de Imagem Fim -->
-                        <form action="#">
+                        <?= $this->Form->create($user, [
+                            'url' => ['controller' => 'Users', 'action' => 'edit', $user->id],
+                            'id' => 'editUserForm'
+                        ]) ?>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="mb-20">
                                         <label for="name" class="form-label fw-semibold text-primary-light text-sm mb-8">Nome Completo <span class="text-danger-600">*</span></label>
-                                        <input type="text" class="form-control radius-8" id="name" placeholder="Digite o Nome Completo" value="<?= h($userDetails->name) ?>">
+                                        <input type="text" class="form-control radius-8" id="name" placeholder="Digite o Nome Completo" value="<?= h($user->name) ?>">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="mb-20">
                                         <label for="email" class="form-label fw-semibold text-primary-light text-sm mb-8">Email <span class="text-danger-600">*</span></label>
-                                        <input type="email" class="form-control radius-8" id="email" placeholder="Digite o endereço de email" value="<?= h($userDetails->email) ?>">
+                                        <input type="email" class="form-control radius-8" id="email" placeholder="Digite o endereço de email" value="<?= h($user->email) ?>">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
@@ -86,7 +89,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        <?= $this->Form->end() ?>
+                        <?= $this->Flash->render() ?>
                     </div>
 
                     <div class="tab-pane fade" id="pills-change-passwork" role="tabpanel" aria-labelledby="pills-change-passwork-tab" tabindex="0">
