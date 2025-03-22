@@ -69,16 +69,10 @@ class MenusController extends AppController
             $menu = $this->Menus->newEmptyEntity();
             $menu->name = $this->request->getData('name');
             $menu->url = $this->request->getData('url');
-            $menu->icon = $this->request->getData('icon');
+            $icon = $this->request->getData('icon');
+            $menu->icon = (($icon &&  $icon != 'null') ? $icon : null);
             $parent_id = $this->request->getData('parent_id');
-            if($parent_id && $parent_id != 'null')
-            {
-                $menu->parent_id = $parent_id;
-            }
-            else
-            {
-                $menu->parent_id = null;
-            }
+            $menu->parent_id = (($parent_id && $parent_id != 'null') ? $parent_id : null);
             
             $menu->data_criacao = date('Y-m-d H:i:s');
             
@@ -91,6 +85,11 @@ class MenusController extends AppController
                     $menu->roles = $roles; // Associa os roles ao menu
                     $this->Menus->save($menu); // Atualiza a tabela de relacionamento
                 }
+                
+                $usuario = $this->Authentication->getIdentity();
+                $usuarioId = $usuario->get('id');
+                $this->request->getSession()->delete('menus.' . $usuarioId);
+
                 $this->Flash->success(__('O menu foi salvo com sucesso.'));
                 return $this->redirect(['action' => 'index']); // Redireciona para a página de índice
             }

@@ -44,6 +44,8 @@ class MenusSeed extends AbstractSeed
             
             // Relatórios
             ['id' => 19, 'name' => 'Relatórios', 'url' => '/relatorios', 'parent_id' => null, 'position' => 7, 'icon' => 'dashboard-chart', 'allow_delete' => false, 'created' => $now, 'modified' => $now],
+
+            ['id' => 20, 'name' => 'Logs', 'url' => '/requisicoes', 'parent_id' => 2, 'position' => 3, 'icon' => null, 'allow_delete' => false, 'created' => $now, 'modified' => $now],
         ];
 
         // Insere os dados

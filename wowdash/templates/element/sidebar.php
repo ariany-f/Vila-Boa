@@ -27,7 +27,7 @@
                                         <?php if ($childMenu->icon): ?>
                                             <i class="ri-circle-fill circle-icon <?= h($childMenu->icon_class) ?>"></i>
                                         <?php endif; ?>
-                                        <?= h($childMenu->name) ?>
+                                            <?= h($childMenu->name) ?>
                                     </a>
                                 </li>
                             <?php endforeach; ?>

@@ -27,6 +27,9 @@ class RequisicoesController extends AppController
      */
     public function index()
     {
+        $this->set('title', 'Requisição');
+        $this->set('subTitle', 'Logs');
+        
         $query = $this->RequisicoesLogs->find();
         $requisicoesLogs = $this->paginate($query);
 
