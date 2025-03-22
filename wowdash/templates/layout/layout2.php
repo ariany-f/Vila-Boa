@@ -11,6 +11,9 @@
    
     <?= $this->element('scripts') ?>
     <?= $this->fetch('script') ?>
+    <div id="page-loader">
+      <div class="spinner"></div>
+    </div>
 </body>
 
 </html>

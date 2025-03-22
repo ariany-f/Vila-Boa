@@ -154,6 +154,11 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    // Exibir o loader ao enviar formulários
+    document.addEventListener("submit", function(e) {
+      loader.style.display = "flex"; // Mostra o loader ao enviar formulário
+    });
+    
     window.addEventListener("load", function() {
         loader.style.display = "none"; // Oculta o loader após o carregamento
     });
