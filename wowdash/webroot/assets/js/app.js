@@ -1,27 +1,22 @@
 (function ($) {
   'use strict';
+  $(".sidebar-menu .dropdown > a").on("click", function (e) {
+    var item = $(this).parent(); // O <li> que contém o menu
 
-  // sidebar submenu collapsible js
-  $(".sidebar-menu .dropdown").on("click", function(){
-    var item = $(this);
-
-    // Verifica se o item já está aberto. Se sim, não faz nada.
-    if (item.hasClass("dropdown-open")) {
+    // Se o item já estiver aberto e o clique for no pai, fecha ele
+    if (item.hasClass("open")) {
+        e.preventDefault(); // Impede a navegação se for o pai
+        item.children(".sidebar-submenu").removeClass("open").slideUp();
         return;
     }
 
-    // Verifica se o item clicado faz parte de um submenu já aberto
-    var isChildOfOpen = item.parents(".dropdown-open").length > 0;
+    // Fecha apenas os dropdowns de mesmo nível
+    item.siblings(".dropdown").removeClass("open").children(".sidebar-submenu").slideUp();
 
-    // Fecha apenas se não for um submenu dentro de um menu já aberto
-    if (!isChildOfOpen) {
-        $(".sidebar-menu .dropdown").not(item).removeClass("dropdown-open").children(".sidebar-submenu").slideUp();
-    }
+    // Abre o menu clicado
+    item.children(".sidebar-submenu").addClass("open").slideDown();
+});
 
-    // Alterna a visibilidade do submenu do item clicado
-    item.children(".sidebar-submenu").slideToggle();
-    item.toggleClass("dropdown-open");
-  });
 
   $(".sidebar-toggle").on("click", function(){
     $(this).toggleClass("active");
