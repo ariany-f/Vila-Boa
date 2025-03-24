@@ -76,15 +76,7 @@ class MenusController extends AppController
             
             $menu->data_criacao = date('Y-m-d H:i:s');
             
-            // Associa os roles selecionados
-            $roles = $this->request->getData('roles'); // Supondo que 'roles' seja um array de IDs de roles
-           
             if ($this->Menus->save($menu)) {
-                  // Agora, associamos os roles ao menu
-                if (!empty($roles)) {
-                    $menu->roles = $roles; // Associa os roles ao menu
-                    $this->Menus->save($menu); // Atualiza a tabela de relacionamento
-                }
                 
                 $usuario = $this->Authentication->getIdentity();
                 $usuarioId = $usuario->get('id');

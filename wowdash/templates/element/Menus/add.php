@@ -59,15 +59,6 @@
                             </select>
                         </div>
                     </div>
-                    <!-- Selecionar Roles -->
-                    <div class="col-12 mb-20">
-                        <?= $this->Form->control('roles._ids', [
-                            'label' => 'Roles (Permissões)',
-                            'options' => $roles,
-                            'multiple' => true,
-                            'class' => 'form-control radius-8'
-                        ]) ?>
-                    </div>
                     <div class="d-flex align-items-center gap-3 mt-24 justify-content-end">
                         <button type="submit" class="btn btn-primary border border-primary-600 text-md px-48 py-12 radius-8">
                             Salvar
