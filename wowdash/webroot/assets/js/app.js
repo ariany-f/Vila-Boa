@@ -4,14 +4,22 @@
   // sidebar submenu collapsible js
   $(".sidebar-menu .dropdown").on("click", function(){
     var item = $(this);
-    item.siblings(".dropdown").children(".sidebar-submenu").slideUp();
 
-    item.siblings(".dropdown").removeClass("dropdown-open");
+    // Verifica se o item já está aberto. Se sim, não faz nada.
+    if (item.hasClass("dropdown-open")) {
+        return;
+    }
 
-    item.siblings(".dropdown").removeClass("open");
+    // Verifica se o item clicado faz parte de um submenu já aberto
+    var isChildOfOpen = item.parents(".dropdown-open").length > 0;
 
+    // Fecha apenas se não for um submenu dentro de um menu já aberto
+    if (!isChildOfOpen) {
+        $(".sidebar-menu .dropdown").not(item).removeClass("dropdown-open").children(".sidebar-submenu").slideUp();
+    }
+
+    // Alterna a visibilidade do submenu do item clicado
     item.children(".sidebar-submenu").slideToggle();
-
     item.toggleClass("dropdown-open");
   });
 
@@ -142,23 +150,38 @@ document.addEventListener("DOMContentLoaded", function() {
     let loader = document.getElementById("page-loader");
 
     document.addEventListener("click", function(e) {
-        if (e.target.closest("a") && e.target.closest("a").href) {
-            let link = e.target.closest("a").href;
-            if (link && !link.startsWith("#") && !link.startsWith("javascript")) {
-                e.preventDefault(); // Impede a navegação imediata
-                loader.style.display = "flex"; // Mostra o loader
-                setTimeout(() => {
-                    window.location.href = link; // Redireciona após um pequeno delay
-                }, 500);
-            }
-        }
+      let linkElement = e.target.closest("a");
+      
+      if (linkElement && linkElement.href) {
+          let link = linkElement.href;
+
+          if (link && !link.startsWith("#") && !link.startsWith("javascript")) {
+              // Verifica se o link tem o atributo confirm
+              let confirmMessage = linkElement.getAttribute("data-confirm") || linkElement.getAttribute("confirm");
+              
+              if (confirmMessage) {
+                  // Se houver confirmação, exibe o alerta antes de continuar
+                  let isConfirmed = confirm(confirmMessage);
+                  if (!isConfirmed) {
+                      e.preventDefault(); // Impede a navegação e não exibe o loader
+                      return;
+                  }
+              }
+
+              e.preventDefault(); // Impede a navegação imediata
+              loader.style.display = "flex"; // Mostra o loader
+              setTimeout(() => {
+                  window.location.href = link; // Redireciona após um pequeno delay
+              }, 500);
+          }
+      }
     });
 
     // Exibir o loader ao enviar formulários
     document.addEventListener("submit", function(e) {
-      loader.style.display = "flex"; // Mostra o loader ao enviar formulário
+        loader.style.display = "flex"; // Mostra o loader ao enviar formulário
     });
-    
+
     window.addEventListener("load", function() {
         loader.style.display = "none"; // Oculta o loader após o carregamento
     });

@@ -94,6 +94,7 @@
                                 <?php if($user->roles[0]['id'] == 1) : ?>
                                 <div class="col-sm-12">
                                     <div class="mb-20">
+                                    <label for="role_id" class="form-label fw-semibold text-primary-light text-sm mb-8">Tipo <span class="text-danger-600">*</span></label>
                                         <?= $this->Form->control('role_id', [
                                             'type' => 'select',
                                             'options' => $roles, // Exibe as opções dos roles
