@@ -10,7 +10,7 @@
             <div class="min-w-450-px d-flex flex-column justify-content-between h-100">
                 <div class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center gap-3 justify-content-between flex-wrap">
                     <div class="d-flex align-items-center gap-2">
-                        <a href="<?= $this->Url->build(['_name' => 'listRelatorios'])?>" class="d-flex align-items-center">
+                        <a href="<?= $this->Url->build(['_name' => 'listGerenciarRelatorios'])?>" class="d-flex align-items-center">
                             <button class="text-secondary-light d-flex me-8">
                                 <iconify-icon icon="mingcute:arrow-left-line" class="icon fs-3 line-height-1"></iconify-icon>
                             </button>

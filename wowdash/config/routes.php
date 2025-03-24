@@ -201,7 +201,7 @@ return function (RouteBuilder $routes): void {
                 ['action' => 'view'],
                 ['pass' => ['id'], 'id' => '\d+', '_name' => 'viewRelatorio']
             );
-            $routes->connect('/gerenciar', ['action' => 'index']);
+            $routes->connect('/gerenciar', ['action' => 'index'], ['_name' => 'listGerenciarRelatorios']);
             $routes->connect('/add', ['action' => 'add']);
         });        
 

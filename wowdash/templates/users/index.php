@@ -59,7 +59,6 @@
                 </tbody>
             </table>
         </div>
-        
         <?= $this->Flash->render() ?>
     </div>
 </div>

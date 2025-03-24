@@ -102,7 +102,7 @@ class UsersController extends AppController
         $user = $this->Users->find()
             ->where(['id' => $userId])
             ->first();
-            
+
         // Passa os dados do usuário para a view
         $this->set(compact('user'));
     }
@@ -176,15 +176,57 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public function edit($id = null)
+    public function changePassword($id = null)
     {
-        $user = $this->Users->get($id, [
-            'contain' => ['Roles'], // Carrega os papéis do usuário
-        ]);
+        $this->set('title', 'Alterar Senha');
+        $this->set('subTitle', 'Atualize sua senha');
+
+        $user = $this->Users->find()
+            ->where(['id' => $id])
+            ->first();
 
         if ($this->request->is(['post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-          
+            $data = $this->request->getData();
+            $hasher = new DefaultPasswordHasher();
+
+            // Verifica se a senha atual está correta
+            if ($data['new_password'] !== $data['confirm_password']) {
+                $this->Flash->error('A nova senha e a confirmação não coincidem.');
+            } else {
+                // Atualiza a senha
+                $user->password = $hasher->hash($data['new_password']);
+
+                if ($this->Users->save($user)) {
+                    $this->Flash->success('Senha alterada com sucesso.');
+                    return $this->redirect($this->referer());
+                }
+                $this->Flash->error('Erro ao alterar a senha.');
+            }
+        }
+
+        $this->set(compact('user'));
+    }
+
+    public function edit($id = null)
+    {
+        $user = $this->Users->find()
+            ->where(['id' => $id])
+            ->contain('Roles')
+            ->first();
+
+        unset($user->password);
+
+        if ($this->request->is(['post', 'put'])) {
+
+            $data = $this->request->getData();
+
+            // Se 'profile_image' estiver vazia, remove do array
+            if (empty($data['profile_image']->getClientFilename())) {
+                unset($data['profile_image']);
+            }
+        
+            $user = $this->Users->patchEntity($user, $data);
+
             if ($this->request->getData('role_ids')) {
                 // Aqui garantimos que apenas o primeiro papel seja atribuído
                 $roleId = $this->request->getData('role_ids'); // Pega o primeiro item no array de IDs
@@ -196,19 +238,31 @@ class UsersController extends AppController
             if (!empty($user->password)) {
                 $hasher = new DefaultPasswordHasher();
                 $user->password = $hasher->hash($user->password);
+            } else {
+                unset($user->password);
             }
     
             // Lida com o upload da imagem de perfil
-            if (!empty($this->request->getData('profile_image')['tmp_name'])) {
-                $profileImage = $this->request->getData('profile_image');
-                $imageName = uniqid() . '-' . $profileImage['name'];
-                move_uploaded_file($profileImage['tmp_name'], WWW_ROOT . 'img' . DS . 'profiles' . DS . $imageName);
-                $user->profile_image = $imageName;
+            $image = $this->request->getData('profile_image');
+        
+            // Verifica se um arquivo foi enviado
+            if (!empty($image->getClientFilename())) {
+                $file = $image;
+                $filename = time() . '-' . $file->getClientFilename();
+                $uploadPath = WWW_ROOT . 'assets/uploads' . DS . $filename;
+                
+                // Move o arquivo para a pasta uploads
+                $file->moveTo($uploadPath);
+
+                // Salva o nome do arquivo no banco
+                $user->profile_image = 'assets/uploads/' . $filename;
+            } else {
+                unset($user->profile_image); // Se nenhum arquivo foi enviado, remove a chave
             }
-    
+
             if ($this->Users->save($user)) {
                 $this->Flash->success('Usuário atualizado com sucesso.');
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect($this->referer());
             }
     
             $this->Flash->error('Não foi possível atualizar o usuário.');

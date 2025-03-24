@@ -57,6 +57,12 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
+            ->scalar('name')
+            ->maxLength('name', 255)
+            ->requirePresence('name', 'create')
+            ->notEmptyString('name');
+
+        $validator
             ->email('email')
             ->requirePresence('email', 'create')
             ->notEmptyString('email');
@@ -66,6 +72,15 @@ class UsersTable extends Table
             ->maxLength('password', 255)
             ->requirePresence('password', 'create')
             ->notEmptyString('password');
+
+        $validator
+            ->scalar('profile_image')
+            ->maxLength('profile_image', 255)
+            ->allowEmptyFile('profile_image')
+            ->add('profile_image', 'validExtension', [
+                'rule' => ['extension', ['jpg', 'jpeg', 'png']],
+                'message' => 'Apenas arquivos JPG, JPEG e PNG são permitidos.'
+            ]);
 
         return $validator;
     }
