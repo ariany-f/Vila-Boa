@@ -19,7 +19,9 @@
                                 ID
                             </div>
                         </th>
+                        <th scope="col">Usuário</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Tipo</th>
                         <th scope="col" class="text-center">Ações</th>
                     </tr>
                 </thead>
@@ -34,7 +36,21 @@
                                     <?= h($user->id) ?>
                                 </div>
                             </td>
-                            <td><?= h($user->email) ?></td>
+                            
+                            <td> 
+                                <div class="d-flex align-items-center">
+                                    <?php $profileImage = !empty($user->profile_image) ? $this->Url->assetUrl(h($user->profile_image)) : $this->Url->assetUrl('assets/images/user-grid/user-grid-img14.png'); ?>
+                                    <img src="<?= $profileImage ?>" alt="" class="w-40-px h-40-px rounded-circle flex-shrink-0 me-12 overflow-hidden">
+                                    <div class="flex-grow-1">
+                                        <span class="text-md mb-0 fw-normal text-secondary-light"><?= h($user->name) ?></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><?= h($user->email) ?>
+                            </td>
+                            <td>
+                                <?= h(!empty($user->roles) ? $user->roles[0]['nome'] : 'Não definido') ?>
+                            </td>
                             <td class="text-center">
                                 <div class="d-flex align-items-center gap-10 justify-content-center">
 

@@ -99,7 +99,7 @@
                                             'empty' => 'Selecione a permissão...', // Placeholder
                                             'class' => 'form-control radius-8',
                                             'label' => false,
-                                            'value' => $user->roles[0]['id'] // Valor selecionado
+                                            'value' => (!empty($user->roles) ? $user->roles[0]['id'] : null)  // Valor selecionado
                                         ]) ?>
                                         </div>
                                 </div>

@@ -121,7 +121,7 @@ class UsersController extends AppController
         $this->set('title', 'Usuários');
         $this->set('subTitle', 'Todos os usuários disponíveis');
 
-        $users = $this->Users->find('all');
+        $users = $this->Users->find()->contain('Roles')->all();
         $loggedUserId = $this->Authentication->getIdentity()->id;
 
         // Criar uma entidade vazia para o formulário
@@ -233,10 +233,10 @@ class UsersController extends AppController
             }
         
             $user = $this->Users->patchEntity($user, $data);
-
-            if ($this->request->getData('role_ids')) {
+            
+            if ($this->request->getData('role_id')) {
                 // Aqui garantimos que apenas o primeiro papel seja atribuído
-                $roleId = $this->request->getData('role_ids'); // Pega o primeiro item no array de IDs
+                $roleId = $this->request->getData('role_id'); // Pega o primeiro item no array de IDs
                 $role = $this->Users->Roles->get($roleId); // Obtém o papel selecionado
                 $user->set('roles', [$role]); // Atribui o papel ao usuário
             }
