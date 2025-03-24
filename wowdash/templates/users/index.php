@@ -37,9 +37,16 @@
                             <td><?= h($user->email) ?></td>
                             <td class="text-center">
                                 <div class="d-flex align-items-center gap-10 justify-content-center">
-                                    <a href="<?= $this->Url->build(['action' => 'edit', $user->id]) ?>" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
-                                        <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
-                                    </a>
+
+                                    <?php if ($user->id !== $loggedUserId): ?>
+                                        <a href="<?= $this->Url->build(['action' => 'edit', $user->id]) ?>" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                            <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
+                                        </a>
+                                    <?php else: ?>
+                                        <a href="<?= $this->Url->build(['action' => 'viewProfile']) ?>" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                            <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
+                                        </a>
+                                    <?php endif; ?>
                                     <!-- Verifica se o usuário logado é o mesmo que o usuário da linha e oculta o botão de excluir -->
                                     <?php if ($user->id !== $loggedUserId): ?>
                                         <?= $this->Form->postLink(

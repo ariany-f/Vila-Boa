@@ -92,7 +92,7 @@ class UsersController extends AppController
 
     public function viewProfile()
     {
-        $this->set('title', 'Perfil');
+        $this->set('title', 'Usuário');
         $this->set('subTitle', 'Perfil');
 
         // Supondo que você esteja usando a autenticação para pegar o usuário logado
@@ -209,6 +209,9 @@ class UsersController extends AppController
 
     public function edit($id = null)
     {
+        $this->set('title', 'Usuários');
+        $this->set('subTitle', 'Editar');
+        
         $user = $this->Users->find()
             ->where(['id' => $id])
             ->contain('Roles')
@@ -253,7 +256,7 @@ class UsersController extends AppController
             }
 
             if ($this->Users->save($user)) {
-                
+
                 // Atualiza a identidade do usuário logado na sessão
                 $loggedUser = $this->Authentication->getIdentity();
                 if ($loggedUser->id == $user->id) {
