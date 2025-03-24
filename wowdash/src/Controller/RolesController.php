@@ -35,7 +35,7 @@ class RolesController extends AppController
      */
     public function view($id = null)
     {
-        $this->set('title', 'Permissões');
+        $this->set('title', 'Permissão');
         $this->set('subTitle', 'Detalhes');
 
         $role = $this->Roles->get($id, contain: ['Menus', 'Users']);
@@ -49,21 +49,48 @@ class RolesController extends AppController
      */
     public function add()
     {
-        $this->set('title', 'Permissões');
+        $this->set('title', 'Permissão');
         $this->set('subTitle', 'Adicionar');
 
+        // Criando uma nova entidade Role
         $role = $this->Roles->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $role = $this->Roles->patchEntity($role, $this->request->getData());
-            if ($this->Roles->save($role)) {
-                $this->Flash->success(__('The role has been saved.'));
 
+        if ($this->request->is('post')) {
+            // Obtém os dados do formulário e aplica na entidade Role
+            $role = $this->Roles->patchEntity($role, $this->request->getData());
+
+            // Extraímos os menus selecionados (IDs dos menus marcados nos checkboxes)
+            $menuIds = $this->request->getData('menus._ids') ?: []; 
+            
+            // Filtra os IDs onde o valor é 1 (menus selecionados)
+            $selectedMenuIds = array_keys(array_filter($menuIds, function($value) {
+                return $value == 1;
+            }));
+
+            // Recupera os menus com base nos IDs
+            $menus = $this->Menus->find('all', [
+                'conditions' => ['Menus.id IN' => $selectedMenuIds]
+            ])->toArray();
+
+            // Associa os menus ao papel (role)
+            $role->menus = $menus;
+
+            // Tenta salvar a entidade Role com os menus associados
+            if ($this->Roles->save($role)) {
+                $this->Flash->success(__('A permissão foi salva'));
+
+                // Redireciona para a lista de roles
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The role could not be saved. Please, try again.'));
+
+            $this->Flash->error(__('A permissão não pôde ser salva. Tente novamente mais tarde.'));
         }
-        $menusToRoles = $this->Roles->Menus->find('list', limit: 200)->all();
-        $this->set(compact('role', 'menusToRoles'));
+
+        // Recupera todos os menus para a seleção
+        $allMenus = $this->Roles->Menus->find('all')->contain(['ChildMenus'])->toArray();
+
+        // Passa as variáveis para a view
+        $this->set(compact('role', 'allMenus'));
     }
 
     /**
@@ -75,7 +102,7 @@ class RolesController extends AppController
      */
     public function edit($id = null)
     {
-        $this->set('title', 'Permissões');
+        $this->set('title', 'Permissão');
         $this->set('subTitle', 'Editar');
 
         $role = $this->Roles->get($id, contain: ['Menus']);

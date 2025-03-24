@@ -1,48 +1,93 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var iterable<\Cake\Datasource\EntityInterface> $roles
- */
-?>
-<div class="roles index content">
-    <?= $this->Html->link(__('New Role'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Roles') ?></h3>
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('nome') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($roles as $role): ?>
-                <tr>
-                    <td><?= $this->Number->format($role->id) ?></td>
-                    <td><?= h($role->nome) ?></td>
-                    <td><?= h($role->created) ?></td>
-                    <td><?= h($role->modified) ?></td>
-                    <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $role->id]) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $role->id]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $role->id], ['confirm' => __('Are you sure you want to delete # {0}?', $role->id)]) ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+<div class="card h-100 p-0 radius-12">
+    <div class="card-header border-bottom bg-base py-16 px-24 d-flex align-items-center flex-wrap gap-3 justify-content-end">
+        <a href="<?= $this->Url->build(['controller' => 'Roles', 'action' => 'add']) ?>" class="btn btn-primary text-sm btn-sm px-12 py-12 radius-8 d-flex align-items-center gap-2">
+            <iconify-icon icon="ic:baseline-plus" class="icon text-xl line-height-1"></iconify-icon>
+            Adicionar Permissão
+        </a>
     </div>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
+
+    <div class="card-body p-24">
+        <div class="table-responsive scroll-sm">
+            <table class="table bordered-table sm-table mb-0" id="rolesTable">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            <div class="d-flex align-items-center gap-10">
+                                <div class="form-check style-check d-flex align-items-center">
+                                    <input class="form-check-input radius-4 border input-form-dark" type="checkbox" name="checkbox" id="selectAll">
+                                </div>
+                                ID
+                            </div>
+                        </th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Criado</th>
+                        <th scope="col">Modificado</th>
+                        <th scope="col" class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($roles as $role): ?>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-10">
+                                    <div class="form-check style-check d-flex align-items-center">
+                                        <input class="form-check-input radius-4 border border-neutral-400" type="checkbox" name="checkbox">
+                                    </div>
+                                    <?= h($role->id) ?>
+                                </div>
+                            </td>
+                            <td><?= h($role->nome) ?></td>
+                            <td><?= h($role->created) ?></td>
+                            <td><?= h($role->modified) ?></td>
+                            <td class="text-center">
+                                <div class="d-flex align-items-center gap-10 justify-content-center">
+                                    <a href="<?= $this->Url->build(['action' => 'edit', $role->id]) ?>" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                        <iconify-icon icon="lucide:edit" class="menu-icon"></iconify-icon>
+                                    </a>
+                                    <?= $this->Form->postLink(
+                                        '<iconify-icon icon="fluent:delete-24-regular" class="menu-icon"></iconify-icon>',
+                                        ['action' => 'delete', $role->id],
+                                        [
+                                            'class' => 'remove-item-btn bg-danger-focus bg-hover-danger-200 text-danger-600 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle',
+                                            'escape' => false,
+                                            'confirm' => 'Tem certeza?'
+                                        ]
+                                    )?>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <?= $this->Flash->render() ?>
     </div>
 </div>
+
+<?php $this->start('script'); ?>
+<script>
+    $(document).ready(function() {
+        // Inicializa o DataTable com paginação, busca e ordenação
+        $('#rolesTable').DataTable({
+            "paging": true,  // Habilita paginação
+            "searching": true,  // Habilita busca
+            "ordering": true,  // Habilita ordenação
+            "info": true,  // Exibe informações da paginação
+            "lengthMenu": [5, 10, 15, 20],  // Define opções de itens por página
+            "pageLength": 10,  // Define o número padrão de itens por página
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros por página",
+                "zeroRecords": "Nenhuma permissão encontrado",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ permissões",
+                "infoEmpty": "Nenhuma permissão disponível",
+                "infoFiltered": "(filtrado de _MAX_ permissões no total)",
+                "search": "",
+            }
+        });
+
+        $('.remove-item-btn').on('click', function () {
+            $(this).closest('tr').addClass('d-none');
+        });
+    });
+</script>
+<?php $this->end(); ?>
