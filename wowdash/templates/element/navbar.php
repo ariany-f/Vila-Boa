@@ -302,8 +302,11 @@
 
                 <div class="dropdown">
                     <button class="w-40-px h-40-px bg-neutral-200 d-flex justify-content-center align-items-center rounded-circle" type="button" data-bs-toggle="dropdown">
-                        <!-- <img src="<?php //echo $this->Url->assetUrl('assets/images/user.png') ?>" alt="image" class="w-40-px h-40-px object-fit-cover rounded-circle"> -->
-                        <iconify-icon icon="ri:user-2-line" class="text-primary-light text-xl"></iconify-icon>
+                        <?php if(!empty($usuario->profile_image)): ?>
+                            <img src="<?= $this->Url->assetUrl(h($usuario->profile_image)) ?>" alt="image" class="w-40-px h-40-px object-fit-cover rounded-circle">
+                        <?php else: ?>
+                            <iconify-icon icon="ri:user-2-line" class="text-primary-light text-xl"></iconify-icon>
+                        <?php endif; ?>
                     </button>
                     <div class="dropdown-menu to-top dropdown-menu-sm">
                         <div class="py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2">

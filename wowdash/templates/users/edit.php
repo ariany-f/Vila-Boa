@@ -4,7 +4,7 @@
             <img src="<?= $this->Url->assetUrl('assets/images/user-grid/user-grid-bg1.png') ?>" alt="" class="w-100 object-fit-cover">
             <div class="pb-24 ms-16 mb-24 me-16 mt--100">
                 <div class="text-center border border-top-0 border-start-0 border-end-0">
-                <?php $profileImage = !empty($user->profile_image) ? $this->Url->assetUrl(h($user->profile_image)) : $this->Url->assetUrl('assets/images/user-grid/user-grid-img14.png'); ?>
+                    <?php $profileImage = !empty($user->profile_image) ? $this->Url->assetUrl(h($user->profile_image)) : $this->Url->assetUrl('assets/images/user-grid/user-grid-img14.png'); ?>
                     <img src="<?= $profileImage ?>" alt="" class="border br-white border-width-2-px w-200-px h-200-px rounded-circle object-fit-cover">
                     <!-- Nome do usuário -->
                     <h6 class="mb-0 mt-16"><?= h($user->name) ?></h6>

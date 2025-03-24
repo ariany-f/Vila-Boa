@@ -233,14 +233,6 @@ class UsersController extends AppController
                 $role = $this->Users->Roles->get($roleId); // Obtém o papel selecionado
                 $user->set('roles', [$role]); // Atribui o papel ao usuário
             }
-            
-            // Criptografando a senha, se fornecida
-            if (!empty($user->password)) {
-                $hasher = new DefaultPasswordHasher();
-                $user->password = $hasher->hash($user->password);
-            } else {
-                unset($user->password);
-            }
     
             // Lida com o upload da imagem de perfil
             $image = $this->request->getData('profile_image');
@@ -261,6 +253,13 @@ class UsersController extends AppController
             }
 
             if ($this->Users->save($user)) {
+                
+                // Atualiza a identidade do usuário logado na sessão
+                $loggedUser = $this->Authentication->getIdentity();
+                if ($loggedUser->id == $user->id) {
+                    $this->Authentication->setIdentity($user);
+                }
+
                 $this->Flash->success('Usuário atualizado com sucesso.');
                 return $this->redirect($this->referer());
             }
