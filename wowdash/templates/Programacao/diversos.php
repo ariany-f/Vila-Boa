@@ -13,6 +13,9 @@
                         <th scope="col">Equipe</th>
                         <th scope="col">Descrição</th>
                         <th scope="col">Serviços</th>
+                        <th scope="col">Tipo Atendimento</th>
+                        <th scope="col">Data Inicial</th>
+                        <th scope="col">Caminho Disposição</th>
                         <th scope="col">Observação</th>
                     </tr>
                 </thead>
@@ -21,15 +24,12 @@
                         <?php foreach ($resultados as $resultado): ?>
                             <tr>		
                                 <td><?= h($resultado['age_name']) ?></td>
-                                <td>
-                                    <p class="max-w-500-px"><?= h($resultado['loc_description']) ?></p>
-                                </td>
-                                <td>
-                                    <p class="max-w-500-px"><?= h($resultado['e_servicos']) ?></p>
-                                </td>
-                                <td>
-                                    <p class="max-w-500-px"><?= h($resultado['tsk_observation']) ?></p>
-                                </td>
+                                <td><p class="max-w-500-px"><?= h($resultado['loc_description']) ?></p></td>
+                                <td><p class="max-w-500-px"><?= h($resultado['e_servicos']) ?></p></td>
+                                <td><p class="max-w-500-px"><?= h($resultado['e_tipoatendimento']) ?></p></td>
+                                <td><p class="max-w-500-px"><?= h($resultado['tsk_scheduleinitialdatehour']) ?></p></td>
+                                <td><p class="max-w-500-px"><?= h($resultado['e_caminhaodisposicao']) ?></p></td>
+                                <td><p class="max-w-500-px"><?= h($resultado['tsk_observation']) ?></p></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
@@ -52,7 +52,7 @@
             "processing": true,
             "serverSide": true,
             "ajax": {
-                "url": "<?= $this->Url->build(['controller' => 'Programacao', 'action' => 'rocada']) ?>",
+                "url": "<?= $this->Url->build(['controller' => 'Programacao', 'action' => 'diversos']) ?>",
                 "type": "GET",
                 "data": function(d) {
                     // Verifica se o botão de exportação foi clicado e ajusta a requisição
@@ -65,6 +65,9 @@
                 { "data": "age_name" },
                 { "data": "loc_description" },
                 { "data": "e_servicos" },
+                { "data": "e_tipoatendimento" },
+                { "data": "tsk_scheduleinitialdatehour" },
+                { "data": "e_caminhaodisposicao" },
                 { "data": "tsk_observation" }
             ],
             "pageLength": 10,
@@ -80,6 +83,56 @@
                 "loadingRecords": "...",
                 "emptyTable": "Nenhum dado disponível na tabela"
             },
+            "columnDefs": [
+                {
+                    "targets": 0, // Coluna de descrição (índice 1)
+                    "width": "66px", // Forçar largura de 500px
+                    "createdCell": function(td, cellData, rowData, row, col) {
+                        // Adicionar a tag <p class="max-w-500-px"> ao conteúdo da célula
+                        $(td).html('<p class="max-w-66">' + cellData + '</p>');
+                    }
+                },
+                {
+                    "targets": 1, // Coluna de descrição (índice 1)
+                    "width": "290px", // Forçar largura de 500px
+                    "createdCell": function(td, cellData, rowData, row, col) {
+                        // Adicionar a tag <p class="max-w-500-px"> ao conteúdo da célula
+                        $(td).html('<p class="max-w-290-px">' + cellData + '</p>');
+                    }
+                },
+                {
+                    "targets": 2, // Coluna de descrição (índice 2)
+                    "width": "290px", // Forçar largura de 500px
+                    "createdCell": function(td, cellData, rowData, row, col) {
+                        // Adicionar a tag <p class="max-w-500-px"> ao conteúdo da célula
+                        $(td).html('<p class="max-w-290-px">' + cellData + '</p>');
+                    }
+                },
+                {
+                    "targets": 3, // Coluna de descrição (índice 3)
+                    "width": "66px", // Forçar largura de 500px
+                    "createdCell": function(td, cellData, rowData, row, col) {
+                        // Adicionar a tag <p class="max-w-500-px"> ao conteúdo da célula
+                        $(td).html('<p class="max-w-66">' + cellData + '</p>');
+                    }
+                },
+                {
+                    "targets": 5, // Coluna de descrição (índice 5)
+                    "width": "66px", // Forçar largura de 500px
+                    "createdCell": function(td, cellData, rowData, row, col) {
+                        // Adicionar a tag <p class="max-w-500-px"> ao conteúdo da célula
+                        $(td).html('<p class="max-w-66">' + cellData + '</p>');
+                    }
+                },
+                {
+                    "targets": 6, // Coluna de descrição (índice 6)
+                    "width": "150px", // Forçar largura de 500px
+                    "createdCell": function(td, cellData, rowData, row, col) {
+                        // Adicionar a tag <p class="max-w-500-px"> ao conteúdo da célula
+                        $(td).html('<p class="max-w-150-px">' + cellData + '</p>');
+                    }
+                }
+            ],
             "layout": {
                 "topStart": {
                     "buttons": [
@@ -88,8 +141,8 @@
                             "text": '<iconify-icon icon="ri:file-excel-2-line" class="icon"></iconify-icon> <p>Excel</p>', // Ícone do Excel (Font Awesome)
                             "titleAttr": 'Exportar XLS',
                             "className": 'text-secondary-light d-flex',
-                            "filename": 'Programação Roçada',
-                            "title": 'Progração Roçada',
+                            "filename": 'Programação Diversos',
+                            "title": 'Progração Diversos',
                             "action": function (e, dt, node, config) {
                                 // Marca que é para exportar todos os dados ao clicar no botão
                                 $('#LoadAll').val('True');
@@ -115,8 +168,8 @@
                             "pageSize": 'A4',
                             "text": '<iconify-icon icon="ri:file-pdf-2-line" class="icon"></iconify-icon> <p>PDF</p>',
                             "titleAttr": 'Exportar PDF',
-                            "filename": 'Programação Roçada',
-                            "title": 'Progração Roçada',
+                            "filename": 'Programação Diversos',
+                            "title": 'Progração Diversos',
                             "action": function (e, dt, node, config) {
                                 // Marca que é para exportar todos os dados ao clicar no botão
                                 $('#LoadAll').val('True');

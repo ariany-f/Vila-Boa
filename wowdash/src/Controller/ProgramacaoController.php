@@ -47,6 +47,39 @@ class ProgramacaoController extends AppController
     }
 
     /**
+     * Diversos method
+     *
+     */
+    public function diversos()
+    {
+        $this->set('title', 'Programação');
+        $this->set('subTitle', 'Diversos');
+
+        if ($this->request->is('ajax')) {
+            // Captura parâmetros do DataTables
+            $search = $this->request->getQuery('search')['value'] ?? null;
+            $start = (int) $this->request->getQuery('start', 0);
+            $length = (int) $this->request->getQuery('length', 10);
+            $draw = (int) $this->request->getQuery('draw', 1);
+            $isExport = $this->request->getQuery('export');
+    
+            // Busca dados paginados do banco
+            $dados = $this->ProgramacaoComponent->buscarDadosDiverso($length, $start, $search, $isExport);
+    
+            // Conta o total de registros
+            $totalRecords = count($this->ProgramacaoComponent->buscarDadosDiverso(PHP_INT_MAX, 0));
+    
+            // Retorna JSON para DataTables
+            return $this->response->withType('application/json')->withStringBody(json_encode([
+                'draw' => $draw,
+                'recordsTotal' => $totalRecords,
+                'recordsFiltered' => empty($search) ? $totalRecords : count($dados),
+                'data' => array_values($dados)
+            ]));
+        }
+    }
+
+    /**
      * Capina method
      *
      */
@@ -91,9 +124,5 @@ class ProgramacaoController extends AppController
                 'data' => array_values($dados)
             ]));
         }
-    
-        // Renderiza a view normalmente para acessos normais
-        $resultados = $this->ProgramacaoComponent->buscarDadosRemotos('Roçada');
-        $this->set(compact('resultados'));
     }
 }

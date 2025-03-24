@@ -275,13 +275,27 @@ return [
             'timezone' => 'UTC',
             'persistent' => false,
         ],
-        'remote' => [
+        'remote_base' => [
             'className' => Connection::class,
             'driver' => Postgres::class, // Verifique se o driver é o PostgreSQL
             'host' => env('POSTGRES_REMOTE_HOST', '209.126.9.138'),
             'username' => env('POSTGRES_REMOTE_USER', 'postgres'),
             'password' => env('POSTGRES_REMOTE_PASSWORD', 'Vil@Bo@182'),
-            'database' => env('POSTGRES_REMOTE_DATABASE', 'umovme_dbview_vbbase'),
+            'database' => 'umovme_dbview_vbbase',
+            'encoding' => 'utf8',
+            'timezone' => 'UTC',
+            'readOnly' => true, // Conexão somente leitura
+            'cacheMetadata' => true,
+            'log' => false,
+            'persistent' => false,
+        ],
+        'remote_capina' => [
+            'className' => Connection::class,
+            'driver' => Postgres::class, // Verifique se o driver é o PostgreSQL
+            'host' => env('POSTGRES_REMOTE_HOST', '209.126.9.138'),
+            'username' => env('POSTGRES_REMOTE_USER', 'postgres'),
+            'password' => env('POSTGRES_REMOTE_PASSWORD', 'Vil@Bo@182'),
+            'database' => 'umovme_dbview_vbcapina',
             'encoding' => 'utf8',
             'timezone' => 'UTC',
             'readOnly' => true, // Conexão somente leitura

@@ -23,7 +23,7 @@ class ProgramacaoComponent extends Component
     public function buscarDadosRemotos($filter, $limit = 10, $offset = 0, $search = null, $export = false): array
     {
         // Obtém a conexão com o banco remoto
-        $conexaoRemota = ConnectionManager::get('remote');
+        $conexaoRemota = ConnectionManager::get('remote_base');
 
         // Se for uma exportação, retorna todos os dados
         if ($export) {
@@ -120,5 +120,91 @@ class ProgramacaoComponent extends Component
     
         // Executa a query com os parâmetros
         return $conexaoRemota->execute($query, $params)->fetchAll('assoc');
-    }    
+    }
+
+    public function buscarDadosDiverso($limit = 10, $offset = 0, $search = null, $export = false)
+    {
+        // Obtém a conexão com o banco remoto
+        $conexaoRemota = ConnectionManager::get('remote_capina');
+
+        // Se for uma exportação, retorna todos os dados
+        if ($export) {
+            // Ajuste a consulta para retornar todos os registros
+            $query = "
+                SELECT age_name, loc_description, e_servicos, e_tipoatendimento, 
+                    TO_CHAR(tsk_scheduleinitialdatehour, 'DD/MM/YYYY') as tsk_scheduleinitialdatehour, 
+                    tsk_observation, e_caminhaodisposicao
+                FROM (
+                    SELECT a.age_name, CONCAT('REQUISIÇÃO - ', UPPER(l.loc_description)) as loc_description, 
+                        e_servicos, l.e_tipoatendimento, tsk_scheduleinitialdatehour, 
+                        TRIM(UPPER(t.tsk_observation)) as tsk_observation, e_caminhaodisposicao
+                    FROM u29917.Task as t
+                    INNER JOIN u29917.agent as a ON a.age_id = t.age_id
+                    INNER JOIN u29917.dbout_local as l ON l.loc_id = t.loc_id
+                    WHERE t.tty_id = 83060 AND tss_id < 50
+
+                    UNION ALL
+
+                    SELECT a.age_name, CONCAT('ATENDIMENTO AO BAIRRO - ', t.tea_description) as loc_description, 
+                        'Capina de Guia, Sarjeta e Passeio - Pintura de Guias e Postes (Se necessário) - Limpeza Geral, Varrição, Raspagem de Terra' as e_servicos, 
+                        'AtendimentoNormal' as e_tipoatendimento, NULL as tsk_scheduleinitialdatehour, NULL as tsk_observation, NULL as e_caminhaodisposicao
+                    FROM u29917.team as t
+                    INNER JOIN u29917.teamagent as ar ON ar.tea_id = t.tea_id
+                    INNER JOIN u29917.agent as a ON a.age_id = ar.age_id
+                    WHERE tea_description LIKE '%DIVERSOS%'
+                ) as s1
+                ORDER BY age_name, tsk_scheduleinitialdatehour;
+            ";
+            
+            $params = [];
+        } else {
+            // Query base para quando não é exportação
+            $query = "
+                 SELECT age_name, loc_description, e_servicos, e_tipoatendimento, 
+                    TO_CHAR(tsk_scheduleinitialdatehour, 'DD/MM/YYYY') as tsk_scheduleinitialdatehour, 
+                    tsk_observation, e_caminhaodisposicao
+                FROM (
+                    SELECT a.age_name, CONCAT('REQUISIÇÃO - ', UPPER(l.loc_description)) as loc_description, 
+                        e_servicos, l.e_tipoatendimento, tsk_scheduleinitialdatehour, 
+                        TRIM(UPPER(t.tsk_observation)) as tsk_observation, e_caminhaodisposicao
+                    FROM u29917.Task as t
+                    INNER JOIN u29917.agent as a ON a.age_id = t.age_id
+                    INNER JOIN u29917.dbout_local as l ON l.loc_id = t.loc_id
+                    WHERE t.tty_id = 83060 AND tss_id < 50
+
+                    UNION ALL
+
+                    SELECT a.age_name, CONCAT('ATENDIMENTO AO BAIRRO - ', t.tea_description) as loc_description, 
+                        'Capina de Guia, Sarjeta e Passeio - Pintura de Guias e Postes (Se necessário) - Limpeza Geral, Varrição, Raspagem de Terra' as e_servicos, 
+                        'AtendimentoNormal' as e_tipoatendimento, NULL as tsk_scheduleinitialdatehour, NULL as tsk_observation, NULL as e_caminhaodisposicao
+                    FROM u29917.team as t
+                    INNER JOIN u29917.teamagent as ar ON ar.tea_id = t.tea_id
+                    INNER JOIN u29917.agent as a ON a.age_id = ar.age_id
+                    WHERE tea_description LIKE '%DIVERSOS%'
+                ) as s1
+                 WHERE 1 = 1
+            ";
+            // Se houver pesquisa, aplica o filtro de pesquisa
+            if (!empty($search)) {
+                $query .= " AND (loc_description LIKE :search OR age_name LIKE :search)";
+            }
+
+            $query .= " ORDER BY age_name, tsk_scheduleinitialdatehour
+                  LIMIT {$limit} OFFSET {$offset};
+            ";
+
+            // Se houver pesquisa, adiciona o parâmetro de busca
+            if (!empty($search)) {
+                $params['search'] = "%{$search}%";
+            }
+            else{
+                $params = [];
+            }
+            
+        }
+
+        // Executa a query com os parâmetros
+        return $conexaoRemota->execute($query, $params)->fetchAll('assoc');
+    }
+
 }
