@@ -91,6 +91,20 @@
                                         <input type="email" name="email" class="form-control radius-8" id="email" placeholder="Digite o endereço de email" value="<?= h($user->email) ?>">
                                     </div>
                                 </div>
+                                <?php if($user->roles[0]['id'] == 1) : ?>
+                                <div class="col-sm-12">
+                                    <div class="mb-20">
+                                        <?= $this->Form->control('role_id', [
+                                            'type' => 'select',
+                                            'options' => $roles, // Exibe as opções dos roles
+                                            'empty' => 'Selecione a permissão...', // Placeholder
+                                            'class' => 'form-control radius-8',
+                                            'label' => false,
+                                            'value' => $user->roles[0]['id'] // Valor selecionado
+                                        ]) ?>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
                                 <div class="col-sm-12">
                                     <div class="mt-24 d-flex justify-content-end">
                                         <button class="btn btn-primary btn-sm">Salvar Alterações</button>

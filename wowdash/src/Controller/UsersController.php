@@ -101,10 +101,14 @@ class UsersController extends AppController
         // Carrega as informações adicionais do banco se necessário
         $user = $this->Users->find()
             ->where(['id' => $userId])
+            ->contain('Roles')
             ->first();
 
+        // Obtém os papéis para o select
+        $roles = $this->Users->Roles->find('list')->toArray();
+
         // Passa os dados do usuário para a view
-        $this->set(compact('user'));
+        $this->set(compact('user', 'roles'));
     }
 
     public function forgotPassword()

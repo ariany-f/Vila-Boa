@@ -17,6 +17,9 @@ class RolesController extends AppController
      */
     public function index()
     {
+        $this->set('title', 'Permissões');
+        $this->set('subTitle', 'Gerenciar');
+
         $query = $this->Roles->find();
         $roles = $this->paginate($query);
 
@@ -32,6 +35,9 @@ class RolesController extends AppController
      */
     public function view($id = null)
     {
+        $this->set('title', 'Permissões');
+        $this->set('subTitle', 'Detalhes');
+
         $role = $this->Roles->get($id, contain: ['Menus', 'Users']);
         $this->set(compact('role'));
     }
@@ -43,6 +49,9 @@ class RolesController extends AppController
      */
     public function add()
     {
+        $this->set('title', 'Permissões');
+        $this->set('subTitle', 'Adicionar');
+
         $role = $this->Roles->newEmptyEntity();
         if ($this->request->is('post')) {
             $role = $this->Roles->patchEntity($role, $this->request->getData());
@@ -66,19 +75,43 @@ class RolesController extends AppController
      */
     public function edit($id = null)
     {
-        $role = $this->Roles->get($id, contain: ['Menus', 'Users']);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $role = $this->Roles->patchEntity($role, $this->request->getData());
-            if ($this->Roles->save($role)) {
-                $this->Flash->success(__('The role has been saved.'));
+        $this->set('title', 'Permissões');
+        $this->set('subTitle', 'Editar');
 
-                return $this->redirect(['action' => 'index']);
+        $role = $this->Roles->get($id, contain: ['Menus']);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            // Obtém os dados do formulário
+            $role = $this->Roles->patchEntity($role, $this->request->getData());
+
+            // Extraímos os menus selecionados (IDs dos menus marcados nos checkboxes)
+            $menuIds = $this->request->getData('menus._ids') ?: [];             
+                        
+            // Filtra os IDs onde o valor é 1 (menus selecionados)
+            $selectedMenuIds = array_keys(array_filter($menuIds, function($value) {
+                return $value == 1;
+            }));
+
+            // Recupera os menus com base nos IDs
+            $menus = $this->Menus->find('all', [
+                'conditions' => ['Menus.id IN' => $selectedMenuIds]
+            ])->toArray();
+
+            // Associa os menus ao papel
+            $role->menus = $menus;
+
+            // Tenta salvar a entidade do papel com os menus associados
+            if ($this->Roles->save($role)) {
+                $this->Flash->success(__('A permissão foi salva'));
+                return $this->redirect($this->referer());
             }
-            $this->Flash->error(__('The role could not be saved. Please, try again.'));
+            
+            $this->Flash->error(__('A permissão não pôde ser salva. Tente novamente mais tarde.'));
         }
-        $menus = $this->Roles->Menus->find('list', limit: 200)->all();
-        $users = $this->Roles->Users->find('list', limit: 200)->all();
-        $this->set(compact('role', 'menus', 'users'));
+
+        $menuEdit = $this->Roles->Menus->find('list')->toArray();
+        $allMenus = $this->Roles->Menus->find('all')->contain(['ChildMenus'])->toArray();
+
+        $this->set(compact('role', 'menuEdit', 'allMenus'));
     }
 
     /**

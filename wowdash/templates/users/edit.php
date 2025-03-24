@@ -92,6 +92,18 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
+                                    <div class="mb-20">
+                                        <?= $this->Form->control('role_id', [
+                                            'type' => 'select',
+                                            'options' => $roles, // Exibe as opções dos roles
+                                            'empty' => 'Selecione a permissão...', // Placeholder
+                                            'class' => 'form-control radius-8',
+                                            'label' => false,
+                                            'value' => $user->roles[0]['id'] // Valor selecionado
+                                        ]) ?>
+                                        </div>
+                                </div>
+                                <div class="col-sm-12">
                                     <div class="mt-24 d-flex justify-content-end">
                                         <button class="btn btn-primary btn-sm">Salvar Alterações</button>
                                     </div>

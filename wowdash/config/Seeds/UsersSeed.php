@@ -33,7 +33,7 @@ class UsersSeed extends BaseSeed
         ];
 
         // Criando usuários fake
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $data[] = [
                 'name' => $faker->name,
                 'email' => $faker->email,
