@@ -10,7 +10,7 @@
             <div class="card-header">
                 <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
                     <div class="side-nav">
-                        <?= $this->Html->link(__('Voltar para Relatórios'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
+                        <?= $this->Html->link(__('Voltar para Telas Customizadas'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
                     </div>
                     <?= $this->Form->postLink(
                         __('Excluir'),
