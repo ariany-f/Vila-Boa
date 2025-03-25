@@ -115,8 +115,15 @@ class MenusController extends AppController
             }
             $this->Flash->error(__('O menu não pôde ser salvo. Tente novamente.'));
         }
-        $parentMenus = $this->Menus->ParentMenus->find('list', limit: 200)->all();
-        $roles = $this->Menus->Roles->find('list', limit: 200)->all();
+
+        $parentMenus = $this->Menus->find()
+        ->select(['id', 'name', 'icon']) // Seleciona os campos necessários
+        ->where(['parent_id IS' => null]) // Filtra apenas menus sem parent_id
+        ->all();
+
+        // Busca todas as roles disponíveis
+        $roles = $this->Menus->Roles->find('list')->all();
+        
         $this->set(compact('menu', 'parentMenus', 'roles'));
     }
 
