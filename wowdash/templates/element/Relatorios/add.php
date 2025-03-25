@@ -21,6 +21,22 @@
                         <div class="col-12 mb-20">
                             <input type="text" name="link_iframe" class="form-control radius-8" placeholder="Link">
                         </div>
+                        <div class="row row-cols-xxxl-6 row-cols-lg-5 row-cols-sm-4 row-cols-2 gy-4">
+                            <label class="form-label fw-semibold text-primary-light text-sm mb-8">Permissão <span class="text-danger-600">*</span></label>
+                            <?php foreach ($roles as $role): ?>
+                                <div class="d-flex flex-column align-items-start py-3 justify-content-start flex-wrap gap-3 menu-group col">
+                                    <div class="form-switch switch-primary d-flex align-items-center gap-3">
+                                        <?= $this->Form->control("roles._ids.{$role->id}", [
+                                            'type' => 'checkbox',
+                                            'class' => 'form-check-input',
+                                            'checked' => isset($relatorio->roles) && in_array($role->id, \Cake\Utility\Hash::extract($relatorio->roles, '{n}.id')),
+                                            'label' => $role->nome,
+                                            'escape' => false
+                                        ]) ?>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
                         <div class="d-flex align-items-center gap-3 mt-24 justify-content-end">
                             <button type="submit" class="btn btn-primary border border-primary-600 text-md px-48 py-12 radius-8">
                                 Salvar

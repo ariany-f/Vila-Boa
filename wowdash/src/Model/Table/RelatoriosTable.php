@@ -3,29 +3,13 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query\SelectQuery;
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
  * Relatorios Model
  *
- * @method \App\Model\Entity\Relatorio newEmptyEntity()
- * @method \App\Model\Entity\Relatorio newEntity(array $data, array $options = [])
- * @method array<\App\Model\Entity\Relatorio> newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Relatorio get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
- * @method \App\Model\Entity\Relatorio findOrCreate($search, ?callable $callback = null, array $options = [])
- * @method \App\Model\Entity\Relatorio patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method array<\App\Model\Entity\Relatorio> patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Relatorio|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method \App\Model\Entity\Relatorio saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
- * @method iterable<\App\Model\Entity\Relatorio>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Relatorio>|false saveMany(iterable $entities, array $options = [])
- * @method iterable<\App\Model\Entity\Relatorio>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Relatorio> saveManyOrFail(iterable $entities, array $options = [])
- * @method iterable<\App\Model\Entity\Relatorio>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Relatorio>|false deleteMany(iterable $entities, array $options = [])
- * @method iterable<\App\Model\Entity\Relatorio>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Relatorio> deleteManyOrFail(iterable $entities, array $options = [])
- *
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @property \Cake\ORM\Association\BelongsToMany $Roles
  */
 class RelatoriosTable extends Table
 {
@@ -44,6 +28,12 @@ class RelatoriosTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        
+        $this->belongsToMany('Roles', [
+            'through' => 'RelatoriosRoles', // Certifique-se de que este nome de tabela está correto
+            'foreignKey' => 'relatorio_id',  // Campo que referencia o user na tabela de junção
+            'targetForeignKey' => 'role_id',  // Campo que referencia o role na tabela de junção
+        ]);
     }
 
     /**
