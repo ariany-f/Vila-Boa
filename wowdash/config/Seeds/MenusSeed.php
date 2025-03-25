@@ -39,10 +39,13 @@ class MenusSeed extends AbstractSeed
             ['id' => 15, 'name' => 'Usuários', 'url' => '/users', 'parent_id' => 14, 'position' => 1, 'icon' => null, 'allow_delete' => false, 'created' => $now, 'modified' => $now],
             ['id' => 16, 'name' => 'Menus', 'url' => '/menus', 'parent_id' => 14, 'position' => 2, 'icon' => null, 'allow_delete' => false, 'created' => $now, 'modified' => $now],
             ['id' => 17, 'name' => 'Relatórios', 'url' => '/relatorios/gerenciar', 'parent_id' => 14, 'position' => 3, 'icon' => null, 'allow_delete' => false, 'created' => $now, 'modified' => $now],
+           
             // Relatórios
             ['id' => 18, 'name' => 'Relatórios', 'url' => '/relatorios', 'parent_id' => null, 'position' => 7, 'icon' => 'dashboard-chart', 'allow_delete' => false, 'created' => $now, 'modified' => $now],
 
             ['id' => 19, 'name' => 'Permissões', 'url' => '/roles', 'parent_id' => 14, 'position' => 0, 'icon' => null, 'allow_delete' => false, 'created' => $now, 'modified' => $now],
+            ['id' => 20, 'name' => 'Telas Customizadas', 'url' => '/custom/gerenciar', 'parent_id' => 14, 'position' => 4, 'icon' => null, 'allow_delete' => false, 'created' => $now, 'modified' => $now],
+           
         ];
 
         // Insere os dados

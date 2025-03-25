@@ -205,6 +205,16 @@ return function (RouteBuilder $routes): void {
             $routes->connect('/add', ['action' => 'add']);
         });        
 
+        $builder->scope('/custom', ['controller' => 'Customizaveis'], function ($routes) {
+            $routes->connect('/', ['action' => 'list'], ['_name' => 'listCustomizaveis']);
+            $routes->connect('/view/{id}',  // Aqui usamos {id} ao invés de :id
+                ['action' => 'view'],
+                ['pass' => ['id'], 'id' => '\d+', '_name' => 'viewCustomizavel']
+            );
+            $routes->connect('/gerenciar', ['action' => 'index'], ['_name' => 'listGerenciarCustomizaveis']);
+            $routes->connect('/add', ['action' => 'add']);
+        });       
+
         $builder->scope('/requisicoes', ['controller' => 'Requisicoes'], function ($routes) {
             $routes->connect('/', ['action' => 'index']);
             $routes->connect('/poda', ['action' => 'poda']);
