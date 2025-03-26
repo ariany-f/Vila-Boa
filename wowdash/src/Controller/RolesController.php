@@ -128,6 +128,24 @@ class RolesController extends AppController
 
             // Tenta salvar a entidade do papel com os menus associados
             if ($this->Roles->save($role)) {
+                // Verifica se a role salva é a mesma que a do usuário logado
+                $loggedUserRoleId = $this->Authentication->getIdentity(); // Supondo que 'role_id' esteja no objeto de identidade do usuário
+              
+                $usuario = $this->getTableLocator()->get('Users')->get($loggedUserRoleId->id, [
+                    'contain' => ['Roles'],
+                ]);
+    
+                $roles = $usuario->get('roles') ?? [];
+                $roleIds = array_map(function ($role) {
+                    return $role->id;
+                }, $roles);
+
+                if ($role->id === $roleIds[0]) {
+                    $usuario = $this->Authentication->getIdentity();
+                    $usuarioId = $usuario->get('id');
+                    $this->request->getSession()->delete('menus.' . $usuarioId);
+                }
+                
                 $this->Flash->success(__('A permissão foi salva'));
                 return $this->redirect($this->referer());
             }
