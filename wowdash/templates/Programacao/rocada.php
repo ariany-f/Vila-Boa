@@ -77,7 +77,7 @@
                 "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
                 "infoEmpty": "Nenhum registro disponível",
                 "infoFiltered": "(filtrado de _MAX_ registros no total)",
-                "loadingRecords": "...",
+                "loadingRecords": "",
                 "emptyTable": "Nenhum dado disponível na tabela"
             },
             "layout": {

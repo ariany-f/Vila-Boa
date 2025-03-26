@@ -15289,3 +15289,7 @@ input.dt-input {
 .payload-row {
   cursor: pointer;
 }
+
+div.dt-processing>div:last-child>div{
+  background: var(--primary-600);
+}
