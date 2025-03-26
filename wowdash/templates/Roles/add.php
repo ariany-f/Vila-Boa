@@ -52,10 +52,10 @@ use Cake\Utility\Hash;
                                 // Checar se o menu está marcado no role atual (se aplicável)
                                 $checked = (isset($role->menus) && in_array($men['id'], Hash::extract($role->menus, '{n}.id'))) ? 'checked' : '';
                                 echo '<div class="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">';
-                                    echo '<label for="menus._ids.{'.$men['id'].'}" class="position-absolute w-100 h-100 start-0 top-0"></label>';
+                                    echo '<label for="menus-ids-'.$men['id'].'" class="position-absolute w-100 h-100 start-0 top-0"></label>';
                                     echo '<div class="d-flex align-items-center gap-3 justify-content-between">';
                                         echo '<span class="form-check-label line-height-1 fw-medium text-secondary-light">'.$men['name'].'</span>';
-                                        echo '<input name="menus._ids.{'.$men['id'].'}" '.$checked.' class="form-check-input menu-parent" type="checkbox" role="switch" id="menus._ids.{'.$men['id'].'}">';
+                                        echo '<input name="menus[_ids]['.$men['id'].']" '.$checked.' class="form-check-input menu-parent" type="checkbox" role="switch" id="menus-ids-'.$men['id'].'">';
                                 echo '</div>';
                                 echo '</div>';
 
@@ -64,10 +64,10 @@ use Cake\Utility\Hash;
                                     foreach (current($filteredMenu)->child_menus as $child) {
                                         $checked = (isset($role->menus) && in_array($child['id'], Hash::extract($role->menus, '{n}.id'))) ? 'checked' : '';
                                         echo '<div class="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">';
-                                            echo '<label for="menus._ids.{'.$child['id'].'}" class="position-absolute w-100 h-100 start-0 top-0"></label>';
+                                            echo '<label for="menus-ids-'.$child['id'].'" class="position-absolute w-100 h-100 start-0 top-0"></label>';
                                             echo '<div class="d-flex align-items-center gap-3 justify-content-between">';
                                                 echo '<span class="form-check-label line-height-1 fw-medium text-secondary-light">'.$child['name'].'</span>';
-                                                echo '<input name="menus._ids.{'.$child['id'].'}" '.$checked.' class="form-check-input menu-child" type="checkbox" role="switch" id="menus._ids.{'.$child['id'].'}">';
+                                                echo '<input name="menus[_ids]['.$child['id'].']" '.$checked.' class="form-check-input menu-child" type="checkbox" role="switch" id="menus-ids-'.$child['id'].'">';
                                         echo '</div>';
                                         echo '</div>';
                                     }

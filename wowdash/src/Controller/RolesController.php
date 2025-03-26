@@ -56,15 +56,23 @@ class RolesController extends AppController
         $role = $this->Roles->newEmptyEntity();
 
         if ($this->request->is('post')) {
-            // Obtém os dados do formulário e aplica na entidade Role
-            $role = $this->Roles->patchEntity($role, $this->request->getData());
+           
+            $data = $this->request->getData();
+
+            // Verifique e converta os valores dos IDs de menus para inteiros
+            if (isset($data['menus']['_ids']) && is_array($data['menus']['_ids'])) {
+                $data['menus']['_ids'] = array_map('intval', array_keys($data['menus']['_ids']));
+            }
+            
+            // Agora, aplique os dados ao objeto $role
+            $role = $this->Roles->patchEntity($role, $data);
 
             // Extraímos os menus selecionados (IDs dos menus marcados nos checkboxes)
             $menuIds = $this->request->getData('menus._ids') ?: []; 
             
             // Filtra os IDs onde o valor é 1 (menus selecionados)
             $selectedMenuIds = array_keys(array_filter($menuIds, function($value) {
-                return $value == 1;
+                return $value == 'on';
             }));
 
             // Recupera os menus com base nos IDs
@@ -108,17 +116,23 @@ class RolesController extends AppController
         $role = $this->Roles->get($id, contain: ['Menus']);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            // Obtém os dados do formulário
-            $role = $this->Roles->patchEntity($role, $this->request->getData());
+
+            $data = $this->request->getData();
+
+            // Verifique e converta os valores dos IDs de menus para inteiros
+            if (isset($data['menus']['_ids']) && is_array($data['menus']['_ids'])) {
+                $data['menus']['_ids'] = array_map('intval', array_keys($data['menus']['_ids']));
+            }
+            
+            // Agora, aplique os dados ao objeto $role
+            $role = $this->Roles->patchEntity($role, $data);
 
             // Extraímos os menus selecionados (IDs dos menus marcados nos checkboxes)
             $menuIds = $this->request->getData('menus._ids') ?: [];             
            
-            echo '<pre>';
-            print_r($menuIds);die;
             // Filtra os IDs onde o valor é 1 (menus selecionados)
             $selectedMenuIds = array_keys(array_filter($menuIds, function($value) {
-                return $value == 1;
+                return $value == 'on';
             }));
 
             // Recupera os menus com base nos IDs
