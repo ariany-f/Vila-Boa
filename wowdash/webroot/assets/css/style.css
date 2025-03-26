@@ -14730,6 +14730,47 @@ td.fc-header-center {
   inset-inline-start: 16px;
 }
 
+
+
+/* === auth css start === */
+.auth:hover .auth-logo img.light-logo {
+  display: inline-block;
+}
+
+.auth:hover .auth-logo img.logo-icon {
+  display: none;
+}
+.auth .auth-logo img.light-logo, .auth .auth-logo img.dark-logo {
+  display: none;
+}
+
+.auth .auth-logo img.logo-icon {
+  display: inline-block;
+}
+
+.auth-logo {
+  height: 6rem;
+  padding: 0.875rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.auth-logo img {
+  max-height: 4.4375rem;
+  max-width: 15.5rem;
+}
+
+.auth-logo img.dark-logo {
+  display: none;
+}
+
+.auth-logo img.logo-icon {
+  display: none;
+}
+
+/* === auth css end === */
+
 /* === navbar css end === */
 /* === sidebar css start === */
 .sidebar {
@@ -14818,6 +14859,7 @@ td.fc-header-center {
 .sidebar.active:hover .sidebar-logo img.logo-icon {
   display: none;
 }
+
 
 .sidebar.active:hover .sidebar-menu li a span {
   display: inline-block;
@@ -14908,6 +14950,27 @@ td.fc-header-center {
 
 .sidebar-menu-area::-webkit-scrollbar-thumb {
   background-color: var(--white);
+}
+
+
+[data-theme=dark] .auth:hover .auth-logo img.light-logo {
+  display: none;
+}
+
+[data-theme=dark] .auth:hover .auth-logo img.dark-logo {
+  display: inline-block;
+}
+
+[data-theme=dark] .auth .auth-logo img.light-logo {
+  display: none;
+}
+
+[data-theme=dark] .auth-logo img.light-logo {
+  display: none;
+}
+
+[data-theme=dark] .auth-logo img.dark-logo {
+  display: inline-block;
 }
 
 [data-theme=dark] .sidebar.active:hover .sidebar-logo img.light-logo {

@@ -7,8 +7,9 @@
     <div class="auth-right py-32 px-24 d-flex flex-column justify-content-center">
         <div class="max-w-464-px mx-auto w-100">
             <div>
-                <a href="<?= $this->Url->build(['_name' => 'index']) ?>" class="mb-40 max-w-290-px">
-                    <img src="<?= $this->Url->assetUrl('assets/images/logo.png') ?>" alt="">
+                <a href="<?= $this->Url->build(['_name' => 'index']) ?>" class="mb-40 max-w-290-px auth-logo">
+                    <img src="<?= $this->Url->assetUrl('assets/images/logo.png') ?>" alt="site logo" class="light-logo">
+                    <img src="<?= $this->Url->assetUrl('assets/images/logo-light.png') ?>" alt="site logo" class="dark-logo">
                 </a>
                 <h4 class="mb-12">Entrar</h4>
                 <p class="mb-32 text-secondary-light text-lg">Bem vindo(a) de volta! Preencha os dados para entrar.</p>
