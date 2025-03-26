@@ -138,7 +138,14 @@ class MenusController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $menu = $this->Menus->get($id);
-        if ($this->Menus->delete($menu)) {
+        
+        // Atualiza os menus filhos para remover a referência ao menu pai
+        $this->Menus->updateAll(['parent_id' => null], ['parent_id' => $id]);
+        
+        if ($this->Menus->delete($menu)) {  
+            $usuario = $this->Authentication->getIdentity();
+            $usuarioId = $usuario->get('id');
+            $this->request->getSession()->delete('menus.' . $usuarioId);
             $this->Flash->success(__('The menu has been deleted.'));
         } else {
             $this->Flash->error(__('The menu could not be deleted. Please, try again.'));

@@ -53,8 +53,20 @@ class CustomizaveisController extends AppController
         $customizavel = $this->Customizaveis->newEmptyEntity();
 
         // Obtém os papéis para o select
-        $roles = $this->Customizaveis->Roles->find()->toArray();
-        $this->set(compact('customizaveis', 'customizavel', 'roles'));
+        $roles = $this->Customizaveis->Roles->find()->toArray();  
+        
+    
+        $menusView = $this->Menus->find()
+        ->contain(['ParentMenus'])
+        ->order(['Menus.id' => 'ASC']) // Ordenação crescente por ID
+        ->all();
+
+        $parentMenus = $this->Menus->find()
+        ->select(['id', 'name', 'icon']) // Seleciona os campos necessários
+        ->where(['parent_id IS' => null]) // Filtra apenas menus sem parent_id
+        ->all();
+
+        $this->set(compact('customizaveis', 'customizavel', 'roles','menusView', 'parentMenus'));
     }
 
     /**
@@ -111,12 +123,18 @@ class CustomizaveisController extends AppController
                 {
                     $menu = $this->Menus->newEmptyEntity();
                     $menu->name = $customizavel->titulo;
+                    $menu->parent_id = $this->request->getData('parent_id');
                     $menu->url = "/custom/view/" . $customizavel->id;
-                    $menu->icone = 'fa fa-file'; // Ícone padrão, pode ser customizado
+                    $menu->icone = $this->request->getData('icon'); // Ícone padrão, pode ser customizado
+                    $menu->roles = $roles;
     
                     if (!$this->Menus->save($menu)) {
                         $this->Flash->error(__('A tela foi salva, mas o menu não pôde ser criado.'));
                     }
+
+                    $usuario = $this->Authentication->getIdentity();
+                    $usuarioId = $usuario->get('id');
+                    $this->request->getSession()->delete('menus.' . $usuarioId);
                 }
                 $this->Flash->success(__('A tela foi salva com sucesso.'));
                 return $this->redirect(['action' => 'index']);
@@ -143,6 +161,15 @@ class CustomizaveisController extends AppController
             'contain' => ['Roles'], // Traz as roles associadas ao relatório
         ]);
 
+        $menu = $this->Menus->find()
+        ->where(['url LIKE' => "%custom/view/{$customizavel->id}%"])
+        ->first();
+
+        $parentMenus = $this->Menus->find()
+        ->select(['id', 'name', 'icon']) // Seleciona os campos necessários
+        ->where(['parent_id IS' => null]) // Filtra apenas menus sem parent_id
+        ->all();
+        
         if ($this->request->is(['patch', 'post', 'put'])) {
             
             $customizavel = $this->Customizaveis->patchEntity($customizavel, $this->request->getData());
@@ -164,6 +191,24 @@ class CustomizaveisController extends AppController
             $customizavel->roles = $roles;
 
             if ($this->Customizaveis->save($customizavel)) {
+
+                if ($this->request->getData('criar_menu')) {
+                    if (!$menu) {
+                        $menu = $this->Menus->newEmptyEntity();
+                    }
+                    $menu->name = $customizavel->titulo;
+                    $menu->url = "/custom/view/" . $customizavel->id;
+                    $menu->parent_id = $this->request->getData('parent_id') ?: null;
+                    $menu->icone = $this->request->getData('icon') ?: 'mage:settings';
+                    $menu->roles = $roles;
+
+                    $this->Menus->save($menu);
+                } else {
+                    if ($menu) {
+                        $this->Menus->delete($menu);
+                    }
+                }
+
                 $this->Flash->success(__('A tela foi salva com sucesso.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -173,7 +218,7 @@ class CustomizaveisController extends AppController
     
         // Obtém os papéis para o select
         $roles = $this->Customizaveis->Roles->find()->toArray();
-        $this->set(compact('customizavel', 'roles'));
+        $this->set(compact('customizavel', 'roles', 'menu', 'parentMenus'));
     }
 
     /**
@@ -187,6 +232,19 @@ class CustomizaveisController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $customizavel = $this->Customizaveis->get($id);
+
+        $menu = $this->Menus->find()
+        ->where(['url LIKE' => "%custom/view/{$customizavel->id}%"])
+        ->first();
+
+          // Se houver um menu vinculado, excluí-lo
+        if ($menu) {
+            $this->Menus->delete($menu);
+            $usuario = $this->Authentication->getIdentity();
+            $usuarioId = $usuario->get('id');
+            $this->request->getSession()->delete('menus.' . $usuarioId);
+        }
+
         if ($this->Customizaveis->delete($customizavel)) {
             $this->Flash->success(__('A tela foi excluída'));
         } else {
