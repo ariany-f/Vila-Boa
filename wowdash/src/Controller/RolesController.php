@@ -119,8 +119,6 @@ class RolesController extends AppController
                 return $value == 1;
             }));
 
-            echo '<pre>';
-            print_r($selectedMenuIds);die;
             // Recupera os menus com base nos IDs
             $menus = $this->Menus->find('all', [
                 'conditions' => ['Menus.id IN' => $selectedMenuIds]
