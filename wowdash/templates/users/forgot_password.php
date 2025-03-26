@@ -10,14 +10,19 @@
                 <h4 class="mb-12">Esqueceu a Senha</h4>
                 <p class="mb-32 text-secondary-light text-lg">Digite o e-mail de autenticação e vamos te enviar um e-mail de recuperação de conta.</p>
             </div>
-            <form action="#">
-                <div class="icon-field">
-                    <span class="icon top-50 translate-middle-y">
-                        <iconify-icon icon="mage:email"></iconify-icon>
-                    </span>
-                    <input type="email" class="form-control h-56-px bg-neutral-50 radius-12" placeholder="Digite o email">
+            <form class="needs-validation" id="forgot-password-form" action="#" novalidate>
+                <div class="col-md-12">
+                    <div class="icon-field has-validation">
+                        <span class="icon">
+                            <iconify-icon icon="mage:email"></iconify-icon>
+                        </span>
+                        <input type="email" name="email" class="form-control" placeholder="Email" required>
+                        <div class="invalid-feedback">
+                            Preencha email
+                        </div>
+                    </div>
                 </div>
-                <button type="button" class="btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32" data-bs-toggle="modal" data-bs-target="#exampleModal">Continue</button>
+                <button type="submit" class="btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32">Continue</button>
 
                 <div class="text-center">
                     <a href="<?= $this->Url->build(['_name' => 'signin']) ?>" class="text-primary-600 fw-bold mt-24">Voltar ao Login</a>
@@ -28,7 +33,7 @@
 </section>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="sendModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog modal-dialog-centered">
         <div class="modal-content radius-16 bg-base">
             <div class="modal-body p-40 text-center">
@@ -46,3 +51,31 @@
     </div>
 </div>
 
+<?php $this->start('script'); ?>    
+<script>
+    (() => {
+        'use strict'
+
+        // Fetch the form and button
+        const forms = document.querySelectorAll('.needs-validation');
+        const modal = new bootstrap.Modal(document.getElementById('sendModal'));
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                else
+                {
+                    event.preventDefault()
+                    event.stopPropagation()
+                    modal.show();
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
+<?php $this->end(); ?>
