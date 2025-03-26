@@ -11,7 +11,15 @@
     </div>
     <div class="sidebar-menu-area">
         <ul class="sidebar-menu" id="sidebar-menu">
-        <?php foreach ($menus as $menu): ?>
+            <?php foreach ($menus as $menu): ?>
+                <?php 
+                    // Verifica se o menu não tem filhos e o URL é '#', e o omite nesse caso
+                    if (!$menu->has('child_menus') || empty($menu->child_menus)) {
+                        if ($menu->url === '#') {
+                            continue; // Pula esse menu
+                        }
+                    }
+                ?>
                 <li class="<?= ($menu->has('child_menus') && !empty($menu->child_menus)) ? 'dropdown' : '' ?>" data-menu-id="<?= h($menu->id) ?>">
                     <a href="<?= ($menu->has('child_menus') && !empty($menu->child_menus)) ? 'javascript:void(0)' : $this->Url->build($menu->url) ?>">
                         <?php if ($menu->icon): ?>

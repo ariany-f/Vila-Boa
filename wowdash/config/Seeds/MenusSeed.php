@@ -28,7 +28,7 @@ class MenusSeed extends AbstractSeed
             ['id' => 9, 'name' => 'Poda', 'url' => '/mapas/poda', 'parent_id' => 6, 'position' => 3, 'icon' => null, 'allow_delete' => false, 'created' => $now, 'modified' => $now],
 
             // Programação
-            ['id' => 10, 'name' => 'Programação', 'url' => '/programacao', 'parent_id' => null, 'position' => 4, 'icon' => 'calendar', 'allow_delete' => false, 'created' => $now, 'modified' => $now],
+            ['id' => 10, 'name' => 'Programação', 'url' => '#', 'parent_id' => null, 'position' => 4, 'icon' => 'calendar', 'allow_delete' => false, 'created' => $now, 'modified' => $now],
             ['id' => 11, 'name' => 'Diversos', 'url' => '/programacao/diversos', 'parent_id' => 10, 'position' => 1, 'icon' => null, 'allow_delete' => false, 'created' => $now, 'modified' => $now],
             ['id' => 12, 'name' => 'Roçada', 'url' => '/programacao/rocada', 'parent_id' => 10, 'position' => 2, 'icon' => null, 'allow_delete' => false, 'created' => $now, 'modified' => $now],
 

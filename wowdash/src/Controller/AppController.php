@@ -8,6 +8,8 @@ use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Authenticator\FormAuthenticator;
 use Cake\Http\Session;
+use Cake\Utility\Hash;
+
 
 /**
  * Application Controller
@@ -74,10 +76,27 @@ class AppController extends Controller
                         ->matching('Roles', function ($q) use ($roleIds) {
                             return $q->where(['Roles.id IN' => $roleIds]);
                         })
-                        ->contain(['ChildMenus'])
+                        ->contain(['ChildMenus' => function ($q) {
+                            return $q->contain(['Roles']); // Inclui a relação com Roles para as ChildMenus
+                        }])
                         ->where(['Menus.parent_id IS' => null])
                         ->order(['Menus.position' => 'ASC'])
                         ->all();
+                        
+                         // Filtrar os menus filhos, garantindo que só serão exibidos aqueles que possuem roles associadas
+                        foreach ($menus as $menu) {
+                            // Verificar se o menu tem filhos
+                            if (!empty($menu->child_menus)) {
+                                // Filtra os filhos que têm pelo menos um role associado
+                                $menu->child_menus = array_filter($menu->child_menus, function ($child) use ($roleIds) {
+                                    // Verifique se $child->roles não é null e é um array
+                                    if (!empty($child->roles) && is_array($child->roles)) {
+                                        return !empty(array_intersect($roleIds, Hash::extract($child->roles, '{n}.id')));
+                                    }
+                                    return false; // Caso $child->roles seja null ou não seja um array, filtra o item
+                                });
+                            }
+                        }
                 }
                 else
                 {

@@ -54,7 +54,7 @@ use Cake\Utility\Hash;
                                 echo '<div class="form-switch switch-primary d-flex align-items-center gap-3">';
                                 echo $this->Form->control("menus._ids.{$men['id']}", [
                                     'type' => 'checkbox',
-                                    'class' => 'form-check-input',
+                                    'class' => 'form-check-input menu-parent',
                                     'checked' => $checked,
                                     'label' => $men['name'],
                                     'escape' => false
@@ -68,7 +68,7 @@ use Cake\Utility\Hash;
                                         echo '<div class="form-switch switch-primary d-flex align-items-center gap-3">';
                                         echo $this->Form->control("menus._ids.{$child['id']}", [
                                             'type' => 'checkbox',
-                                            'class' => 'form-check-input',
+                                            'class' => 'form-check-input menu-child',
                                             'checked' => $checked,
                                             'label' => $child['name'],
                                             'escape' => false
@@ -93,3 +93,20 @@ use Cake\Utility\Hash;
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuParents = document.querySelectorAll('.menu-parent');
+        const menuChildren = document.querySelectorAll('.menu-child');
+
+        // Quando um menu filho for marcado, o menu pai também será marcado
+        menuChildren.forEach(child => {
+            child.addEventListener('change', function () {
+                const parentId = this.closest('.menu-group').querySelector('.menu-parent');
+                if (parentId) {
+                    parentId.checked = true;  // Marcar o menu pai
+                }
+            });
+        });
+    });
+</script>
