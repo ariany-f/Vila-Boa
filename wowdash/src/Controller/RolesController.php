@@ -106,18 +106,21 @@ class RolesController extends AppController
         $this->set('subTitle', 'Editar');
 
         $role = $this->Roles->get($id, contain: ['Menus']);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             // Obtém os dados do formulário
             $role = $this->Roles->patchEntity($role, $this->request->getData());
 
             // Extraímos os menus selecionados (IDs dos menus marcados nos checkboxes)
             $menuIds = $this->request->getData('menus._ids') ?: [];             
-                        
+           
             // Filtra os IDs onde o valor é 1 (menus selecionados)
             $selectedMenuIds = array_keys(array_filter($menuIds, function($value) {
                 return $value == 1;
             }));
 
+            echo '<pre>';
+            print_r($selectedMenuIds);die;
             // Recupera os menus com base nos IDs
             $menus = $this->Menus->find('all', [
                 'conditions' => ['Menus.id IN' => $selectedMenuIds]
