@@ -145,7 +145,7 @@ class UsersController extends AppController
             }
         
             // Caso contrário, exibe a mensagem de erro
-            $this->Flash->error('Invalid username or password');
+            $this->Flash->error('Senha ou usuário inválido');
         }
     }
 

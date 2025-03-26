@@ -32,7 +32,7 @@ class AuthenticationController extends AppController
             return $this->redirect($target);
         }
         if ($this->request->is('post')) {
-            $this->Flash->error('Invalid username or password');
+            $this->Flash->error('Senha ou usuário inválido');
         }
     }
 

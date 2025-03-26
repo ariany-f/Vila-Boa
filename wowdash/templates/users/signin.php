@@ -14,20 +14,28 @@
                 <h4 class="mb-12">Entrar</h4>
                 <p class="mb-32 text-secondary-light text-lg">Bem vindo(a) de volta! Preencha os dados para entrar.</p>
             </div>
-            <form action="<?= $this->Url->build(['controller' => 'Users', 'action' => 'signin']) ?>" method="post">
+            <form class="needs-validation row gy-3 " action="<?= $this->Url->build(['controller' => 'Users', 'action' => 'signin']) ?>" method="post" novalidate>
                 <input type="hidden" name="_csrfToken" value="<?= $this->request->getAttribute('csrfToken'); ?>">
-                <div class="icon-field mb-16">
-                    <span class="icon top-50 translate-middle-y">
-                        <iconify-icon icon="mage:email"></iconify-icon>
-                    </span>
-                    <input type="email" name="email" class="form-control h-56-px bg-neutral-50 radius-12" placeholder="Email">
+                <div class="col-md-12">
+                    <div class="icon-field has-validation">
+                        <span class="icon">
+                            <iconify-icon icon="mage:email"></iconify-icon>
+                        </span>
+                        <input type="email" name="email" class="form-control" placeholder="Email" required>
+                        <div class="invalid-feedback">
+                            Preencha email
+                        </div>
+                    </div>
                 </div>
                 <div class="position-relative mb-20">
-                    <div class="icon-field">
-                        <span class="icon top-50 translate-middle-y">
+                    <div class="icon-field has-validation">
+                        <span class="icon">
                             <iconify-icon icon="solar:lock-password-outline"></iconify-icon>
                         </span>
-                        <input type="password" name="password" class="form-control h-56-px bg-neutral-50 radius-12" id="your-password" placeholder="Password">
+                        <input type="password" name="password" class="form-control" required>
+                        <div class="invalid-feedback">
+                            Preencha senha
+                        </div>
                     </div>
                     <span class="toggle-password ri-eye-line cursor-pointer position-absolute end-0 top-50 translate-middle-y me-16 text-secondary-light" data-toggle="#your-password"></span>
                 </div>
@@ -54,6 +62,23 @@
 
 <?php $this->start('script'); ?>    
 <script>
+(() => {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
     // ================== Password Show Hide Js Start ==========
     function initializePasswordToggle(toggleSelector) {
         $(toggleSelector).on('click', function() {
