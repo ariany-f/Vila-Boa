@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.addEventListener("click", function(e) {
       let linkElement = e.target.closest("a");
       
-      if (linkElement && linkElement.href) {
+      if (linkElement && linkElement.href && linkElement.href !== '#' && !linkElement.href.endsWith('#')) {
           let link = linkElement.href;
 
           if (link && !link.startsWith("#") && !link.startsWith("javascript")) {

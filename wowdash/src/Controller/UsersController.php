@@ -14,7 +14,7 @@ class UsersController extends AppController
     {
         parent::beforeFilter($event);
         
-        $this->Authentication->allowUnauthenticated(['signin', 'signup']);
+        $this->Authentication->allowUnauthenticated(['signin', 'signup', 'forgotPassword']);
     }
 
     public function add()

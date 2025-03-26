@@ -37,15 +37,15 @@
                             <input class="form-check-input border border-neutral-300" type="checkbox" value="" id="remeber">
                             <label class="form-check-label" for="remeber">Lembrar-me </label>
                         </div>
-                        <a href="javascript:void(0)" class="text-primary-600 fw-medium">Esqueceu a Senha?</a>
+                        <a href="<?= $this->Url->build(['_name' => 'forgotPassword']) ?>" class="text-primary-600 fw-medium">Esqueceu a Senha?</a>
                     </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32"> Entrar</button>
-
+<!-- 
                 <div class="mt-32 text-center text-sm">
                     <p class="mb-0">Não tem conta? <a href="<?= $this->Url->build(['_name' => 'signup']) ?>" class="text-primary-600 fw-semibold">Cadastrar</a></p>
-                </div>
+                </div> -->
             </form>
             <?= $this->Flash->render() ?>
         </div>

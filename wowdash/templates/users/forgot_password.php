@@ -7,24 +7,20 @@
     <div class="auth-right py-32 px-24 d-flex flex-column justify-content-center">
         <div class="max-w-464-px mx-auto w-100">
             <div>
-                <h4 class="mb-12">Forgot Password</h4>
-                <p class="mb-32 text-secondary-light text-lg">Enter the email address associated with your account and we will send you a link to reset your password.</p>
+                <h4 class="mb-12">Esqueceu a Senha</h4>
+                <p class="mb-32 text-secondary-light text-lg">Digite o e-mail de autenticação e vamos te enviar um e-mail de recuperação de conta.</p>
             </div>
             <form action="#">
                 <div class="icon-field">
                     <span class="icon top-50 translate-middle-y">
                         <iconify-icon icon="mage:email"></iconify-icon>
                     </span>
-                    <input type="email" class="form-control h-56-px bg-neutral-50 radius-12" placeholder="Enter Email">
+                    <input type="email" class="form-control h-56-px bg-neutral-50 radius-12" placeholder="Seu e-mail">
                 </div>
                 <button type="button" class="btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32" data-bs-toggle="modal" data-bs-target="#exampleModal">Continue</button>
 
                 <div class="text-center">
-                    <a href="<?= $this->Url->build(['_name' => 'signin']) ?>" class="text-primary-600 fw-bold mt-24">Back to Sign In</a>
-                </div>
-
-                <div class="mt-120 text-center text-sm">
-                    <p class="mb-0">Already have an account? <a href="<?= $this->Url->build(['_name' => 'signin']) ?>" class="text-primary-600 fw-semibold">Sign In</a></p>
+                    <a href="<?= $this->Url->build(['_name' => 'signin']) ?>" class="text-primary-600 fw-bold mt-24">Voltar ao Login</a>
                 </div>
             </form>
         </div>
@@ -39,11 +35,11 @@
                 <div class="mb-32">
                     <img src="<?= $this->Url->assetUrl('assets/images/auth/envelop-icon.png') ?>" alt="">
                 </div>
-                <h6 class="mb-12">Verify your Email</h6>
-                <p class="text-secondary-light text-sm mb-0">Thank you, check your email for instructions to reset your password</p>
-                <button type="button" class="btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32">Skip</button>
+                <h6 class="mb-12">Verifique seu e-mail</h6>
+                <p class="text-secondary-light text-sm mb-0">Obrigado, verifique seu e-mail para obter instruções sobre como redefinir sua senha</p>
+                <button type="button" class="btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32">Pular</button>
                 <div class="mt-32 text-sm">
-                    <p class="mb-0">Don’t receive an email? <a href="#" class="text-primary-600 fw-semibold">Resend</a></p>
+                    <p class="mb-0">Não recebeu nenhum email? <a href="#" class="text-primary-600 fw-semibold">Reenviar</a></p>
                 </div>
             </div>
         </div>
