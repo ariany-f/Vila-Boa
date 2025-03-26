@@ -114,6 +114,8 @@ class RolesController extends AppController
             // Extraímos os menus selecionados (IDs dos menus marcados nos checkboxes)
             $menuIds = $this->request->getData('menus._ids') ?: [];             
            
+            echo '<pre>';
+            print_r($menuIds);die;
             // Filtra os IDs onde o valor é 1 (menus selecionados)
             $selectedMenuIds = array_keys(array_filter($menuIds, function($value) {
                 return $value == 1;
