@@ -8,7 +8,7 @@
 <?= $this->Form->create($form, [
     'class' => 'row gy-3 needs-validation mb-28',
     'method' => 'post',
-    'action' => '/requisicoes/diversos',
+    'action' => 'diversos',
     'novalidate' => 'novalidate'
 ]) ?>
 <div class="col-lg-12">
@@ -20,65 +20,53 @@
             <div class="card-body col-md-12 d-flex align-items-between">
                 <div class="col-md-6">
                     <label class="form-label">Selecionar Serviços</label>
-                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-28">
-                        <div class="col-md-12">
-                            <div class="form-switch switch-primary d-flex align-items-center gap-3">
-                                <?= $this->Form->control('capina', [
-                                    'type' => 'checkbox',
-                                    'class' => 'form-check-input',
-                                    'label' => 'Capina de Guia, Sarjeta e Passeio',
-                                    'escape' => false
-                                ]) ?>
+                    <div class="col-md-12 gy-2 pe-24">
+                        
+                        <div class="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">
+                            <label for="capina" class="position-absolute w-100 h-100 start-0 top-0"></label>
+                            <div class="d-flex align-items-center gap-3 justify-content-between">
+                                <span class="form-check-label line-height-1 fw-medium text-secondary-light">Capina de Guia, Sarjeta e Passeio</span>
+                                <input name="capina" class="form-check-input" type="checkbox" role="switch" id="capina">
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-switch switch-primary d-flex align-items-center gap-3">
-                                <?= $this->Form->control('rocada', [
-                                    'type' => 'checkbox',
-                                    'class' => 'form-check-input',
-                                    'label' => 'Roçada Canteiro/Ilhas',
-                                    'escape' => false
-                                ]) ?>
+                    
+                        <div class="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">
+                            <label for="limpeza" class="position-absolute w-100 h-100 start-0 top-0"></label>
+                            <div class="d-flex align-items-center gap-3 justify-content-between">
+                                <span class="form-check-label line-height-1 fw-medium text-secondary-light">Limpeza Geral, Varrição, Raspagem de Terra</span>
+                                <input name="limpeza" class="form-check-input" type="checkbox" role="switch" id="limpeza">
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-switch switch-primary d-flex align-items-center gap-3">
-                                <?= $this->Form->control('pinturaGuiaPoste', [
-                                    'type' => 'checkbox',
-                                    'class' => 'form-check-input',
-                                    'label' => 'Pintura de Guias e Postes',
-                                    'escape' => false
-                                ]) ?>
+                    
+                        <div class="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">
+                            <label for="outros" class="position-absolute w-100 h-100 start-0 top-0"></label>
+                            <div class="d-flex align-items-center gap-3 justify-content-between">
+                                <span class="form-check-label line-height-1 fw-medium text-secondary-light">Outros Serviços</span>
+                                <input name="outros" class="form-check-input" type="checkbox" role="switch" id="outros">
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-switch switch-primary d-flex align-items-center gap-3">
-                                <?= $this->Form->control('pinturaMuretaCordao', [
-                                    'type' => 'checkbox',
-                                    'class' => 'form-check-input',
-                                    'label' => 'Pintura de Mureta e Cordões de Praças',
-                                    'escape' => false
-                                ]) ?>
+                    
+                        <div class="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">
+                            <label for="pinturaMuretaCordao" class="position-absolute w-100 h-100 start-0 top-0"></label>
+                            <div class="d-flex align-items-center gap-3 justify-content-between">
+                                <span class="form-check-label line-height-1 fw-medium text-secondary-light">Pintura de Mureta e Cordões de Praças</span>
+                                <input name="pinturaMuretaCordao" class="form-check-input" type="checkbox" role="switch" id="pinturaMuretaCordao">
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-switch switch-primary d-flex align-items-center gap-3">
-                                <?= $this->Form->control('limpeza', [
-                                    'type' => 'checkbox',
-                                    'class' => 'form-check-input',
-                                    'label' => 'Limpeza Geral, Varrição, Raspagem de Terra',
-                                    'escape' => false
-                                ]) ?>
+                    
+                        <div class="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">
+                            <label for="pinturaGuiaPoste" class="position-absolute w-100 h-100 start-0 top-0"></label>
+                            <div class="d-flex align-items-center gap-3 justify-content-between">
+                                <span class="form-check-label line-height-1 fw-medium text-secondary-light">Pintura de Guias e Postes</span>
+                                <input name="pinturaGuiaPoste" class="form-check-input" type="checkbox" role="switch" id="pinturaGuiaPoste">
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-switch switch-primary d-flex align-items-center gap-3">
-                                <?= $this->Form->control('outros', [
-                                    'type' => 'checkbox',
-                                    'class' => 'form-check-input',
-                                    'label' => 'Outros Serviços',
-                                    'escape' => false
-                                ]) ?>
+                    
+                        <div class="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">
+                            <label for="rocada" class="position-absolute w-100 h-100 start-0 top-0"></label>
+                            <div class="d-flex align-items-center gap-3 justify-content-between">
+                                <span class="form-check-label line-height-1 fw-medium text-secondary-light">Roçada Canteiro/Ilhas</span>
+                                <input name="rocada" class="form-check-input" type="checkbox" role="switch" id="rocada">
                             </div>
                         </div>
                     </div>
@@ -94,6 +82,7 @@
                                     '0' => 'Não'
                                 ],
                                 'class' => 'form-check-input',
+                                'default' => '0',
                                 'label' => false,
                                 'templates' => [
                                     'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label> '
@@ -111,6 +100,7 @@
                                     'Normal' => 'Normal'
                                 ],
                                 'class' => 'form-check-input',
+                                'default' => 'Urgente',
                                 'label' => false,
                                 'templates' => [
                                     'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label> '

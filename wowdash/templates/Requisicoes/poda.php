@@ -9,7 +9,7 @@
     'class' => 'row gy-3 needs-validation mb-28',
     'novalidate' => true,
     'type' => 'post',
-    'url' => ['action' => '/requisicoes/poda']
+    'url' => ['action' => 'poda']
 ]) ?>
 <div class="col-lg-12">
     <div class="card">
@@ -52,6 +52,7 @@
                                         'emergencia-1' => 'Emergência / Risco de Queda / Queda de Árvore'
                                     ],
                                     'label' => false,
+                                    'default' => 'emergencia-1',
                                     'templates' => [
                                         'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label>'
                                     ],
@@ -82,6 +83,7 @@
                                         'municipio' => 'Atendimento ao Município'
                                     ],
                                     'label' => false,
+                                    'default' => 'garagem',
                                     'templates' => [
                                         'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></br>'
                                     ],
@@ -112,6 +114,7 @@
                                         'municipio' => 'Atendimento ao Município'
                                     ],
                                     'label' => false,
+                                    'default' => 'garagem',
                                     'templates' => [
                                         'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></br>'
                                     ],
@@ -142,6 +145,7 @@
                                         'municipio' => 'Atendimento ao Município'
                                     ],
                                     'label' => false,
+                                    'default' => 'garagem',
                                     'templates' => [
                                         'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></br>'
                                     ],
@@ -172,6 +176,7 @@
                                         'municipio' => 'Atendimento ao Município'
                                     ],
                                     'label' => false,
+                                    'default' => 'garagem',
                                     'templates' => [
                                         'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></br>'
                                     ],
@@ -255,6 +260,7 @@
                                         'municipio' => 'Atendimento ao Município'
                                     ],
                                     'label' => false,
+                                    'default' => 'garagem',
                                     'templates' => [
                                         'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></br>'
                                     ],
@@ -339,6 +345,7 @@
                                         'municipio' => 'Atendimento ao Município'
                                     ],
                                     'label' => false,
+                                    'default' => 'garagem',
                                     'templates' => [
                                         'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></br>'
                                     ],

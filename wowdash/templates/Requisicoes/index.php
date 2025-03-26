@@ -16,6 +16,8 @@
                             </div>
                         </th>
                         <th scope="col">Payload</th>
+                        <th scope="col">Usuário</th>
+                        <th scope="col">Origem</th>
                         <th scope="col">Status</th>
                         <th scope="col">Data de Criação</th>
                     </tr>
@@ -28,7 +30,9 @@
                                     <?= h($log->id) ?>
                                 </div>
                             </td>
-                            <td><p alt="<?= h($log->payload) ?>" class="max-w-500-px max-h-100-px text-line-3"><?= h($log->payload) ?></p></td>
+                            <td><p alt="<?= h($log->payload) ?>" class="max-w-440-px max-h-100-px text-line-3"><?= h($log->payload) ?></p></td>
+                            <td><?= h($log->user->name) ?></td>
+                            <td><?= h($log->origem) ?></td>
                             <td><span class="bg-<?= h($log->status) == 'sucesso' ? 'success' : 'danger' ?>-focus text-<?= h($log->status) == 'sucesso' ? 'success' : 'danger' ?>-main px-24 py-4 rounded-pill fw-medium text-sm"><?= h($log->status) ?></span></td>
                             <td><?= h($log->created->format('d/m/Y H:i')) ?></td>
                         </tr>

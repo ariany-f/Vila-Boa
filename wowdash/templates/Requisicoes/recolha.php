@@ -9,7 +9,7 @@
     'class' => 'row gy-3 needs-validation mb-28',
     'novalidate' => true,
     'type' => 'post',
-    'url' => ['action' => '/requisicoes/recolha']
+    'url' => ['action' => 'recolha']
 ]) ?>
 <div class="col-lg-12">
     <div class="card">

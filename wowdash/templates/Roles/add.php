@@ -12,8 +12,12 @@ use Cake\Utility\Hash;
         <div class="card position-relative border radius-16 overflow-hidden bg-base h-100">
             <div class="card-header">
                 <div class="d-flex flex-wrap align-items-center justify-content-start gap-2">
-                    <div class="side-nav">
-                        <?= $this->Html->link(__('Voltar para Permissões'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
+                    <div class="side-nav d-flex">
+                        <?= $this->Html->link(
+                            '<iconify-icon icon="mingcute:arrow-left-line" class="icon fs-3 line-height-1"></iconify-icon> Voltar para Permissões',
+                            ['action' => 'index'],
+                            ['class' => 'side-nav-item d-flex align-items-center', 'escape' => false]
+                        ) ?>
                     </div>
                 </div>
             </div>

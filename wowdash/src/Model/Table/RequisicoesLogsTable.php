@@ -11,6 +11,8 @@ use Cake\Validation\Validator;
 /**
  * RequisicoesLogs Model
  *
+ * @property \Cake\ORM\Association\BelongsTo $Users
+ *
  * @method \App\Model\Entity\RequisicoesLog newEmptyEntity()
  * @method \App\Model\Entity\RequisicoesLog newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\RequisicoesLog> newEntities(array $data, array $options = [])
@@ -44,6 +46,12 @@ class RequisicoesLogsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+
+        // Adiciona associação com a tabela Users
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id',
+            'joinType' => 'LEFT',
+        ]);
     }
 
     /**
@@ -66,5 +74,22 @@ class RequisicoesLogsTable extends Table
             ->notEmptyString('status');
 
         return $validator;
+    }
+
+    /**
+     * Rules checker for application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules Rules instance.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        // Garante que user_id referencie um usuário válido na tabela users
+        $rules->add($rules->existsIn('user_id', 'Users'), 'validUser', [
+            'errorField' => 'user_id',
+            'message' => 'O usuário associado não existe.',
+        ]);
+
+        return $rules;
     }
 }

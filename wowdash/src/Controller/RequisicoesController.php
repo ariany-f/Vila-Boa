@@ -27,11 +27,12 @@ class RequisicoesController extends AppController
      */
     public function index()
     {
-        $this->set('title', 'Requisição');
+        $this->set('title', 'Requisições');
         $this->set('subTitle', 'Logs');
         
-        $query = $this->RequisicoesLogs->find();
-        $requisicoesLogs = $this->paginate($query);
+        $requisicoesLogs = $this->RequisicoesLogs->find()->contain(['Users'])->all();
+        // echo '<pre>';
+        // print_r($requisicoesLogs);die;
 
         $this->set(compact('requisicoesLogs'));
     }
@@ -88,7 +89,8 @@ class RequisicoesController extends AppController
             $formData = ['payload' => html_entity_decode($xmlData), 'status' => ($result ? 'sucesso' : 'falha')]; // Defina o campo 'payload' com a string XML gerada
             
             $form = $this->RequisicoesLogs->patchEntity($form, $formData);
-            
+            $form->user_id = $this->Authentication->getIdentity()->id;
+            $form->origem = 'diversos';
             if ($this->RequisicoesLogs->save($form)) {
                 $this->Flash->success('Formulário salvo com sucesso.');
                 return $this->redirect(['action' => 'index']);
@@ -129,6 +131,8 @@ class RequisicoesController extends AppController
             $formData = ['payload' => html_entity_decode($xmlData), 'status' => ($result ? 'sucesso' : 'falha')]; // Defina o campo 'payload' com a string XML gerada
             
             $form = $this->RequisicoesLogs->patchEntity($form, $formData);
+            $form->user_id = $this->Authentication->getIdentity()->id;
+            $form->origem = 'poda';
             
             if ($this->RequisicoesLogs->save($form)) {
                 $this->Flash->success('Formulário salvo com sucesso.');
@@ -170,6 +174,8 @@ class RequisicoesController extends AppController
             $formData = ['payload' => html_entity_decode($xmlData), 'status' => ($result ? 'sucesso' : 'falha')]; // Defina o campo 'payload' com a string XML gerada
             
             $form = $this->RequisicoesLogs->patchEntity($form, $formData);
+            $form->user_id = $this->Authentication->getIdentity()->id;
+            $form->origem = 'recolha';
             
             if ($this->RequisicoesLogs->save($form)) {
                 $this->Flash->success('Formulário salvo com sucesso.');
