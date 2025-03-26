@@ -15,7 +15,7 @@
                     <span class="icon top-50 translate-middle-y">
                         <iconify-icon icon="mage:email"></iconify-icon>
                     </span>
-                    <input type="email" class="form-control h-56-px bg-neutral-50 radius-12" placeholder="Seu e-mail">
+                    <input type="email" class="form-control h-56-px bg-neutral-50 radius-12" placeholder="Digite o email">
                 </div>
                 <button type="button" class="btn btn-primary text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32" data-bs-toggle="modal" data-bs-target="#exampleModal">Continue</button>
 
