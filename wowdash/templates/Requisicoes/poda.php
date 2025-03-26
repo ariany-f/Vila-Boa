@@ -385,8 +385,7 @@
                                 'Liberacao de Via' => 'Liberação de Via Pública'
                             ],
                             'class' => 'form-control',
-                            'empty' => ' ',
-                            'required' => true
+                            'empty' => ' '
                         ]) ?>
                     </div>
                     <div class="col-md-3">
@@ -418,6 +417,7 @@
                         <?= $this->Form->control('cep', [
                             'type' => 'text',
                             'label' => false,
+                            'required' => true,
                             'class' => 'form-control',
                             'id' => 'cep'
                         ]) ?>
@@ -426,6 +426,7 @@
                         <label class="form-label">Logradouro</label>
                         <?= $this->Form->control('logradouro', [
                             'type' => 'text',
+                            'required' => true,
                             'label' => false,
                             'class' => 'form-control',
                             'id' => 'logradouro'
@@ -436,6 +437,7 @@
                         <?= $this->Form->control('numero', [
                             'type' => 'text',
                             'label' => false,
+                            'required' => true,
                             'class' => 'form-control'
                         ]) ?>
                     </div>
@@ -443,6 +445,7 @@
                         <label class="form-label">Sub Bairro:</label>
                         <?= $this->Form->control('subbairro', [
                             'type' => 'text',
+                            'required' => true,
                             'label' => false,
                             'class' => 'form-control',
                             'id' => 'subbairro'
@@ -463,6 +466,7 @@
                         <label class="form-label">Imagem do Local </label>
                         <?= $this->Form->control('imagem_local', [
                             'type' => 'file',
+                            'required' => true,
                             'label' => false,
                             'class' => 'form-control form-control-sm'
                         ]) ?>
@@ -575,6 +579,23 @@
             $("#numero-solicitacao-emergencia").val(emergencyNumber).change();
         }
     });
+    (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
 </script>
 <?php $this->end(); ?>
 <?= $this->Flash->render() ?>

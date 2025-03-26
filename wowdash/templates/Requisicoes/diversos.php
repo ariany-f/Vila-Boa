@@ -84,6 +84,7 @@
                                 'class' => 'form-check-input',
                                 'default' => '0',
                                 'label' => false,
+                                'required' => true,
                                 'templates' => [
                                     'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label> '
                                 ]
@@ -102,6 +103,7 @@
                                 'class' => 'form-check-input',
                                 'default' => 'Urgente',
                                 'label' => false,
+                                'required' => true,
                                 'templates' => [
                                     'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label> '
                                 ]
@@ -114,6 +116,7 @@
                             <?= $this->Form->control('previsaoExecucao', [
                                 'type' => 'date',
                                 'label' => false,
+                                'required' => true,
                                 'class' => 'form-control'
                             ]) ?>
                         </div>
@@ -121,6 +124,7 @@
                             <label class="form-label">Hora:</label>
                             <?= $this->Form->control('horaExecucao', [
                                 'type' => 'time',
+                                'required' => true,
                                 'label' => false,
                                 'class' => 'form-control'
                             ]) ?>
@@ -138,6 +142,7 @@
                         <label class="form-label">CEP</label>
                         <?= $this->Form->control('cep', [
                             'label' => false,
+                            'required' => true,
                             'class' => 'form-control'
                         ]) ?>
                     </div>
@@ -145,6 +150,7 @@
                         <label class="form-label">Logradouro</label>
                         <?= $this->Form->control('logradouro', [
                             'label' => false,
+                            'required' => true,
                             'class' => 'form-control'
                         ]) ?>
                     </div>
@@ -152,6 +158,7 @@
                         <label class="form-label">Número</label>
                         <?= $this->Form->control('numero', [
                             'label' => false,
+                            'required' => true,
                             'class' => 'form-control'
                         ]) ?>
                     </div>
@@ -159,6 +166,7 @@
                         <label class="form-label">Sub Bairro:</label>
                         <?= $this->Form->control('subbairro', [
                             'label' => false,
+                            'required' => true,
                             'class' => 'form-control'
                         ]) ?>
                     </div>
@@ -175,6 +183,7 @@
                         <label class="form-label">Imagem do Local </label>
                         <?= $this->Form->control('imagemLocal', [
                             'label' => false,
+                            'required' => true,
                             'type' => 'file',
                             'class' => 'form-control form-control-sm'
                         ]) ?>
@@ -240,6 +249,23 @@
             }
         });
     });
+    (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
 </script>
 <?php $this->end(); ?>
 <?= $this->Flash->render() ?>
