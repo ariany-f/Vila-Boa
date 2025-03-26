@@ -97,7 +97,6 @@
                                 'type' => 'text',
                                 'label' => false,
                                 'class' => 'form-control',
-                                'readonly' => true,
                                 'placeholder' => 'Nº da Solicitação'
                             ]) ?>
                         </div>
@@ -128,7 +127,6 @@
                                 'type' => 'text',
                                 'label' => false,
                                 'class' => 'form-control',
-                                'readonly' => true,
                                 'placeholder' => 'Nº da Solicitação'
                             ]) ?>
                         </div>
@@ -159,7 +157,6 @@
                                 'type' => 'text',
                                 'label' => false,
                                 'class' => 'form-control',
-                                'readonly' => true,
                                 'placeholder' => 'Nº da Solicitação'
                             ]) ?>
                         </div>
@@ -243,7 +240,6 @@
                                 'type' => 'text',
                                 'label' => false,
                                 'class' => 'form-control',
-                                'readonly' => true,
                                 'placeholder' => 'Nº da Solicitação'
                             ]) ?>
                         </div>
@@ -328,7 +324,6 @@
                                 'type' => 'text',
                                 'label' => false,
                                 'class' => 'form-control',
-                                'readonly' => true,
                                 'placeholder' => 'Nº da Solicitação'
                             ]) ?>
                         </div>
@@ -368,7 +363,6 @@
                                 'type' => 'text',
                                 'label' => false,
                                 'class' => 'form-control',
-                                'readonly' => true,
                                 'placeholder' => 'Nº da Solicitação'
                             ]) ?>
                         </div>
@@ -540,7 +534,7 @@
         if (serviceContainer.length) {
             hideAllServiceDivs();
             serviceContainer.children("#servico-emergencia-div").show();
-
+            generateEmergencyNumber();
             // Evento de mudança nos inputs de rádio
             $("input[name='servico']").on("change", function () {
                 hideAllServiceDivs();
@@ -548,17 +542,37 @@
                 let selectedService = $(this).attr("id");
                 let serviceDiv = $("#" + selectedService + "-div");
 
-                console.log(selectedService);
-
                 // Mostra apenas se a div existir dentro do container
                 if (serviceDiv.length) {
                     serviceDiv.show();
+                }
+                
+                // Se for emergência, gera o número da solicitação
+                if (selectedService === 'servico-emergencia') {
+                    generateEmergencyNumber();
+                }
+                else
+                {
+                    $("#numero-solicitacao-emergencia").val('').change();
                 }
             });
 
             function hideAllServiceDivs() {
                 serviceContainer.children("div[id$='-div']").hide();
             }
+        }
+        
+        function generateEmergencyNumber() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            const emergencyNumber = `EM${year}${day}${month}${hours}${minutes}${seconds}`;
+            $("#numero-solicitacao-emergencia").val(emergencyNumber).change();
         }
     });
 </script>
