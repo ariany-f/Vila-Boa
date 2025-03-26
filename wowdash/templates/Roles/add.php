@@ -85,6 +85,7 @@ use Cake\Utility\Hash;
                     </div>
                     <?= $this->Form->end() ?>
                 </div>
+                <?= $this->Flash->render() ?>
             </div>
         </div>
     </div>
