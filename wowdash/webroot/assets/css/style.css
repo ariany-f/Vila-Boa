@@ -155,16 +155,16 @@
   --font-sm: 0.875rem;
   --font-xs: 0.75rem;
   --font-xxs: 0.625rem;
-  --primary-50: #E4F1FF;
-  --primary-100: #BFDCFF;
-  --primary-200: #95C7FF;
-  --primary-300: #6BB1FF;
-  --primary-400: #519FFF;
-  --primary-500: #458EFF;
-  --primary-600: #487FFF;
-  --primary-700: #486CEA;
-  --primary-800: #4759D6;
-  --primary-900: #4536B6;
+  --primary-50: #fef3f4;
+  --primary-100: #fde7ea;
+  --primary-200: #f9c2c9;
+  --primary-300: #f498a3;
+  --primary-400: #e96d7e;
+  --primary-500: #d9475d;
+  --primary-600: #ba2e45;
+  --primary-700: #921d30;
+  --primary-800: #6b121f;
+  --primary-900: #470a13;
   --neutral-50: #F5F6FA;
   --neutral-100: #F3F4F6;
   --neutral-200: #EBECEF;
@@ -8449,6 +8449,19 @@ h6, .h6 {
   border-color: var(--info-pressed) !important;
 }
 
+.border-gradient-tab .nav-link::before {
+  background: linear-gradient(180deg, #f9c2c930 0%, #fef3f40d 100%)!important;
+}
+
+.btn-primary {
+  background-color: var(--primary-600);
+  border-color: var(--primary-600);
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  background-color: var(--primary-700);
+  border-color: var(--primary-700);
+}
+
 /* Pill Btn */
 .btn-primary-50 {
   background-color: var(--primary-50);
@@ -14733,17 +14746,6 @@ td.fc-header-center {
 
 
 /* === auth css start === */
-.auth:hover .auth-logo img.light-logo {
-  display: inline-block;
-}
-
-.auth:hover .auth-logo img.logo-icon {
-  display: none;
-}
-.auth .auth-logo img.light-logo, .auth .auth-logo img.dark-logo {
-  display: none;
-}
-
 .auth .auth-logo img.logo-icon {
   display: inline-block;
 }
@@ -14769,6 +14771,25 @@ td.fc-header-center {
   display: none;
 }
 
+[data-theme=dark] .auth:hover .auth-logo img.light-logo {
+  display: none;
+}
+
+[data-theme=dark] .auth .auth-logo img.dark-logo {
+  display: inline-block;
+}
+
+[data-theme=dark] .auth .auth-logo img.light-logo {
+  display: none;
+}
+
+[data-theme=dark] .auth-logo img.light-logo {
+  display: none;
+}
+
+[data-theme=dark] .auth-logo img.dark-logo {
+  display: inline-block;
+}
 /* === auth css end === */
 
 /* === navbar css end === */
@@ -14950,27 +14971,6 @@ td.fc-header-center {
 
 .sidebar-menu-area::-webkit-scrollbar-thumb {
   background-color: var(--white);
-}
-
-
-[data-theme=dark] .auth:hover .auth-logo img.light-logo {
-  display: none;
-}
-
-[data-theme=dark] .auth:hover .auth-logo img.dark-logo {
-  display: inline-block;
-}
-
-[data-theme=dark] .auth .auth-logo img.light-logo {
-  display: none;
-}
-
-[data-theme=dark] .auth-logo img.light-logo {
-  display: none;
-}
-
-[data-theme=dark] .auth-logo img.dark-logo {
-  display: inline-block;
 }
 
 [data-theme=dark] .sidebar.active:hover .sidebar-logo img.light-logo {

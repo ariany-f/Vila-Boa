@@ -20,7 +20,7 @@
             <div class="card-body col-md-12 d-flex align-items-between">
                 <div class="col-md-6">
                     <label class="form-label">Selecionar Serviços</label>
-                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-28">
+                    <div class="d-flex form-check align-items-center justify-content-between flex-wrap gap-28">
                         <?= $this->Form->control('servico', [
                             'type' => 'radio',
                             'options' => [
@@ -35,7 +35,7 @@
                             'default' => 'emergencia',
                             'label' => false,
                             'templates' => [
-                                'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label><br/>'
+                                'nestingLabel' => '<div class="d-flex justify-content-start align-items-center gap-1">{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></div>'
                             ],
                             'class' => 'form-check-input'
                         ]) ?>
@@ -45,7 +45,7 @@
                     <div class="col-md-12" id="servico-emergencia-div">
                         <div class="row mb-2">
                             <label class="form-label">Tipo Atendimento</label>
-                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-28">
+                            <div class="d-flex form-check align-items-center justify-content-between flex-wrap gap-28">
                                 <?= $this->Form->control('atendimento_emergencia', [
                                     'type' => 'radio',
                                     'options' => [
@@ -54,7 +54,7 @@
                                     'label' => false,
                                     'default' => 'emergencia-1',
                                     'templates' => [
-                                        'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label>'
+                                        'nestingLabel' => '<div class="d-flex justify-content-start align-items-center gap-1">{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></div>'
                                     ],
                                     'class' => 'form-check-input'
                                 ]) ?>
@@ -75,7 +75,7 @@
                     <div class="col-md-12" id="servico-sbc-div">
                         <div class="row mb-2">
                             <label class="form-label">Tipo Atendimento</label>
-                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-28">
+                            <div class="d-flex form-check align-items-center justify-content-between flex-wrap gap-28">
                                 <?= $this->Form->control('atendimento_sbc', [
                                     'type' => 'radio',
                                     'options' => [
@@ -85,7 +85,7 @@
                                     'label' => false,
                                     'default' => 'garagem',
                                     'templates' => [
-                                        'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></br>'
+                                        'nestingLabel' => '<div class="d-flex justify-content-start align-items-center gap-1">{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></div>'
                                     ],
                                     'class' => 'form-check-input'
                                 ]) ?>
@@ -105,7 +105,7 @@
                     <div class="col-md-12" id="servico-memorando-div">
                         <div class="row mb-2">
                             <label class="form-label">Tipo Atendimento</label>
-                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-28">
+                            <div class="d-flex form-check align-items-center justify-content-between flex-wrap gap-28">
                                 <?= $this->Form->control('atendimento_memorando', [
                                     'type' => 'radio',
                                     'options' => [
@@ -115,7 +115,7 @@
                                     'label' => false,
                                     'default' => 'garagem',
                                     'templates' => [
-                                        'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></br>'
+                                        'nestingLabel' => '<div class="d-flex justify-content-start align-items-center gap-1">{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></div>'
                                     ],
                                     'class' => 'form-check-input'
                                 ]) ?>
@@ -135,7 +135,7 @@
                     <div class="col-md-12" id="servico-vcsbc-div">
                         <div class="row mb-2">
                             <label class="form-label">Tipo Atendimento</label>
-                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-28">
+                            <div class="d-flex form-check align-items-center justify-content-between flex-wrap gap-28">
                                 <?= $this->Form->control('atendimento_vcsbc', [
                                     'type' => 'radio',
                                     'options' => [
@@ -145,7 +145,7 @@
                                     'label' => false,
                                     'default' => 'garagem',
                                     'templates' => [
-                                        'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></br>'
+                                        'nestingLabel' => '<div class="d-flex justify-content-start align-items-center gap-1">{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></div>'
                                     ],
                                     'class' => 'form-check-input'
                                 ]) ?>
@@ -165,7 +165,7 @@
                     <div class="col-md-12" id="servico-legislativo-div">
                         <div class="row mb-2">
                             <label class="form-label">Tipo Atendimento</label>
-                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-28">
+                            <div class="d-flex form-check align-items-center justify-content-between flex-wrap gap-28">
                                 <?= $this->Form->control('atendimento_legislativo', [
                                     'type' => 'radio',
                                     'options' => [
@@ -175,7 +175,7 @@
                                     'label' => false,
                                     'default' => 'garagem',
                                     'templates' => [
-                                        'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></br>'
+                                        'nestingLabel' => '<div class="d-flex justify-content-start align-items-center gap-1">{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></div>'
                                     ],
                                     'class' => 'form-check-input'
                                 ]) ?>
@@ -248,7 +248,7 @@
                     <div class="col-md-12" id="servico-interna-div">
                         <div class="row mb-2">
                             <label class="form-label">Tipo Atendimento</label>
-                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-28">
+                            <div class="d-flex form-check align-items-center justify-content-between flex-wrap gap-28">
                                 <?= $this->Form->control('atendimento_interna', [
                                     'type' => 'radio',
                                     'options' => [
@@ -258,7 +258,7 @@
                                     'label' => false,
                                     'default' => 'garagem',
                                     'templates' => [
-                                        'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></br>'
+                                        'nestingLabel' => '<div class="d-flex justify-content-start align-items-center gap-1">{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></div>'
                                     ],
                                     'class' => 'form-check-input'
                                 ]) ?>
@@ -332,7 +332,7 @@
                     <div class="col-md-12" id="servico-vila-boa-div">
                         <div class="row mb-2">
                             <label class="form-label">Tipo Atendimento</label>
-                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-28">
+                            <div class="d-flex form-check align-items-center justify-content-between flex-wrap gap-28">
                                 <?= $this->Form->control('atendimento_vila_boa', [
                                     'type' => 'radio',
                                     'options' => [
@@ -342,7 +342,7 @@
                                     'label' => false,
                                     'default' => 'garagem',
                                     'templates' => [
-                                        'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></br>'
+                                        'nestingLabel' => '<div class="d-flex justify-content-start align-items-center gap-1">{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></div>'
                                     ],
                                     'class' => 'form-check-input'
                                 ]) ?>

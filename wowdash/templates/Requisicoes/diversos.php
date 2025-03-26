@@ -74,7 +74,7 @@
                 <div class="col-md-6 d-flex align-items-center justify-content-between flex-wrap">
                     <div class="col-md-12">
                         <label class="form-label">Caminhão a Disposição</label>
-                        <div class="d-flex align-items-center flex-wrap gap-28">
+                        <div class="d-flex form-check align-items-center flex-wrap gap-28">
                             <?= $this->Form->control('caminhaoDisposicao', [
                                 'type' => 'radio',
                                 'options' => [
@@ -86,14 +86,14 @@
                                 'label' => false,
                                 'required' => true,
                                 'templates' => [
-                                    'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label> '
+                                    'nestingLabel' => '<div class="d-flex justify-content-center align-items-center gap-1">{{hidden}}{{input}}  <label{{attrs}}>{{text}}</label></div>'
                                 ]
                             ]) ?>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <label class="form-label">Tipo Atendimento</label>
-                        <div class="d-flex align-items-center flex-wrap gap-28">
+                        <div class="d-flex form-check align-items-center flex-wrap gap-28">
                             <?= $this->Form->control('tipoAtendimento', [
                                 'type' => 'radio',
                                 'options' => [
@@ -105,7 +105,7 @@
                                 'label' => false,
                                 'required' => true,
                                 'templates' => [
-                                    'nestingLabel' => '{{hidden}}{{input}} <label{{attrs}}>{{text}}</label> '
+                                    'nestingLabel' => '<div class="d-flex justify-content-center align-items-center gap-1">{{hidden}}{{input}}  <label{{attrs}}>{{text}}</label></div>'
                                 ]
                             ]) ?>
                         </div>
