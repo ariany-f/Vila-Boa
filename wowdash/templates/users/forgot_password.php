@@ -1,7 +1,7 @@
 <section class="auth forgot-password-page bg-base d-flex flex-wrap">
     <div class="auth-left d-lg-block d-none">
         <div class="d-flex align-items-center flex-column h-100 justify-content-center">
-            <img src="<?= $this->Url->assetUrl('assets/images/auth/forgot-pass-img.png') ?>" alt="">
+            <img src="<?= $this->Url->assetUrl('assets/images/bg-app.png') ?>" alt="">
         </div>
     </div>
     <div class="auth-right py-32 px-24 d-flex flex-column justify-content-center">

@@ -14,7 +14,7 @@
         <div class="card-body col-lg-12 p-24 d-flex">
             <div class="col-lg-4">
                 <div class="user-grid-card position-relative  radius-16 overflow-hidden bg-base h-100">
-                    <img src="<?= $this->Url->assetUrl('assets/images/user-grid/user-grid-bg1.png') ?>" alt="" class="w-100 object-fit-cover">
+                    <img src="<?= $this->Url->assetUrl('assets/images/bg-user.png') ?>" alt="" class="w-100 object-fit-cover">
                     <div class="pb-24 ms-16 mb-24 me-16 mt--100">
                         <div class="text-center border border-top-0 border-start-0 border-end-0">
                             <?php $profileImage = !empty($user->profile_image) ? $this->Url->assetUrl(h($user->profile_image)) : $this->Url->assetUrl('assets/images/user-grid/user-grid-img14.png'); ?>
