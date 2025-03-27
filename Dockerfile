@@ -25,6 +25,8 @@ RUN mkdir -p /var/www/html/tmp /var/www/html/logs
 # Define permissões corretas para cache e logs do CakePHP
 RUN chown -R www-data:www-data /var/www/html/tmp /var/www/html/logs
 
+RUN sed -i 's|/var/www/html|/var/www/html/webroot|g' /etc/apache2/sites-available/000-default.conf
+
 # Limpa o cache do CakePHP
 RUN bin/cake cache clear_all
 
