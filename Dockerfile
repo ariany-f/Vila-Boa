@@ -1,45 +1,27 @@
-# Use a imagem oficial do PHP com Apache
+# Usar imagem oficial do PHP com Apache
 FROM php:8.2-apache
 
-# Instala dependências necessárias
-RUN apt-get update -qq && \
-    apt-get install -y \
-    libicu-dev \
-    libpq-dev \
-    zip \
-    git \
-    && docker-php-ext-install \
-    intl \
-    pdo \
-    pdo_pgsql \
-    && apt-get clean
-
-# Ativa o módulo de reescrita do Apache (necessário para CakePHP)
-RUN a2enmod rewrite
-
-# Instala o Composer globalmente
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Instalar extensões do PHP necessárias para o CakePHP
+RUN apt-get update && apt-get install -y libpng-dev libjpeg62-turbo-dev libfreetype6-dev zip git && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install gd pdo pdo_mysql && \
+    a2enmod rewrite
 
 # Definir o diretório de trabalho
 WORKDIR /var/www/html
 
-# Copiar os arquivos do projeto para o contêiner
-COPY . /var/www/html/
+# Copiar o conteúdo da aplicação para o container
+COPY . /var/www/html
 
-# Copiar o entrypoint.sh e garantir permissões de execução
-COPY .docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Configurar o Apache para usar a pasta "webroot" como a raiz web
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/webroot|' /etc/apache2/sites-available/000-default.conf
 
-# Configura o DocumentRoot para o diretório correto (webroot)
-RUN echo 'DocumentRoot /var/www/html/webroot' >> /etc/apache2/sites-available/000-default.conf
+# Garantir que o Apache e as permissões da pasta sejam corretas
+RUN chown -R www-data:www-data /var/www/html && \
+    chmod -R 755 /var/www/html
 
-# Definir o ServerName para evitar o erro
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
-
-# Expor a porta 80 (para o Apache)
+# Expor a porta 80 para o servidor web
 EXPOSE 80
 
-# Configura o script entrypoint para rodar quando o contêiner iniciar
-ENTRYPOINT ["/entrypoint.sh"]
-
-CMD apache2-foreground
+# Iniciar o Apache em segundo plano
+CMD ["apache2-foreground"]

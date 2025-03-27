@@ -1,21 +1,18 @@
-version: '3'
+version: '3.8'
 
 services:
-  cakephp:
+  web:
     build: .
+    container_name: cakephp_web
     ports:
-      - "80:80"
-    environment:
-      - RUN_MIGRATIONS=true  # Ativa a execução de migrações
+      - "8080:80"
     volumes:
       - .:/var/www/html
-    depends_on:
-      - database
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/webroot
+    networks:
+      - cakephp_network
 
-  database:
-    image: postgres:16-alpine
-    volumes:
-      - database_data:/var/lib/postgresql/data
-
-volumes:
-  database_data:
+networks:
+  cakephp_network:
+    driver: bridge
