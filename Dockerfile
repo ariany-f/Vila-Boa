@@ -7,11 +7,17 @@ RUN apt-get update && apt-get install -y libpng-dev libjpeg62-turbo-dev libfreet
     docker-php-ext-install gd pdo pdo_mysql && \
     a2enmod rewrite
 
+# Instalar o Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 # Definir o diretório de trabalho
 WORKDIR /var/www/html
 
 # Copiar o conteúdo da aplicação para o container
 COPY . /var/www/html
+
+# Rodar o composer install para instalar as dependências do CakePHP
+RUN composer install
 
 # Configurar o Apache para usar a pasta "webroot" como a raiz web
 RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/webroot|' /etc/apache2/sites-available/000-default.conf
