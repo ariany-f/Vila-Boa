@@ -1,41 +1,26 @@
-version: '3.8'
-
 services:
-  app:
-    build:
-      context: .  # O caminho do diretório onde o Dockerfile está localizado
-    container_name: cakephp_app
-    ports:
-      - "8080:80"  # Mapeia a porta 80 do Apache para a 8080 no host
-    volumes:
-      - ./:/var/www/html  # Mapeia os arquivos do projeto para o contêiner
-    depends_on:
-      - db  # A aplicação depende do banco de dados
+  ###> doctrine/doctrine-bundle ###
+  database:
+    image: postgres:${POSTGRES_VERSION:-16}-alpine
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: K1tBZtkzDGuDPQG8
-      POSTGRES_DB: postgres
-    networks:
-      - cakephp_network
-
-  db:
-    image: postgres:13
-    container_name: cakephp_db
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: mysecretpassword
-      POSTGRES_DB: cakephp_db
-    ports:
-      - "5432:5432"
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - database_data:/var/lib/postgresql/data:rw
     networks:
-      - cakephp_network
+      - cakephp_network  # Se houver redes específicas no seu Docker Compose
 
 volumes:
-  db_data:  # Volumes para persistir os dados do banco
+  ###> doctrine/doctrine-bundle ###
+  database_data:
+  ###< doctrine/doctrine-bundle ###
 
 networks:
   cakephp_network:
-    driver: bridge
+    driver: bridge  # Se necessário, defina a rede de acordo com sua arquitetura
