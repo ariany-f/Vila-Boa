@@ -41,3 +41,5 @@ EXPOSE 80
 
 # Configura o script entrypoint para rodar quando o contêiner iniciar
 ENTRYPOINT ["/entrypoint.sh"]
+
+CMD apache2-foreground

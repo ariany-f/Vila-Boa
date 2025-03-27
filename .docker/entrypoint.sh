@@ -24,4 +24,4 @@ chown -R www-data:www-data /var/www/html
 
 # Inicia o Apache em modo foreground
 echo "Iniciando Apache..."
-exec apache2-foreground
+exec "$@"
