@@ -17,7 +17,7 @@ WORKDIR /var/www/html
 COPY . /var/www/html
 
 # Rodar o composer install para instalar as dependências do CakePHP
-RUN composer install --no-interaction --y
+RUN composer install --no-interaction
 
 # Configurar o Apache para usar a pasta "webroot" como a raiz web
 RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/webroot|' /etc/apache2/sites-available/000-default.conf
