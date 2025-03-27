@@ -3,7 +3,7 @@ version: '3.8'
 services:
   app:
     build:
-      context: ./  # Continuação da sua configuração para o serviço app
+      context: ./
     container_name: cakephp_app
     volumes:
       - ./:/var/www/html
@@ -15,7 +15,7 @@ services:
       POSTGRES_DATABASE: postgres
       DATABASE_URL: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DATABASE}"
     expose:
-      - "9000"  # Expondo a porta 9000 do PHP-FPM diretamente
+      - "9000"  # PHP-FPM exposto na porta 9000
     networks:
       - cakephp_network
 
@@ -34,10 +34,20 @@ services:
     networks:
       - cakephp_network
 
+  cakephp-runner:
+    image: jorgegonzalezcakedc/cakephp-runner:latest
+    container_name: cakephp_runner
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - app
+    networks:
+      - cakephp_network
+    entrypoint: ["bin/cake", "server"]  # Você pode mudar para outros comandos conforme necessidade
+
 volumes:
   db_data:
 
 networks:
-  default:
-    external:
-      name: bridge
+  cakephp_network:
+    driver: bridge
