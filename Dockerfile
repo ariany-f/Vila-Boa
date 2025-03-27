@@ -25,6 +25,12 @@ RUN mkdir -p /var/www/html/tmp /var/www/html/logs
 # Define permissões corretas para cache e logs do CakePHP
 RUN chown -R www-data:www-data /var/www/html/tmp /var/www/html/logs
 
+# Limpa o cache do CakePHP
+RUN bin/cake cache clear_all
+
+# Executa o Composer Install para instalar as dependências
+RUN composer install --no-dev --optimize-autoloader
+
 # Expõe a porta 80
 EXPOSE 80
 
