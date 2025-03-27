@@ -24,6 +24,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: K1tBZtkzDGuDPQG8
       POSTGRES_DB: postgres
+      RUN_TESTS: false
     ports:
       - "5432:5432"
     volumes:
