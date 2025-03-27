@@ -1,12 +1,13 @@
 version: '3.8'
 services:
   app:
-    build: .
+    build:
+      context: ./wowdash
     container_name: cakephp_app
     ports:
       - "8080:80"
     volumes:
-      - .:/var/www/html
+      - ./wowdash:/var/www/html
     depends_on:
       - db
     environment:
