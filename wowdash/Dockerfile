@@ -1,36 +1,28 @@
-# Usa a imagem oficial do PHP com Apache
-FROM php:8.2-apache
+# Usa a imagem do PHP com Apache
+FROM php:8.1-apache
 
-# Instala extensões necessárias para CakePHP
+# Instala extensões necessárias para o CakePHP
 RUN apt-get update && apt-get install -y \
+    libicu-dev \
+    zip \
     unzip \
     git \
-    libicu-dev \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd intl pdo pdo_mysql opcache
+    && docker-php-ext-install intl pdo pdo_mysql
 
-# Instala Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Define o diretório de trabalho
-WORKDIR /var/www/html
-
-# Copia os arquivos da aplicação
-COPY . .
-
-# Permissões
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/tmp \
-    && chmod -R 775 /var/www/html/logs
-
-# Ativa mod_rewrite para URLs amigáveis do CakePHP
+# Ativa o mod_rewrite para o Apache
 RUN a2enmod rewrite
 
-# Expõe a porta do Apache
+# Define a pasta de trabalho no container
+WORKDIR /var/www/html
+
+# Copia os arquivos do projeto para dentro do container
+COPY . /var/www/html/
+
+# Define permissões corretas para a pasta de logs e cache do CakePHP
+RUN chown -R www-data:www-data /var/www/html/tmp /var/www/html/logs
+
+# Expõe a porta 80
 EXPOSE 80
 
-# Define o comando padrão
+# Define o comando de inicialização do Apache
 CMD ["apache2-foreground"]
