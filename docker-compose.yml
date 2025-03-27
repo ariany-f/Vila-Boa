@@ -2,15 +2,18 @@ version: '3.8'
 services:
   app:
     build:
-      context: ./wowdash
+      context: ./
     container_name: cakephp_app
     ports:
       - "8080:80"
     volumes:
-      - ./wowdash:/var/www/html
+      - ./:/var/www/html
     depends_on:
       - db
     environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: K1tBZtkzDGuDPQG8
+      POSTGRES_DATABASE: postgres
       DATABASE_URL: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DATABASE}"
 
   db:
