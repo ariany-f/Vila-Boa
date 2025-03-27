@@ -115,6 +115,7 @@ return function (RouteBuilder $routes): void {
 
         // Routing for Dashboard Controller
         $builder->scope('/dashboard', ['controller' => 'Dashboard'], function ($builder) {
+            $builder->connect('/',['action'=>'index'],['_name'=>'indexdash']);
             $builder->connect('/index2',['action'=>'index2'],['_name'=>'index2']);
             $builder->connect('/index3',['action'=>'index3'],['_name'=>'index3']);
             $builder->connect('/index4',['action'=>'index4'],['_name'=>'index4']);
