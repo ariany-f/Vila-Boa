@@ -33,6 +33,9 @@ RUN composer install --no-dev --optimize-autoloader && \
 # Definir permissões de diretório
 RUN mkdir -p /var/www/html/tmp /var/www/html/logs && \
     chown -R www-data:www-data /var/www/html/tmp /var/www/html/logs
+    
+# Definir o ServerName para evitar o erro
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Expor a porta 80 (para o Apache)
 EXPOSE 80
