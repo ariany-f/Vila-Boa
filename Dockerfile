@@ -1,16 +1,10 @@
 # Usa uma imagem PHP com Apache
 FROM php:8.1-apache
 
-# Atualiza o sistema e instala pacotes necessários, incluindo o PostgreSQL client
-RUN apt-get update -qq && apt-get install -y \
-    apt-transport-https \
-    ca-certificates \
-    libicu-dev \
-    libpq-dev \  # Adiciona o pacote necessário para PostgreSQL
-    zip \
-    unzip \
-    git \
-    && docker-php-ext-install intl pdo pdo_pgsql
+# Atualiza o sistema e instala pacotes necessários
+RUN apt-get update -qq && \
+    apt-get install -y apt-transport-https ca-certificates libicu-dev libpq-dev zip unzip git && \
+    docker-php-ext-install intl pdo pdo_pgsql
 
 # Ativa o mod_rewrite no Apache
 RUN a2enmod rewrite
