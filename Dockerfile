@@ -24,7 +24,7 @@ COPY . /var/www/html/
 RUN mkdir -p /var/www/html/tmp /var/www/html/logs && \
     chown -R www-data:www-data /var/www/html/tmp /var/www/html/logs
 
-# Definir permissões adequadas para o diretório de trabalho e logs
+# Define permissões adequadas para o diretório de trabalho e logs
 RUN chmod -R 755 /var/www/html && \
     chown -R www-data:www-data /var/www/html
 
