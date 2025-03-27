@@ -10,6 +10,12 @@ namespace App\Controller;
 class DashboardController extends AppController
 {
     
+    public function index()
+    {
+        $this->set('title', 'Dashboard');
+        $this->set('subTitle', 'CRM');
+    }
+    
     public function index2()
     {
         $this->set('title', 'Dashboard');
