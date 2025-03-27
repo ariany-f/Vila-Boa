@@ -48,5 +48,6 @@ volumes:
   db_data:
   
 networks:
-  cakephp_network:
-    driver: bridge
+  default:
+    external:
+      name: bridge
