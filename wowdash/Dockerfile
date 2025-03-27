@@ -1,8 +1,10 @@
 # Usa uma imagem PHP com Apache
 FROM php:8.1-apache
 
-# Instala extensões necessárias para o CakePHP
+# Instala as dependências e extensões necessárias para o CakePHP
 RUN apt-get update && apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
     libicu-dev \
     zip \
     unzip \
