@@ -1,4 +1,3 @@
-# Usa uma imagem PHP com Apache, versão 8.2
 FROM php:8.2-apache
 
 # Atualiza o sistema e instala pacotes necessários
@@ -9,6 +8,9 @@ RUN apt-get update -qq && \
 # Ativa o mod_rewrite no Apache
 RUN a2enmod rewrite
 
+# Habilita outros módulos do Apache, se necessário
+RUN a2enmod headers env
+
 # Define a pasta de trabalho no container
 WORKDIR /var/www/html
 
@@ -17,7 +19,8 @@ COPY . /var/www/html/
 
 # Instala as dependências do Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
-    composer install --no-dev --optimize-autoloader
+    composer install --no-dev --optimize-autoloader && \
+    composer clear-cache
 
 # Cria as pastas tmp e logs, caso não existam
 RUN mkdir -p /var/www/html/tmp /var/www/html/logs
@@ -25,6 +28,7 @@ RUN mkdir -p /var/www/html/tmp /var/www/html/logs
 # Define permissões corretas para cache e logs do CakePHP
 RUN chown -R www-data:www-data /var/www/html/tmp /var/www/html/logs
 
+# Modifica o arquivo de configuração do Apache para usar o webroot do CakePHP
 RUN sed -i 's|/var/www/html|/var/www/html/webroot|g' /etc/apache2/sites-available/000-default.conf
 
 # Expõe a porta 80
