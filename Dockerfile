@@ -25,7 +25,7 @@ WORKDIR /var/www/html
 COPY . /var/www/html/
 
 # Copia o script entrypoint
-COPY entrypoint.sh /entrypoint.sh
+COPY ./.docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # Expor a porta 80 (para o Apache)
