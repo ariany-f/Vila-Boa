@@ -15,6 +15,10 @@ WORKDIR /var/www/html
 # Copia os arquivos do projeto para o container
 COPY . /var/www/html/
 
+# Instala as dependências do Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    composer install --no-dev --optimize-autoloader
+
 # Cria as pastas tmp e logs, caso não existam
 RUN mkdir -p /var/www/html/tmp /var/www/html/logs
 
