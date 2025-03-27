@@ -20,8 +20,16 @@ RUN composer install --no-dev --optimize-autoloader && \
 # Copia os arquivos restantes do projeto
 COPY . /var/www/html/
 
-# Define permissões para as pastas tmp e logs
+# Cria diretórios temporários e de logs, com permissões para o PHP-FPM
 RUN mkdir -p /var/www/html/tmp /var/www/html/logs && \
     chown -R www-data:www-data /var/www/html/tmp /var/www/html/logs
 
+# Definir permissões adequadas para o diretório de trabalho e logs
+RUN chmod -R 755 /var/www/html && \
+    chown -R www-data:www-data /var/www/html
+
+# Expondo a porta 9000 para o PHP-FPM
+EXPOSE 9000
+
+# Define o comando para rodar o PHP-FPM
 CMD ["php-fpm"]
