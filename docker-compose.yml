@@ -1,76 +1,21 @@
+version: '3'
+
 services:
-  ###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-16}-alpine
+  cakephp:
+    build: .
+    ports:
+      - "80:80"
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
-    healthcheck:
-      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
-      timeout: 5s
-      retries: 5
-      start_period: 60s
-    volumes:
-      - database_data:/var/lib/postgresql/data:rw
-    networks:
-      - cakephp_network  # Se houver redes específicas no seu Docker Compose
-
-volumes:
-  ###> doctrine/doctrine-bundle ###
-  database_data:
-  ###< doctrine/doctrine-bundle ###
-
-networks:
-  cakephp_network:
-    driver: bridge  # Se necessário, defina a rede de acordo com sua arquitetura
-
-
-
-
-
-version: '3.8'
-
-services:
-  app:
-    build:
-      context: .
-      target: build
-    container_name: cakephp_app
-    working_dir: /var/www/html
+      - RUN_MIGRATIONS=true  # Ativa a execução de migrações
     volumes:
       - .:/var/www/html
-    ports:
-      - "8080:8080"
     depends_on:
-      - db
-    environment:
-      - APP_ENV=development
-      - APP_DEBUG=true
-      - APP_NAME=VilaBoa
-      - SECURITY_SALT=your-secure-salt-value
+      - database
 
-  db:
-    image: postgres:13-alpine
-    container_name: cakephp_db
-    environment:
-      - POSTGRES_DB: ${POSTGRES_DB:-app}
-      - POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      - POSTGRES_USER: ${POSTGRES_USER:-app}
+  database:
+    image: postgres:16-alpine
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-
-  # Opcional: phpMyAdmin (se estiver usando MySQL)
-  # phpmyadmin:
-  #   image: phpmyadmin/phpmyadmin
-  #   ports:
-  #     - "8081:80"
-  #   environment:
-  #     - PMA_HOST=db
-  #   depends_on:
-  #     - db
+      - database_data:/var/lib/postgresql/data
 
 volumes:
-  postgres_data:
+  database_data:
