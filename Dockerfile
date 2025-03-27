@@ -10,12 +10,15 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 WORKDIR /var/www/html
 
-# Copia os arquivos do projeto
-COPY . /var/www/html/
+# Copia o composer.json e o composer.lock antes de copiar o código
+COPY composer.json composer.lock /var/www/html/
 
 # Instala dependências do Composer
 RUN composer install --no-dev --optimize-autoloader && \
     composer clear-cache
+
+# Copia os arquivos restantes do projeto
+COPY . /var/www/html/
 
 # Define permissões para as pastas tmp e logs
 RUN mkdir -p /var/www/html/tmp /var/www/html/logs && \

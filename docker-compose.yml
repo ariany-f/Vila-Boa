@@ -4,8 +4,6 @@ services:
     build:
       context: ./  # Continuação da sua configuração para o serviço app
     container_name: cakephp_app
-    expose:
-      - "9000"  # Expor a porta 9000 para o PHP-FPM
     volumes:
       - ./:/var/www/html
     depends_on:
@@ -15,6 +13,8 @@ services:
       POSTGRES_PASSWORD: K1tBZtkzDGuDPQG8
       POSTGRES_DATABASE: postgres
       DATABASE_URL: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DATABASE}"
+    networks:
+      - cakephp_network
 
   db:
     image: postgres:13
@@ -24,11 +24,12 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: K1tBZtkzDGuDPQG8
       POSTGRES_DB: postgres
-      RUN_TESTS: false
     ports:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+    networks:
+      - cakephp_network
 
   nginx:
     image: nginx:latest  # Imagem do Nginx
