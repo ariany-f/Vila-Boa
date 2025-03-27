@@ -1,11 +1,12 @@
 # Usa uma imagem PHP com Apache
 FROM php:8.1-apache
 
-# Atualiza o sistema e instala pacotes necessários
+# Atualiza o sistema e instala pacotes necessários, incluindo o PostgreSQL client
 RUN apt-get update -qq && apt-get install -y \
     apt-transport-https \
     ca-certificates \
     libicu-dev \
+    libpq-dev \  # Adiciona o pacote necessário para PostgreSQL
     zip \
     unzip \
     git \
@@ -17,7 +18,7 @@ RUN a2enmod rewrite
 # Define a pasta de trabalho no container
 WORKDIR /var/www/html
 
-# Copia todos os arquivos da raiz para o container
+# Copia os arquivos do projeto para o container
 COPY . /var/www/html/
 
 # Cria as pastas tmp e logs, caso não existam
