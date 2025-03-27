@@ -24,3 +24,53 @@ volumes:
 networks:
   cakephp_network:
     driver: bridge  # Se necessário, defina a rede de acordo com sua arquitetura
+
+
+
+
+
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      target: build
+    container_name: cakephp_app
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - APP_ENV=development
+      - APP_DEBUG=true
+      - APP_NAME=VilaBoa
+      - SECURITY_SALT=your-secure-salt-value
+
+  db:
+    image: postgres:13-alpine
+    container_name: cakephp_db
+    environment:
+      - POSTGRES_DB: ${POSTGRES_DB:-app}
+      - POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+      - POSTGRES_USER: ${POSTGRES_USER:-app}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # Opcional: phpMyAdmin (se estiver usando MySQL)
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   ports:
+  #     - "8081:80"
+  #   environment:
+  #     - PMA_HOST=db
+  #   depends_on:
+  #     - db
+
+volumes:
+  postgres_data:
