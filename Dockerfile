@@ -2,9 +2,9 @@
 FROM php:8.2-apache
 
 # Instalar extensões do PHP necessárias para o CakePHP
-RUN apt-get update && apt-get install -y libpng-dev libjpeg62-turbo-dev libfreetype6-dev zip git && \
+RUN apt-get update && apt-get install -y libpng-dev libjpeg62-turbo-dev libfreetype6-dev zip git curl libicu-dev && \
     docker-php-ext-configure gd --with-freetype --with-jpeg && \
-    docker-php-ext-install gd pdo pdo_mysql && \
+    docker-php-ext-install gd pdo pdo_mysql intl && \
     a2enmod rewrite
 
 # Instalar o Composer
@@ -17,7 +17,7 @@ WORKDIR /var/www/html
 COPY . /var/www/html
 
 # Rodar o composer install para instalar as dependências do CakePHP
-RUN composer install
+RUN composer install --no-interaction --y
 
 # Configurar o Apache para usar a pasta "webroot" como a raiz web
 RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/webroot|' /etc/apache2/sites-available/000-default.conf
