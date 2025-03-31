@@ -47,7 +47,7 @@
                             </td>
                             <td class="text-center">
                                 <div class="d-flex align-items-center gap-10 justify-content-center">
-                                    <a target="_blank" href="<?= $this->Url->build(['action' => 'view', $relatorio->id]) ?>" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
+                                    <a target="_blank" rel="noopener noreferrer" href="<?= $relatorio->link_iframe ?>" class="bg-success-focus text-success-600 bg-hover-success-200 fw-medium w-40-px h-40-px d-flex justify-content-center align-items-center rounded-circle">
                                         <iconify-icon icon="mage:external-link" class="menu-icon"></iconify-icon>
                                     </a>
                                 </div>

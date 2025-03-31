@@ -150,6 +150,11 @@ document.addEventListener("DOMContentLoaded", function() {
       if (linkElement && linkElement.href && linkElement.href !== '#' && !linkElement.href.endsWith('#')) {
           let link = linkElement.href;
 
+           // Se o link tem target="_blank", não interceptamos o clique
+           if (linkElement.target === "_blank") {
+              return;
+          }
+
           if (link && !link.startsWith("#") && !link.startsWith("javascript")) {
               // Verifica se o link tem o atributo confirm
               let confirmMessage = linkElement.getAttribute("data-confirm") || linkElement.getAttribute("confirm");
