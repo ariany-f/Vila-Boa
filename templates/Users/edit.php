@@ -54,11 +54,11 @@
                                     Alterar Senha
                                 </button>
                             </li>
-                            <li class="nav-item" role="presentation">
+                            <!-- <li class="nav-item" role="presentation">
                                 <button class="nav-link d-flex align-items-center px-24" id="pills-notification-tab" data-bs-toggle="pill" data-bs-target="#pills-notification" type="button" role="tab" aria-controls="pills-notification" aria-selected="false" tabindex="-1">
                                     Configurações de Notificação
                                 </button>
-                            </li>
+                            </li> -->
                         </ul>
 
                         <div class="tab-content" id="pills-tabContent">
@@ -156,7 +156,7 @@
                                 <?= $this->Flash->render() ?>
                             </div>
 
-                            <div class="tab-pane fade" id="pills-notification" role="tabpanel" aria-labelledby="pills-notification-tab" tabindex="0">
+                            <!-- <div class="tab-pane fade" id="pills-notification" role="tabpanel" aria-labelledby="pills-notification-tab" tabindex="0">
                                 <div class="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">
                                     <label for="companzNew" class="position-absolute w-100 h-100 start-0 top-0"></label>
                                     <div class="d-flex align-items-center gap-3 justify-content-between">
@@ -192,7 +192,7 @@
                                         <input class="form-check-input" type="checkbox" role="switch" id="orderNotification" checked>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
                         </div>
                     </div>
