@@ -99,10 +99,10 @@
             "pageLength": 10,  // Define o número padrão de itens por página
             "language": {
                 "lengthMenu": "Mostrar _MENU_ registros por página",
-                "zeroRecords": "Nenhum menu encontrado",
-                "info": "Mostrando _START_ a _END_ de _TOTAL_ menus",
-                "infoEmpty": "Nenhum menu disponível",
-                "infoFiltered": "(filtrado de _MAX_ menus no total)",
+                "zeroRecords": "Nenhum usuáro encontrado",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ usuários",
+                "infoEmpty": "Nenhum usuário disponível",
+                "infoFiltered": "(filtrado de _MAX_ usuários no total)",
                 "search": "",
             }
         });
