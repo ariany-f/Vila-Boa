@@ -172,7 +172,7 @@ class RolesController extends AppController
 
         $menuEdit = $this->Roles->Menus->find('list')->toArray();
         $allMenus = $this->Roles->Menus->find('all')->contain(['ChildMenus'])->toArray();
-
+        
         $this->set(compact('role', 'menuEdit', 'allMenus'));
     }
 
