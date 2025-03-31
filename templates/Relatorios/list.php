@@ -60,8 +60,6 @@
         
         <?= $this->Flash->render() ?>
     </div>
-    <!-- Renderiza o conteúdo do add.php dentro do index.php -->
-    <?= $this->element('Relatorios/add', ['relatorio' => $relatorio]) ?>
 </div>
 
 
