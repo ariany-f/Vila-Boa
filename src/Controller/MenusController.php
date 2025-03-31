@@ -70,7 +70,9 @@ class MenusController extends AppController
             $menu->name = $this->request->getData('name');
             $menu->url = $this->request->getData('url');
             $icon = $this->request->getData('icon');
-            $menu->icon = (($icon &&  $icon != 'null') ? $icon : null);
+            $icon = ($icon && $icon !== 'null') ? preg_replace('/^mage:/', '', $icon) : null;
+
+            $menu->icon = $icon;
             $parent_id = $this->request->getData('parent_id');
             $menu->parent_id = (($parent_id && $parent_id != 'null') ? $parent_id : null);
             
@@ -108,7 +110,13 @@ class MenusController extends AppController
         $menu = $this->Menus->get($id, contain: ['Roles']);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $menu = $this->Menus->patchEntity($menu, $this->request->getData());
-            if ($this->Menus->save($menu)) {
+            $icon = $this->request->getData('icon');
+            $icon = ($icon && $icon !== 'null') ? preg_replace('/^mage:/', '', $icon) : null;
+            $menu->icon = $icon;
+            if ($this->Menus->save($menu)) {  
+                $usuario = $this->Authentication->getIdentity();
+                $usuarioId = $usuario->get('id');
+                $this->request->getSession()->delete('menus.' . $usuarioId);
                 $this->Flash->success(__('The menu has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
