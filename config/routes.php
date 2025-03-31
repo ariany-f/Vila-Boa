@@ -221,6 +221,22 @@ return function (RouteBuilder $routes): void {
             $routes->connect('/recolha', ['action' => 'recolha']);
         });
 
+        
+        $builder->scope('/menus', ['controller' => 'Menus'], function ($routes) {
+            $routes->connect('/', ['action' => 'index']);
+            $routes->connect('/delete/{id}',  // Aqui usamos {id} ao invés de :id
+                ['action' => 'delete'],
+                ['pass' => ['id'], 'id' => '\d+', '_name' => 'deleteMenu']
+            );
+            $routes->connect('/view/{id}',  // Aqui usamos {id} ao invés de :id
+                ['action' => 'view'],
+                ['pass' => ['id'], 'id' => '\d+', '_name' => 'viewMenu']
+            );
+            $routes->connect('/edit', ['action' => 'edit']);
+            $routes->connect('/add', ['action' => 'add']);
+            $routes->connect('/update-order', ['action' => 'updateOrder']);
+        });
+
         $builder->fallbacks();
     });
 

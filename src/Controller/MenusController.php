@@ -37,6 +37,82 @@ class MenusController extends AppController
     }
 
     /**
+     * Reorder method
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function reorder()
+    {
+        $this->set('title', 'Menus');
+        $this->set('subTitle', 'Reordenar menus');
+        
+        $menusView = $this->Menus->find()
+            ->contain(['ParentMenus'])
+            ->order(['Menus.id' => 'ASC']) // Ordenação crescente por ID
+            ->all();
+
+        $parentMenus = $this->Menus->find()
+        ->select(['id', 'name', 'icon']) // Seleciona os campos necessários
+        ->order(['Menus.position' => 'ASC']) // Ordenação crescente por ID
+        ->where(['parent_id IS' => null]) // Filtra apenas menus sem parent_id
+        ->all();
+
+        // Busca todas as roles disponíveis
+        $roles = $this->Menus->Roles->find('list')->all();
+
+        $this->set(compact('menusView', 'parentMenus', 'roles'));
+    }
+        
+    public function updateOrder()
+    {
+        $order = $this->request->getData('order');
+       
+        $allMenus = $this->Menus->find()
+            ->where(['id IN' => $order])
+            ->all()
+            ->indexBy('id'); // Indexa por ID para acesso rápido
+
+        // Reindexa o array pelos IDs dos menus
+        $menusIndexed = [];
+        foreach ($allMenus as $menu) {
+            $menusIndexed[$menu->id] = $menu;
+        }
+            
+        // Atualiza as posições
+        foreach ($order as $position => $menuId) {
+            if (isset($menusIndexed[$menuId])) {
+                $menusIndexed[$menuId]->position = $position + 1; // +1 para começar de 1
+            }
+        }
+
+        if ($this->Menus->saveMany($menusIndexed)) { 
+            
+            $usuario = $this->Authentication->getIdentity();
+            $usuarioId = $usuario->get('id');
+            $this->request->getSession()->delete('menus.' . $usuarioId);
+
+            // Retorna JSON para DataTables
+            return $this->response->withType('application/json')->withStringBody(json_encode([
+                'success' => true
+            ]));
+        } else {
+            $errors = [];
+            foreach ($menus as $menu) {
+                if ($menu->getErrors()) {
+                    $errors[$menu->id] = $menu->getErrors();
+                }
+            }
+            
+            // Retorna JSON para DataTables
+            return $this->response->withType('application/json')->withStringBody(json_encode([
+                'success' => false,
+                'error' => 'Erro ao salvar ordem',
+                'errors' => $errors
+            ]));
+        }
+    }
+
+    /**
      * View method
      *
      * @param string|null $id Menu id.
