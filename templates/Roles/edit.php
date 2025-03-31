@@ -41,8 +41,17 @@ use Cake\Utility\Hash;
                                 if(!empty($men->parent_id)) {
                                     $groupedMenus[$parentId][] = ['id' => $men->id, 'name' => $men->name]; // Agrupar os filhos
                                 }
+                                else
+                                {
+                                    // Se não tiver parent_id, cria um grupo próprio
+                                    if (!isset($groupedMenus[$men->id])) {
+                                        $groupedMenus[$men->id] = [];
+                                    }
+                                    $groupedMenus[$men->id][] = ['id' => $men->id, 'name' => $men->name];
+                                }
                             }
-                           
+                            // echo '<pre>';
+                            // print_r($groupedMenus);die;
                             echo '<div class="row row-cols-xxxl-7 row-cols-lg-6 row-cols-sm-5 row-cols-4 gy-4">';                                    
                             // Agora percorra os menus agrupados
                             foreach ($groupedMenus as $k => $men) {
@@ -74,7 +83,7 @@ use Cake\Utility\Hash;
                                             echo '<div class="d-flex align-items-center gap-3 justify-content-between">';
                                                 echo '<span class="form-check-label line-height-1 fw-medium text-secondary-light">'.$child['name'].'</span>';
                                                 echo '<input name="menus[_ids]['.$child['id'].']" '.$checked.' class="form-check-input menu-child" type="checkbox" role="switch" id="menus-ids-'.$child['id'].'">';
-                                        echo '</div>';
+                                            echo '</div>';
                                         echo '</div>';
                                         // echo '<div class="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">';
                                         // echo $this->Form->control("menus._ids.{$child['id']}", [

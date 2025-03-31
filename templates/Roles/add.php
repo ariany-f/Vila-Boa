@@ -32,31 +32,40 @@ use Cake\Utility\Hash;
                         <?php
                             // Agrupar menus por parent_id
                             $groupedMenus = [];
-                            foreach ($menus as $men) {
-                                $parentId = $men->parent_id;
-                                $groupedMenus[$parentId][] = ['id' => $men->id, 'name' => $men->name];
+                            foreach ($allMenus as $men) {
+                                $parentId = $men->parent_id; 
+                                if(!empty($men->parent_id)) {
+                                    $groupedMenus[$parentId][] = ['id' => $men->id, 'name' => $men->name];
+                                } else {
+                                    // Se não tiver parent_id, cria um grupo próprio
+                                    if (!isset($groupedMenus[$men->id])) {
+                                        $groupedMenus[$men->id] = [];
+                                    }
+                                    $groupedMenus[$men->id][] = ['id' => $men->id, 'name' => $men->name];
+                                }
                             }
                             
                             echo '<div class="row row-cols-xxxl-7 row-cols-lg-6 row-cols-sm-5 row-cols-4 gy-4">'; 
 
                             // Exibir menus agrupados
-                            foreach (current($groupedMenus) as $men) {
-                                echo '<div class="d-flex flex-column align-items-start py-3 justify-content-start flex-wrap menu-group col">';
-                                echo '<b>' . $men['name'] . '</b>'; // Exibe o nome do menu pai
-
+                            foreach ($groupedMenus as $k => $men) {
                                 
-                                $filteredMenu = array_filter($allMenus, function ($menu) use ($men) {
-                                    return $menu['id'] == $men['id'];
+                                $filteredMenu = array_filter($allMenus, function ($menu) use ($k) {
+                                    return $menu['id'] == $k;
                                 });
 
+                                echo '<div class="d-flex flex-column align-items-start py-3 justify-content-start flex-wrap menu-group col">';
+                                echo '<b>' . current($filteredMenu)->name . '</b>'; // Exibe o nome do menu pai
+
+
                                 // Checar se o menu está marcado no role atual (se aplicável)
-                                $checked = (isset($role->menus) && in_array($men['id'], Hash::extract($role->menus, '{n}.id'))) ? 'checked' : '';
+                                $checked = (isset($role->menus) && in_array($k, Hash::extract($role->menus, '{n}.id'))) ? 'checked' : '';
                                 echo '<div class="form-switch switch-primary py-12 px-16 border radius-8 position-relative mb-16">';
-                                    echo '<label for="menus-ids-'.$men['id'].'" class="position-absolute w-100 h-100 start-0 top-0"></label>';
+                                    echo '<label for="menus-ids-'.$k.'" class="position-absolute w-100 h-100 start-0 top-0"></label>';
                                     echo '<div class="d-flex align-items-center gap-3 justify-content-between">';
-                                        echo '<span class="form-check-label line-height-1 fw-medium text-secondary-light">'.$men['name'].'</span>';
-                                        echo '<input name="menus[_ids]['.$men['id'].']" '.$checked.' class="form-check-input menu-parent" type="checkbox" role="switch" id="menus-ids-'.$men['id'].'">';
-                                echo '</div>';
+                                        echo '<span class="form-check-label line-height-1 fw-medium text-secondary-light">'.current($filteredMenu)->name.'</span>';
+                                        echo '<input name="menus[_ids]['.$k.']" '.$checked.' class="form-check-input menu-parent" type="checkbox" role="switch" id="menus-ids-'.$k.'">';
+                                    echo '</div>';
                                 echo '</div>';
 
                                 if(!empty(current($filteredMenu)->child_menus))
