@@ -25,10 +25,10 @@ use Cake\Utility\Hash;
                 <div class="row">
                     <?= $this->Form->create($role) ?>
                     <fieldset class="input-group">
-                        
-                        <!-- Campo para o nome do papel -->
-                        <?= $this->Form->control('nome', ['class' => 'form-control']) ?>
-
+                        <div class="row col-md-12 px-3 mb-3">
+                            <!-- Campo para o nome do papel -->
+                            <?= $this->Form->control('nome', ['class' => 'form-control', 'placeholder' => 'Nome da Permissão', 'label' => false]) ?>
+                        </div>
                         <?php
                             // Agrupar menus por parent_id
                             $groupedMenus = [];
@@ -45,7 +45,7 @@ use Cake\Utility\Hash;
                                 }
                             }
                             
-                            echo '<div class="row row-cols-xxxl-7 row-cols-lg-6 row-cols-sm-5 row-cols-4 gy-4">'; 
+                            echo '<div class="row row-cols-xxxl-6 row-cols-lg-5 row-cols-sm-4 row-cols-3 gy-3">'; 
 
                             // Exibir menus agrupados
                             foreach ($groupedMenus as $k => $men) {
@@ -55,7 +55,7 @@ use Cake\Utility\Hash;
                                 });
 
                                 echo '<div class="d-flex flex-column align-items-start py-3 justify-content-start flex-wrap menu-group col">';
-                                echo '<b>' . current($filteredMenu)->name . '</b>'; // Exibe o nome do menu pai
+                                // echo '<b>' . current($filteredMenu)->name . '</b>'; // Exibe o nome do menu pai
 
 
                                 // Checar se o menu está marcado no role atual (se aplicável)
@@ -89,7 +89,12 @@ use Cake\Utility\Hash;
                     </fieldset>
                     <div class="col-sm-12">
                         <div class="mt-24 d-flex justify-content-end">
-                            <?= $this->Form->button(__('Salvar'), ['class' => 'btn btn-primary btn-sm']) ?>
+                            <?= $this->Form->button('Salvar', [
+                                'type' => 'submit',
+                                'class' => 'btn btn-primary btn-sm border-primary-600 text-md px-56 py-12 radius-8',
+                                'id' => 'saveOrderBtn',
+                                'escape' => false
+                            ]) ?>
                         </div>
                     </div>
                     <?= $this->Form->end() ?>

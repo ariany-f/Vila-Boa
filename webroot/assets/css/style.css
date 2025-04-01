@@ -12376,6 +12376,7 @@ div.dt-container .dt-paging .dt-paging-button:hover:hover, div.dt-container .dt-
 /* Switch Css Start */
 .form-switch {
   padding-inline-start: 0;
+  width: -webkit-fill-available;
 }
 
 .form-switch .form-check-input {

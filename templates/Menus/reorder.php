@@ -35,7 +35,7 @@
                             <?php endif; ?>
                             <span><?= h($menu->name) ?></span>
                         </div>
-                        <span class="badge text-sm fw-semibold bg-primary-600 px-20 py-9 radius-4 text-white">Posição: <?= $menu->position ?></span>
+                        <span class="badge text-sm fw-semibold px-20 py-9 radius-4 text-black"><?= $menu->position ?></span>
                         <?= $this->Form->hidden('order[]', [
                             'value' => $menu->id,
                             'id' => false,
@@ -45,13 +45,15 @@
                 <?php endforeach; ?>
             </ul>
         </div>
-        <div class="d-flex align-items-center justify-content-end gap-3">
-            <?= $this->Form->button('Salvar', [
-                'type' => 'submit',
-                'class' => 'btn btn-primary border border-primary-600 text-md px-56 py-12 radius-8',
-                'id' => 'saveOrderBtn',
-                'escape' => false
-            ]) ?>
+        <div class="col-sm-12">
+            <div class="mt-24 d-flex justify-content-end">
+                <?= $this->Form->button('Salvar', [
+                    'type' => 'submit',
+                    'class' => 'btn btn-primary btn-sm border-primary-600 text-md px-56 py-12 radius-8',
+                    'id' => 'saveOrderBtn',
+                    'escape' => false
+                ]) ?>
+            </div>
         </div>
         <?= $this->Form->end() ?>
     </div>
@@ -79,7 +81,7 @@
         // Função para atualizar os campos de ordem
         function updateOrderFields() {
             $("#sortable-menus li").each(function(index) {
-                $(this).find(".badge").text("Posição: " + (index));
+                $(this).find(".badge").text((index));
                 $(this).find(".menu-order").val($(this).data('id'));
             });
         }
