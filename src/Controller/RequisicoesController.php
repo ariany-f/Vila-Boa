@@ -155,6 +155,49 @@ class RequisicoesController extends AppController
         $this->set(compact('form'));
     }
 
+    public function poda_urgencia()
+    {
+        $this->set('title', 'Requisição');
+        $this->set('subTitle', 'Poda');
+
+        $form = $this->RequisicoesLogs->newEmptyEntity();
+        
+        if ($this->request->is('post')) {
+
+            // Gerar o XML com os dados recebidos no formulário
+            $xmlData = $this->generateXml($this->request->getData());
+
+            // Enviar o XML para o webhook
+            $result = $this->sendXmlToWebhook( html_entity_decode($xmlData) );
+
+            // Definir o valor do payload com o XML gerado
+            $formData = ['payload' => html_entity_decode($xmlData), 'status' => ($result ? 'sucesso' : 'falha')]; // Defina o campo 'payload' com a string XML gerada
+            
+            $form = $this->RequisicoesLogs->patchEntity($form, $formData);
+            $form->user_id = $this->Authentication->getIdentity()->id;
+            $form->origem = 'poda';
+            
+            if ($this->RequisicoesLogs->save($form)) {
+                $this->Flash->success('Formulário salvo com sucesso.');
+                return $this->redirect(['action' => 'index']);
+            }
+            else
+            {
+                // Recupera os erros da entidade
+                $errors = $form->getErrors();
+                $errorMessage = '';
+
+                // Itera sobre os erros para construir uma mensagem
+                foreach ($errors as $field => $fieldErrors) {
+                    $errorMessage .= $field . ': ' . implode(', ', $fieldErrors) . '<br>';
+                }
+
+                $this->Flash->error('Erro ao salvar o formulário: ' . $errorMessage);
+            }
+        }
+        $this->set(compact('form'));
+    }
+
     public function recolha()
     {
         $this->set('title', 'Requisição');

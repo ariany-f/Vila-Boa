@@ -32,9 +32,6 @@
                             <?php foreach ($menu->child_menus as $childMenu): ?>
                                 <li>
                                     <a href="<?= $this->Url->build($childMenu->url) ?>">
-                                        <?php if ($childMenu->icon): ?>
-                                            <i class="ri-circle-fill circle-icon <?= h($childMenu->icon_class) ?>"></i>
-                                        <?php endif; ?>
                                             <?= h($childMenu->name) ?>
                                     </a>
                                 </li>
