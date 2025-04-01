@@ -217,6 +217,7 @@ return function (RouteBuilder $routes): void {
         $builder->scope('/requisicoes', ['controller' => 'Requisicoes'], function ($routes) {
             $routes->connect('/', ['action' => 'index']);
             $routes->connect('/poda', ['action' => 'poda']);
+            $routes->connect('/poda_urgencia', ['action' => 'poda_urgencia']);
             $routes->connect('/diversos', ['action' => 'diversos']);
             $routes->connect('/recolha', ['action' => 'recolha']);
         });
