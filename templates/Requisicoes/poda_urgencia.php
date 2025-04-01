@@ -80,7 +80,8 @@
                                     'options' => [
                                         'garagem' => 'Frente de Garagem (com GAM Paga)',
                                         'municipio' => 'Atendimento ao Município',
-                                        'ouvidoria' => 'Ouvidoria'
+                                        'ouvidoria' => 'Ouvidoria',
+                                        'urgencia' => 'Urgência'
                                     ],
                                     'label' => false,
                                     'default' => 'garagem',
@@ -120,7 +121,8 @@
                                     'options' => [
                                         'garagem' => 'Frente de Garagem (com GAM Paga)',
                                         'municipio' => 'Atendimento ao Município',
-                                        'proprio' => 'Próprio Municipal'
+                                        'proprio' => 'Próprio Municipal',
+                                        'urgencia' => 'Urgência'
                                     ],
                                     'label' => false,
                                     'default' => 'garagem',
@@ -213,7 +215,8 @@
                                     'type' => 'radio',
                                     'options' => [
                                         'garagem' => 'Frente de Garagem (com GAM Paga)',
-                                        'municipio' => 'Atendimento ao Município'
+                                        'municipio' => 'Atendimento ao Município',
+                                        'urgencia' => 'Urgência'
                                     ],
                                     'label' => false,
                                     'default' => 'garagem',
@@ -252,7 +255,8 @@
                                     'type' => 'radio',
                                     'options' => [
                                         'garagem' => 'Frente de Garagem (com GAM Paga)',
-                                        'municipio' => 'Atendimento ao Município'
+                                        'municipio' => 'Atendimento ao Município',
+                                        'urgencia' => 'Urgência'
                                     ],
                                     'label' => false,
                                     'default' => 'garagem',
@@ -345,7 +349,8 @@
                                     'options' => [
                                         'garagem' => 'Frente de Garagem (com GAM Paga)',
                                         'municipio' => 'Atendimento ao Município',
-                                        'proprio' => 'Próprio Municipal'
+                                        'proprio' => 'Próprio Municipal',
+                                        'urgencia' => 'Urgência'
                                     ],
                                     'label' => false,
                                     'default' => 'garagem',
