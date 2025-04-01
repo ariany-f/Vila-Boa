@@ -155,7 +155,7 @@ class RequisicoesController extends AppController
         $this->set(compact('form'));
     }
 
-    public function poda_urgencia()
+    public function podaUrgencia()
     {
         $this->set('title', 'Requisição');
         $this->set('subTitle', 'Poda');
