@@ -27,7 +27,7 @@ class HomeController extends AppController
 
     public function atualizacaoLaudo()
     {
-        $this->set('title', 'Início');
+        $this->set('title', 'Laudos Pendentes');
         $this->set('subTitle', 'Atualização de Laudo');
 
         if ($this->request->is('ajax')) {
