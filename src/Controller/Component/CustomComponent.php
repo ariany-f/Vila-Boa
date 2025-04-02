@@ -35,7 +35,7 @@ WHERE e_laudopendente = 'Sim' AND e_servico = 'Remocao' AND tss_id <= '40'
 
             // Se houver pesquisa, aplica o filtro de pesquisa
             if (!empty($search)) {
-                // $query .= " AND (loc_description LIKE :search OR age_name LIKE :search)";
+                 $query .= " AND (e_tipoatendimento LIKE :search OR loc_description LIKE :search OR e_acoesnecessarias LIKE :search) ";;
             }
 
             $query .= " ORDER BY loc_datetimeinsert
