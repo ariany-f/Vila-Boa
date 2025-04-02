@@ -119,51 +119,27 @@
             },
             "columnDefs": [
                 {
-                    "targets": 0, // Coluna de descrição (índice 1)
+                    "targets": 0, // Coluna de descrição (índice 3)
                     "width": "150px", // Forçar largura de 500px
                     "createdCell": function(td, cellData, rowData, row, col) {
                         // Adicionar a tag <p class="max-w-500-px"> ao conteúdo da célula
                         $(td).html('<p class="max-w-150-px">' + cellData + '</p>');
-                    }
-                },
-                {
-                    "targets": 1, // Coluna de descrição (índice 1)
-                    "width": "150px", // Forçar largura de 500px
-                    "createdCell": function(td, cellData, rowData, row, col) {
-                        // Adicionar a tag <p class="max-w-500-px"> ao conteúdo da célula
-                        $(td).html('<p class="max-w-150-px">' + cellData + '</p>');
-                    }
-                },
-                {
-                    "targets": 2, // Coluna de descrição (índice 2)
-                    "width": "66px", // Forçar largura de 500px
-                    "createdCell": function(td, cellData, rowData, row, col) {
-                        // Adicionar a tag <p class="max-w-500-px"> ao conteúdo da célula
-                        $(td).html('<p class="max-w-66">' + cellData + '</p>');
                     }
                 },
                 {
                     "targets": 3, // Coluna de descrição (índice 3)
-                    "width": "150px", // Forçar largura de 500px
+                    "width": "290px", // Forçar largura de 500px
                     "createdCell": function(td, cellData, rowData, row, col) {
                         // Adicionar a tag <p class="max-w-500-px"> ao conteúdo da célula
-                        $(td).html('<p class="max-w-150-px">' + cellData + '</p>');
+                        $(td).html('<p class="max-w-290-px">' + cellData + '</p>');
                     }
                 },
                 {
-                    "targets": 4, // Coluna de descrição (índice 3)
-                    "width": "66px", // Forçar largura de 500px
+                    "targets": 6, // Coluna de descrição (índice 3)
+                    "width": "290px", // Forçar largura de 500px
                     "createdCell": function(td, cellData, rowData, row, col) {
                         // Adicionar a tag <p class="max-w-500-px"> ao conteúdo da célula
-                        $(td).html('<p class="max-w-66">' + cellData + '</p>');
-                    }
-                },
-                {
-                    "targets": 5, // Coluna de descrição (índice 5)
-                    "width": "150px", // Forçar largura de 500px
-                    "createdCell": function(td, cellData, rowData, row, col) {
-                        // Adicionar a tag <p class="max-w-500-px"> ao conteúdo da célula
-                        $(td).html('<p class="max-w-150-px">' + cellData + '</p>');
+                        $(td).html('<p class="max-w-290-px">' + cellData + '</p>');
                     }
                 }
             ],
