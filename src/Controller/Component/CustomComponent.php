@@ -29,6 +29,7 @@ class CustomComponent extends Component
         // Adiciona condição de busca se existir
         if (!empty($search)) {
             $whereClause .= " AND (e_tipoatendimento LIKE :search OR loc_description LIKE :search OR e_acoesnecessarias LIKE :search)";
+            $search = strtoupper($search);
             $searchParams['search'] = "%{$search}%";
         }
 

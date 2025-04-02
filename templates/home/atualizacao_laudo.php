@@ -12,24 +12,28 @@
                     <tr>
                         <th scope="col">Data da Solicitação</th>
                         <th scope="col">Tipo de Atendimento</th>
-                        <th scope="col">Id do Local</th>
                         <th scope="col">Local da Solicitação</th>
                         <th scope="col">Bairro</th>
-                        <th scope="col">Status</th>
                         <th scope="col">Ações Necessárias</th>
+                        <th scope="col">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php if(isset($resultados)) : ?>
                         <?php foreach ($resultados as $resultado): ?>
                             <tr>		
-                                <td><p class="max-w-500-px"><?= h($resultado['loc_datetimeinsert']) ?></p></td>
+                                <td><p class="max-w-500-px"><?= h($resultado['loc_datetimeinsert'] ? date('d/m/Y', strtotime($resultado['loc_datetimeinsert'])) : '') ?></p></td>
                                 <td><p class="max-w-500-px"><?= h($resultado['e_tipoatendimento']) ?></p></td>
-                                <td><p class="max-w-500-px"><?= h($resultado['loc_id']) ?></p></td>
                                 <td><p class="max-w-500-px"><?= h($resultado['loc_description']) ?></p></td>
                                 <td><p class="max-w-500-px"><?= h($resultado['e_bairro']) ?></p></td>
-                                <td><p class="max-w-500-px"><?= h($resultado['tsk_situation']) ?></p></td>
                                 <td><p class="max-w-500-px"><?= h($resultado['e_acoesnecessarias']) ?></p></td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary btn-atualizar" 
+                                            data-loc-id="<?= h($resultado['loc_id']) ?>"
+                                            data-loc-desc="<?= h($resultado['loc_description']) ?>">
+                                        Atualizar
+                                    </button>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
@@ -40,8 +44,6 @@
         <?= $this->Flash->render() ?>
     </div>
     <div id="LoadAll"></div>
-    <!-- Renderiza o conteúdo do add.php dentro do index.php -->
-    <?php //echo $this->element('resultados/add', ['resultado' => $resultado]) ?>
 </div>
 
 <!-- Modal para Atualizar Laudo -->
@@ -53,8 +55,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Conteúdo do formulário para atualizar o laudo -->
                 <form id="formAtualizarLaudo">
+                    <input type="hidden" id="locId">
+                    <div class="mb-3">
+                        <label class="form-label">Local:</label>
+                        <p id="locDescriptionDisplay" class="form-control-static"></p>
+                    </div>
                     <div class="mb-3">
                         <label for="statusLaudo" class="form-label">Status</label>
                         <select class="form-select" id="statusLaudo" required>
@@ -78,7 +84,6 @@
     </div>
 </div>
 
-
 <?php $this->start('script'); ?>
 <script>
     $(document).ready(function() {
@@ -89,7 +94,6 @@
                 "url": "<?= $this->Url->build(['name' => 'Laudo']) ?>",
                 "type": "GET",
                 "data": function(d) {
-                    // Adiciona parâmetros necessários para o servidor
                     d.search = d.search.value;
                     d.start = d.start;
                     d.length = d.length;
@@ -97,23 +101,32 @@
                     
                     if ($('#LoadAll').val() === 'True') {
                         d.export = true;
-                        d.length = -1; // Retorna todos os registros
+                        d.length = -1;
                     }
                 },
                 "dataSrc": function(json) {
-                    console.log(json)
-                    // Ajusta a resposta para o formato esperado pelo DataTables
+                    // Formata a data antes de exibir
+                    json.data.forEach(function(item) {
+                        if (item.loc_datetimeinsert) {
+                            var date = new Date(item.loc_datetimeinsert);
+                            item.loc_datetimeinsert = date.toLocaleDateString('pt-BR');
+                        }
+                    });
                     return json.data;
                 }
             },
             "columns": [
                 { "data": "loc_datetimeinsert" },
                 { "data": "e_tipoatendimento" },
-                { "data": "loc_id" },
                 { "data": "loc_description" },
                 { "data": "e_bairro" },
-                { "data": "tsk_situation" },
-                { "data": "e_acoesnecessarias" }
+                { "data": "e_acoesnecessarias" },
+                { 
+                    "data": "loc_id",
+                    "render": function(data, type, row) {
+                        return '<button class="btn btn-sm btn-primary btn-atualizar" data-loc-id="' + data + '" data-loc-desc="' + row.loc_description + '">  <iconify-icon icon="tabler:refresh"></iconify-icon></button>';
+                    }
+                }
             ],
             "pageLength": 10,
             "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50]],
@@ -130,27 +143,31 @@
             },
             "columnDefs": [
                 {
-                    "targets": 0, // Coluna de descrição (índice 3)
-                    "width": "150px", // Forçar largura de 500px
+                    "targets": 0,
+                    "width": "150px",
                     "createdCell": function(td, cellData, rowData, row, col) {
-                        // Adicionar a tag <p class="max-w-500-px"> ao conteúdo da célula
                         $(td).html('<p class="max-w-150-px">' + cellData + '</p>');
                     }
                 },
                 {
-                    "targets": 3, // Coluna de descrição (índice 3)
-                    "width": "290px", // Forçar largura de 500px
+                    "targets": 1,
+                    "width": "150px",
                     "createdCell": function(td, cellData, rowData, row, col) {
-                        // Adicionar a tag <p class="max-w-500-px"> ao conteúdo da célula
+                        $(td).html('<p class="max-w-150-px">' + cellData + '</p>');
+                    }
+                },
+                {
+                    "targets": 2,
+                    "width": "290px",
+                    "createdCell": function(td, cellData, rowData, row, col) {
                         $(td).html('<p class="max-w-290-px">' + cellData + '</p>');
                     }
                 },
                 {
-                    "targets": 6, // Coluna de descrição (índice 3)
-                    "width": "290px", // Forçar largura de 500px
+                    "targets": 4,
+                    "width": "150px",
                     "createdCell": function(td, cellData, rowData, row, col) {
-                        // Adicionar a tag <p class="max-w-500-px"> ao conteúdo da célula
-                        $(td).html('<p class="max-w-290-px">' + cellData + '</p>');
+                        $(td).html('<p class="max-w-150-px">' + cellData + '</p>');
                     }
                 }
             ],
@@ -159,25 +176,17 @@
                     "buttons": [
                         {
                             "extend": "excel",
-                            "text": '<iconify-icon icon="ri:file-excel-2-line" class="icon"></iconify-icon> <p>Excel</p>', // Ícone do Excel (Font Awesome)
+                            "text": '<iconify-icon icon="ri:file-excel-2-line" class="icon"></iconify-icon> <p>Excel</p>',
                             "titleAttr": 'Exportar XLS',
                             "className": 'text-secondary-light d-flex',
                             "filename": 'Programação Diversos',
                             "title": 'Progração Diversos',
                             "action": function (e, dt, node, config) {
-                                // Marca que é para exportar todos os dados ao clicar no botão
                                 $('#LoadAll').val('True');
-
-                                // Recarrega os dados da tabela (pegando todos os registros)
                                 table.ajax.reload(function (json) {
-                                    // Agora, realiza a exportação
                                     $.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, node, config);
-                                    // Remove o estado de carregamento após a exportação
                                     $(".buttons-excel").removeClass('processing');
-
                                     $('#LoadAll').val('False');
-                                    
-                                    // Volta para 10 registros por página
                                     table.page.len(10).draw();
                                 });
                             }
@@ -192,35 +201,47 @@
                             "filename": 'Programação Diversos',
                             "title": 'Progração Diversos',
                             "action": function (e, dt, node, config) {
-                                // Marca que é para exportar todos os dados ao clicar no botão
                                 $('#LoadAll').val('True');
-                                
-                                // Recarrega os dados da tabela (pegando todos os registros)
                                 table.ajax.reload(function (json) {
-                                    // Agora, realiza a exportação
                                     $.fn.dataTable.ext.buttons.pdfHtml5.action.call(this, e, dt, node, config);
-
-                                    // Remove o estado de carregamento após a exportação
                                     $(".buttons-pdf").removeClass('processing');
-
                                     $('#LoadAll').val('False');
-                                    
-                                    // Volta para 10 registros por página
                                     table.page.len(10).draw();
                                 });
-                            }
-                        },
-                        {
-                            text: '<iconify-icon icon="ri:edit-2-line" class="icon"></iconify-icon> <p>Atualizar Laudo</p>',
-                            className: 'text-secondary-light d-flex',
-                            action: function (e, dt, node, config) {
-                                // Abre o modal quando o botão é clicado
-                                $('#atualizarLaudoModal').modal('show');
                             }
                         }
                     ]
                 }
             }
+        });
+
+        // Abre modal quando clicar em qualquer botão Atualizar
+        $(document).on('click', '.btn-atualizar', function() {
+            var locId = $(this).data('loc-id');
+            var locDesc = $(this).data('loc-desc');
+            
+            $('#locId').val(locId);
+            $('#locDescriptionDisplay').text(locDesc);
+            $('#atualizarLaudoModal').modal('show');
+        });
+
+        $('#salvarAtualizacao').click(function() {
+            var locId = $('#locId').val();
+            var status = $('#statusLaudo').val();
+            var observacoes = $('#observacoes').val();
+            
+            // Aqui você pode adicionar a chamada AJAX para salvar os dados
+            console.log("Dados para salvar:", {
+                loc_id: locId,
+                status: status,
+                observacoes: observacoes
+            });
+            
+            // Fecha o modal após salvar
+            $('#atualizarLaudoModal').modal('hide');
+            
+            // Limpa o formulário
+            $('#formAtualizarLaudo')[0].reset();
         });
 
         // Conectar input de busca ao DataTable
@@ -230,24 +251,7 @@
 
         // Conectar seletor de número de itens ao DataTable
         $('.form-select').on('change', function() {
-            let valor = $(this).val();
-            table.page.len(valor).draw();
-        });
-
-        $('.remove-item-btn').on('click', function () {
-            $(this).closest('tr').addClass('d-none');
-        });
-
-        $('#salvarAtualizacao').click(function() {
-            // Aqui você pode adicionar a lógica para salvar os dados
-            const status = $('#statusLaudo').val();
-            const observacoes = $('#observacoes').val();
-            
-            // Exemplo de alerta (substitua por sua lógica de salvamento)
-            alert(`Status: ${status}\nObservações: ${observacoes}`);
-            
-            // Fecha o modal após salvar
-            $('#atualizarLaudoModal').modal('hide');
+            table.page.len($(this).val()).draw();
         });
     });
 </script>
