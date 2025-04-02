@@ -16,6 +16,12 @@ class HomeController extends AppController
         $this->set('subTitle', 'Blank Page');
     }
 
+    public function atualizacaoLaudo()
+    {
+        $this->set('title', 'Início');
+        $this->set('subTitle', 'Atualização de Laudo');
+    }
+
     public function calendar()
     {
         $this->set('title', 'Calendar');

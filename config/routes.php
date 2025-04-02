@@ -135,6 +135,7 @@ return function (RouteBuilder $routes): void {
 
         // Routing for Home Controller
         $builder->scope('/', ['controller' => 'Home'], function ($builder) {
+            $builder->connect('/atualizacao-laudo',['action'=>'atualizacaoLaudo'],['_name'=>'Laudo']);
             $builder->connect('/blankpage',['action'=>'blankpage'],['_name'=>'blankpage']);
             $builder->connect('/calendar',['action'=>'calendar'],['_name'=>'calendar']);
             $builder->connect('/chat',['action'=>'chat'],['_name'=>'chat']);
