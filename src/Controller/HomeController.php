@@ -29,27 +29,24 @@ class HomeController extends AppController
     {
         $this->set('title', 'Laudos Pendentes');
         $this->set('subTitle', 'Atualização de Laudo');
-
+    
         if ($this->request->is('ajax')) {
             // Captura parâmetros do DataTables
-            $search = $this->request->getQuery('search')['value'] ?? null;
+            $search = $this->request->getQuery('search') ?? null;
             $start = (int) $this->request->getQuery('start', 0);
             $length = (int) $this->request->getQuery('length', 10);
             $draw = (int) $this->request->getQuery('draw', 1);
-            $isExport = $this->request->getQuery('export');
+            $isExport = $this->request->getQuery('export', false);
     
-            // Busca dados paginados do banco
-            $dados = $this->CustomComponent->atualizacaoLaudo($length, $start, $search, $isExport);
-    
-            // Conta o total de registros
-            $totalRecords = count($this->CustomComponent->atualizacaoLaudo(PHP_INT_MAX, 0));
+            // Busca dados paginados e totais em uma única chamada
+            $result = $this->CustomComponent->atualizacaoLaudo($length, $start, $search, $isExport);
     
             // Retorna JSON para DataTables
             return $this->response->withType('application/json')->withStringBody(json_encode([
                 'draw' => $draw,
-                'recordsTotal' => $totalRecords,
-                'recordsFiltered' => empty($search) ? $totalRecords : count($dados),
-                'data' => array_values($dados)
+                'recordsTotal' => $result['total'],
+                'recordsFiltered' => empty($search) ? $result['total'] : $result['filtered'],
+                'data' => $result['data']
             ]));
         }
     }

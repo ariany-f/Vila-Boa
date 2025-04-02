@@ -89,10 +89,21 @@
                 "url": "<?= $this->Url->build(['name' => 'Laudo']) ?>",
                 "type": "GET",
                 "data": function(d) {
-                    // Verifica se o botão de exportação foi clicado e ajusta a requisição
+                    // Adiciona parâmetros necessários para o servidor
+                    d.search = d.search.value;
+                    d.start = d.start;
+                    d.length = d.length;
+                    d.draw = d.draw;
+                    
                     if ($('#LoadAll').val() === 'True') {
-                        d.export = true; // Adiciona parâmetro para exportação de todos os registros
+                        d.export = true;
+                        d.length = -1; // Retorna todos os registros
                     }
+                },
+                "dataSrc": function(json) {
+                    console.log(json)
+                    // Ajusta a resposta para o formato esperado pelo DataTables
+                    return json.data;
                 }
             },
             "columns": [

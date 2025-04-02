@@ -17,43 +17,74 @@ class CustomComponent extends Component
 
     public function atualizacaoLaudo($limit = 10, $offset = 0, $search = null, $export = false)
     {
-        // Obtém a conexão com o banco remoto
+           // Loga a query final montada
+           $this->log("Busca: " . $search);
         $conexaoRemota = ConnectionManager::get('remote_laudo');
 
-        // Se for uma exportação, retorna todos os dados
-        if ($export) {
-            // Ajuste a consulta para retornar todos os registros
-            $query = "SELECT loc_datetimeinsert, e_tipoatendimento,loc_id, loc_description, e_bairro, tsk_situation, e_acoesnecessarias from looker_laudopendente 
-WHERE e_laudopendente = 'Sim' AND e_servico = 'Remocao' AND tss_id <= '40' ";
-            
-            $params = [];
-        } else {
-            // Query base para quando não é exportação
-            $query = "SELECT loc_datetimeinsert, e_tipoatendimento, loc_id, loc_description, e_bairro, tsk_situation, e_acoesnecessarias from looker_laudopendente 
-WHERE e_laudopendente = 'Sim' AND e_servico = 'Remocao' AND tss_id <= '40' 
-            ";
+        // Parte comum da query
+        $whereClause = "WHERE e_laudopendente = 'Sim' AND e_servico = 'Remocao' AND tss_id <= '40'";
+        $params = [];
+        $searchParams = [];
 
-            // Se houver pesquisa, aplica o filtro de pesquisa
-            if (!empty($search)) {
-                 $query .= " AND (e_tipoatendimento LIKE :search OR loc_description LIKE :search OR e_acoesnecessarias LIKE :search) ";;
-            }
-
-            $query .= " ORDER BY loc_datetimeinsert
-                  LIMIT {$limit} OFFSET {$offset};
-            ";
-
-            // Se houver pesquisa, adiciona o parâmetro de busca
-            if (!empty($search)) {
-                $params['search'] = "%{$search}%";
-            }
-            else{
-                $params = [];
-            }
-            
+        // Adiciona condição de busca se existir
+        if (!empty($search)) {
+            $whereClause .= " AND (e_tipoatendimento LIKE :search OR loc_description LIKE :search OR e_acoesnecessarias LIKE :search)";
+            $searchParams['search'] = "%{$search}%";
         }
 
-        // Executa a query com os parâmetros
-        return $conexaoRemota->execute($query, $params)->fetchAll('assoc');
-    }
+        // Query para os dados
+        $dataQuery = "SELECT loc_datetimeinsert, e_tipoatendimento, loc_id, loc_description, e_bairro, tsk_situation, e_acoesnecessarias 
+                    FROM looker_laudopendente 
+                    {$whereClause}
+                    ORDER BY loc_datetimeinsert";
 
+        // Query para contar o total de registros
+        $countQuery = "SELECT COUNT(*) as total FROM looker_laudopendente {$whereClause}";
+
+        try {
+            // Executa a query de contagem primeiro (com os mesmos parâmetros de busca)
+            $totalResult = $conexaoRemota->execute($countQuery, $searchParams)->fetch('assoc');
+            $total = $totalResult['total'];
+
+            // Aplica paginação se não for exportação
+            if (!$export && empty($searchParams)) {
+                $dataQuery .= " LIMIT :limit OFFSET :offset";
+                $params = array_merge($searchParams, [
+                    'limit' => $limit,
+                    'offset' => $offset
+                ]);
+            } else {
+                $params = $searchParams;
+            }
+            // Copia a query original
+            $queryLog = $dataQuery;
+
+            // Substitui os placeholders pelos valores reais
+            foreach ($params as $param) {
+                $safeParam = is_string($param) ? addslashes($param) : $param; // Só aplica addslashes em strings
+                $queryLog = preg_replace('/\?/', "'" . $safeParam . "'", $queryLog, 1);
+            }
+            
+            // Loga a query final montada
+            $this->log("Consulta SQL Final: " . $queryLog);
+            // Loga a query final montada
+            $this->log("Parâmetros: " . json_encode($params));
+
+            // Executa a query de dados
+            $results = $conexaoRemota->execute($dataQuery, $params)->fetchAll('assoc');
+
+            return [
+                'data' => $results,
+                'total' => $total,         // Total sem filtro
+                'filtered' => $total       // Total com filtro (será igual ao total quando não houver busca)
+            ];
+        } catch (\Exception $e) {
+            $this->log("Erro na consulta: " . $e->getMessage());
+            return [
+                'data' => [],
+                'total' => 0,
+                'filtered' => 0
+            ];
+        }
+    }
 }
