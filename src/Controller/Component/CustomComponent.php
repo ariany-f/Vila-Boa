@@ -18,18 +18,18 @@ class CustomComponent extends Component
     public function atualizacaoLaudo($limit = 10, $offset = 0, $search = null, $export = false)
     {
         // Obtém a conexão com o banco remoto
-        $conexaoRemota = ConnectionManager::get('remote_capina');
+        $conexaoRemota = ConnectionManager::get('remote_laudo');
 
         // Se for uma exportação, retorna todos os dados
         if ($export) {
             // Ajuste a consulta para retornar todos os registros
-            $query = "SELECT loc_datetimeinsert, e_tipoatendimento,loc_id,loc_description,e_bairro , tsk_situation,e_acoesnecessarias from looker_laudopendente 
+            $query = "SELECT loc_datetimeinsert, e_tipoatendimento,loc_id, loc_description, e_bairro, tsk_situation, e_acoesnecessarias from looker_laudopendente 
 WHERE e_laudopendente = 'Sim' AND e_servico = 'Remocao' AND tss_id <= '40' ";
             
             $params = [];
         } else {
             // Query base para quando não é exportação
-            $query = "SELECT loc_datetimeinsert, e_tipoatendimento,loc_id,loc_description,e_bairro , tsk_situation,e_acoesnecessarias from looker_laudopendente 
+            $query = "SELECT loc_datetimeinsert, e_tipoatendimento, loc_id, loc_description, e_bairro, tsk_situation, e_acoesnecessarias from looker_laudopendente 
 WHERE e_laudopendente = 'Sim' AND e_servico = 'Remocao' AND tss_id <= '40' 
             ";
 

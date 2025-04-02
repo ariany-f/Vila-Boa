@@ -9,6 +9,15 @@ namespace App\Controller;
  */
 class HomeController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+        
+        $this->loadComponent('CustomComponent', [
+            'className' => 'Custom', // Nome da classe do componente
+        ]);
+    }
+
     
     public function blankpage()
     {
@@ -20,6 +29,29 @@ class HomeController extends AppController
     {
         $this->set('title', 'Início');
         $this->set('subTitle', 'Atualização de Laudo');
+
+        if ($this->request->is('ajax')) {
+            // Captura parâmetros do DataTables
+            $search = $this->request->getQuery('search')['value'] ?? null;
+            $start = (int) $this->request->getQuery('start', 0);
+            $length = (int) $this->request->getQuery('length', 10);
+            $draw = (int) $this->request->getQuery('draw', 1);
+            $isExport = $this->request->getQuery('export');
+    
+            // Busca dados paginados do banco
+            $dados = $this->CustomComponent->atualizacaoLaudo($length, $start, $search, $isExport);
+    
+            // Conta o total de registros
+            $totalRecords = count($this->CustomComponent->atualizacaoLaudo(PHP_INT_MAX, 0));
+    
+            // Retorna JSON para DataTables
+            return $this->response->withType('application/json')->withStringBody(json_encode([
+                'draw' => $draw,
+                'recordsTotal' => $totalRecords,
+                'recordsFiltered' => empty($search) ? $totalRecords : count($dados),
+                'data' => array_values($dados)
+            ]));
+        }
     }
 
     public function calendar()
