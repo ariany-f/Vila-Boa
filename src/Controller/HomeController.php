@@ -94,8 +94,8 @@ class HomeController extends AppController
 
     public function index()
     {
-        $this->set('title', 'Dashboard');
-        $this->set('subTitle', 'AI');
+        $this->set('title', 'Início');
+        $this->set('subTitle', 'Vila Boa');
     }
 
     public function kanban()
