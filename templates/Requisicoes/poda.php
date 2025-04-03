@@ -50,7 +50,6 @@
                                         'emergencia-1' => 'Emergência / Risco de Queda / Queda de Árvore'
                                     ],
                                     'label' => false,
-                                    'default' => 'emergencia-1',
                                     'templates' => [
                                         'nestingLabel' => '<div class="d-flex justify-content-start align-items-center gap-1">{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></div>'
                                     ],
@@ -82,7 +81,6 @@
                                         'ouvidoria' => 'Ouvidoria'
                                     ],
                                     'label' => false,
-                                    'default' => 'garagem',
                                     'templates' => [
                                         'nestingLabel' => '<div class="d-flex justify-content-start align-items-center gap-1">{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></div>'
                                     ],
@@ -122,7 +120,6 @@
                                         'proprio' => 'Próprio Municipal'
                                     ],
                                     'label' => false,
-                                    'default' => 'garagem',
                                     'templates' => [
                                         'nestingLabel' => '<div class="d-flex justify-content-start align-items-center gap-1">{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></div>'
                                     ],
@@ -215,7 +212,6 @@
                                         'municipio' => 'Atendimento ao Município'
                                     ],
                                     'label' => false,
-                                    'default' => 'garagem',
                                     'templates' => [
                                         'nestingLabel' => '<div class="d-flex justify-content-start align-items-center gap-1">{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></div>'
                                     ],
@@ -254,7 +250,6 @@
                                         'municipio' => 'Atendimento ao Município'
                                     ],
                                     'label' => false,
-                                    'default' => 'garagem',
                                     'templates' => [
                                         'nestingLabel' => '<div class="d-flex justify-content-start align-items-center gap-1">{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></div>'
                                     ],
@@ -262,13 +257,24 @@
                                 ]) ?>
                             </div>
                             <div class="row mb-2">
-                                <label class="form-label" for="ano"> Ano </label>
-                                <?= $this->Form->control('ano_legislativo', [
-                                    'type' => 'text',
-                                    'label' => false,
-                                    'class' => 'form-control',
-                                    'id' => 'ano'
-                                ]) ?>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="ano"> Ano </label>
+                                    <?= $this->Form->control('ano_legislativo', [
+                                        'type' => 'text',
+                                        'label' => false,
+                                        'class' => 'form-control',
+                                        'id' => 'ano'
+                                    ]) ?>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Nº da Solicitação</label>
+                                    <?= $this->Form->control('numero_solicitacao_legislativo', [
+                                        'type' => 'text',
+                                        'label' => false,
+                                        'class' => 'form-control',
+                                        'placeholder' => 'Nº da Solicitação'
+                                    ]) ?>
+                                </div>
                             </div>
                             <div class="row mb-2">
                                 <label class="form-label" for="vereador"> Vereador </label>
@@ -315,15 +321,6 @@
                                 ]) ?>
                             </div>
                         </div>
-                        <div class="row">
-                            <label class="form-label">Nº da Solicitação</label>
-                            <?= $this->Form->control('numero_solicitacao_legislativo', [
-                                'type' => 'text',
-                                'label' => false,
-                                'class' => 'form-control',
-                                'placeholder' => 'Nº da Solicitação'
-                            ]) ?>
-                        </div>
                         <div class="row" id="gam-legislativo-div" style="display:none;">
                             <label class="form-label">Nº da GAM</label>
                             <?= $this->Form->control('gam_legislativo', [
@@ -347,7 +344,6 @@
                                         'proprio' => 'Próprio Municipal'
                                     ],
                                     'label' => false,
-                                    'default' => 'garagem',
                                     'templates' => [
                                         'nestingLabel' => '<div class="d-flex justify-content-start align-items-center gap-1">{{hidden}}{{input}} <label{{attrs}}>{{text}}</label></div>'
                                     ],
@@ -355,13 +351,24 @@
                                 ]) ?>
                             </div>
                             <div class="row mb-2">
-                                <label class="form-label" for="ano">Ano</label>
-                                <?= $this->Form->control('ano_interna', [
-                                    'type' => 'text',
-                                    'label' => false,
-                                    'class' => 'form-control',
-                                    'id' => 'ano'
-                                ]) ?>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="ano">Ano</label>
+                                    <?= $this->Form->control('ano_interna', [
+                                        'type' => 'text',
+                                        'label' => false,
+                                        'class' => 'form-control',
+                                        'id' => 'ano'
+                                    ]) ?>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Nº da Solicitação</label>
+                                    <?= $this->Form->control('numero_solicitacao_interna', [
+                                        'type' => 'text',
+                                        'label' => false,
+                                        'class' => 'form-control',
+                                        'placeholder' => 'Nº da Solicitação'
+                                    ]) ?>
+                                </div>
                             </div>
                             <div class="row mb-2">
                                 <label class="form-label" for="secretaria"> Secretaria </label>
@@ -417,15 +424,6 @@
                                     'placeholder' => 'Nome do Próprio Municipal'
                                 ]) ?>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label class="form-label">Nº da Solicitação</label>
-                            <?= $this->Form->control('numero_solicitacao_interna', [
-                                'type' => 'text',
-                                'label' => false,
-                                'class' => 'form-control',
-                                'placeholder' => 'Nº da Solicitação'
-                            ]) ?>
                         </div>
                         <div class="row" id="gam-interna-div" style="display:none;">
                             <label class="form-label">Nº da GAM</label>
