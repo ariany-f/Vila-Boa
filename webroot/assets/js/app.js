@@ -1,23 +1,27 @@
 (function ($) {
   'use strict';
+  
   $(".sidebar-menu .dropdown > a").on("click", function (e) {
     var item = $(this).parent(); // O <li> que contém o menu
 
-    // Se o item já estiver aberto e o clique for no pai, fecha ele
+    // Se o item já estiver aberto, fecha ele completamente
     if (item.hasClass("open")) {
-        e.preventDefault(); // Impede a navegação se for o pai
-        item.children(".sidebar-submenu").removeClass("open").slideUp();
+        e.preventDefault();
+        item.children(".sidebar-submenu").slideUp(); // Fecha o submenu
+        item.removeClass("open"); // Remove a classe "open" do <li> pai
         return;
     }
 
     // Fecha apenas os dropdowns de mesmo nível
-    item.siblings(".dropdown").removeClass("open").children(".sidebar-submenu").slideUp();
-
+    item.siblings(".dropdown").children(".sidebar-submenu").slideUp();
+    item.siblings(".dropdown").removeClass("open");
+    
     // Abre o menu clicado
-    item.children(".sidebar-submenu").addClass("open").slideDown();
-});
+    item.children(".sidebar-submenu").slideDown();
+    item.addClass("open"); // Adiciona "open" ao <li> pai
+  });
 
-
+  // Restante do seu código (toggle sidebar, etc.)
   $(".sidebar-toggle").on("click", function(){
     $(this).toggleClass("active");
     $(".sidebar").toggleClass("active");
@@ -155,7 +159,8 @@ document.addEventListener("DOMContentLoaded", function() {
               return;
           }
 
-          if (link && !link.startsWith("#") && !link.startsWith("javascript")) {
+          if (link && !link.startsWith("#") && !linkElement.getAttribute('href').startsWith('#') && !link.startsWith("javascript")) {
+           
               // Verifica se o link tem o atributo confirm
               let confirmMessage = linkElement.getAttribute("data-confirm") || linkElement.getAttribute("confirm");
               

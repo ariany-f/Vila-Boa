@@ -4,12 +4,16 @@
   <?= $this->element('head') ?>
   <body>
     <?= $this->element('sidebar') ?>
-
     <main class="dashboard-main">
       <?= $this->element('navbar') ?>
-        <div class="dashboard-main-body">
-
-            <?= $this->element('breadcrumb') ?> 
+            <!-- Breadcrumb e abertura da div dashboard main body -->
+            <?php if ($this->request->getUri()->getPath() !== '/') : ?>
+              <div class="dashboard-main-body">
+                <?= $this->element('breadcrumb') ?>
+            <?php else: ?>      
+              <div>
+            <?php endif; ?>
+            <!-- /Breadcrumb -->
 
             <?= $this->fetch('content') ?>
         </div>
