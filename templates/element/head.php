@@ -34,7 +34,7 @@
 
     <link rel="stylesheet" href="<?= $this->Url->assetUrl('assets/css/lib/audioplayer.css') ?>">
     <!-- main css -->
-    <link rel="stylesheet" href="<?= $this->Url->assetUrl('assets/css/style.css') ?>">
+    <link rel="stylesheet" href="<?= $this->Url->assetUrl('assets/css/style.css?v=1.0.0') ?>">
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" crossorigin="" />
 </head>
