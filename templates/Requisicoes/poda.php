@@ -495,8 +495,6 @@
                                 'empty' => 'Selecione o tipo de poda'
                             ]) ?>
                         </div>
-                    </div>
-                    <div class="row mt-3">
                         <div class="col-md-6">
                             <label class="form-label">Observação</label>
                             <textarea class="form-control" name="observacao_poda" id="observacao-poda" maxlength="2000" rows="3" readonly></textarea>
@@ -504,8 +502,8 @@
                     </div>
                 </div>
                 
-                <div class="col-md-12 d-flex align-items-center justify-content-between flex-wrap mt-3" id="substituicao-div" style="display:none;">
-                    <div class="col-md-4">
+                <div class="col-md-12 d-flex align-items-center justify-content-start flex-wrap mt-3" id="substituicao-div" style="display:none;">
+                    <div class="col-md-3">
                         <label class="form-label">Substituição</label>
                         <div class="d-flex form-check align-items-center justify-content-between flex-wrap gap-28">
                             <?= $this->Form->control('substituicao', [
@@ -522,10 +520,7 @@
                             ]) ?>
                         </div>
                     </div>
-                </div>
-                
-                <div class="col-md-12 d-flex align-items-center justify-content-between flex-wrap mt-3" id="laudo-div" style="display:none;">
-                    <div class="col-md-4">
+                    <div class="col-md-3" id="laudo-div">
                         <label class="form-label">Laudo Pendente</label>
                         <div class="d-flex form-check align-items-center justify-content-between flex-wrap gap-28">
                             <?= $this->Form->control('laudo_pendente', [
@@ -542,12 +537,30 @@
                             ]) ?>
                         </div>
                     </div>
-                    <div class="col-md-6" id="laudo-pdf-div" style="display:none;">
-                        <label class="form-label">Laudo em PDF</label>
-                        <?= $this->Form->control('laudo_pdf', [
-                            'type' => 'file',
+                </div>
+            </div>
+
+            <div class="card-header border-bottom bg-base py-16 px-24">
+                <h6 class="text-lg fw-semibold mb-0">Dados do Munícipe</h6>
+            </div>
+            <div class="card-body">
+                <div class="col-md-12 d-flex align-items-start justify-content-between flex-wrap">
+                    <div class="col-md-5">
+                        <label class="form-label">Nome do Solicitante (Opcional)</label>
+                        <?= $this->Form->control('nome_solicitante', [
+                            'type' => 'text',
                             'label' => false,
-                            'class' => 'form-control form-control-sm'
+                            'class' => 'form-control',
+                            'placeholder' => 'Nome completo do solicitante'
+                        ]) ?>
+                    </div>
+                    <div class="col-md-5">
+                        <label class="form-label">Telefone do Solicitante (Opcional)</label>
+                        <?= $this->Form->control('telefone_solicitante', [
+                            'type' => 'text',
+                            'label' => false,
+                            'class' => 'form-control',
+                            'placeholder' => '(DDD) 99999-9999'
                         ]) ?>
                     </div>
                 </div>
@@ -646,6 +659,7 @@
                 </div>
                 <div class="col-md-12 d-flex align-items-start justify-content-between flex-wrap mt-28">
                     <div class="col-md-5">
+
                         <label class="form-label">Imagem do Local </label>
                         <?= $this->Form->control('imagem_local', [
                             'type' => 'file',
@@ -653,7 +667,16 @@
                             'label' => false,
                             'class' => 'form-control form-control-sm'
                         ]) ?>
+                        <div id="laudo-pdf-div" style="display:none;">
+                            <label class="form-label">Laudo em PDF</label>
+                            <?= $this->Form->control('laudo_pdf', [
+                                'type' => 'file',
+                                'label' => false,
+                                'class' => 'form-control form-control-sm'
+                            ]) ?>
+                        </div>
                     </div>
+                    
                     <div class="col-md-6">
                         <label class="form-label">Observação</label>
                         <?= $this->Form->control('observacao', [
@@ -662,27 +685,6 @@
                             'class' => 'form-control',
                             'rows' => 4,
                             'placeholder' => 'Digite sua observação...'
-                        ]) ?>
-                    </div>
-                </div>
-                
-                <div class="col-md-12 d-flex align-items-start justify-content-between flex-wrap mt-28">
-                    <div class="col-md-5">
-                        <label class="form-label">Nome do Solicitante</label>
-                        <?= $this->Form->control('nome_solicitante', [
-                            'type' => 'text',
-                            'label' => false,
-                            'class' => 'form-control',
-                            'placeholder' => 'Nome completo do solicitante'
-                        ]) ?>
-                    </div>
-                    <div class="col-md-5">
-                        <label class="form-label">Telefone do Solicitante (Opcional)</label>
-                        <?= $this->Form->control('telefone_solicitante', [
-                            'type' => 'text',
-                            'label' => false,
-                            'class' => 'form-control',
-                            'placeholder' => '(DDD) 99999-9999'
                         ]) ?>
                     </div>
                 </div>
@@ -858,21 +860,35 @@
         // Mostrar/ocultar tipo de poda quando selecionar Poda
         $("#servico-selecionado").on("change", function() {
             let value = $(this).val();
-            
+    
             if (value === "Poda") {
                 $("#tipo-poda-div").show();
-                $("#substituicao-div").show();
+                $("#substituicao-laudo-div").hide();
                 $("#laudo-div").hide();
+                $("#laudo-pdf-div").hide();
             } 
             else if (value === "Remocao") {
                 $("#tipo-poda-div").hide();
+                $("#substituicao-laudo-div").show();
                 $("#substituicao-div").show();
                 $("#laudo-div").show();
+                // Reset laudo pendente selection
+                $("input[name='laudo_pendente']").prop('checked', false);
+                // Hide PDF upload since we reset the selection
+                $("#laudo-pdf-div").hide();
+            }
+            else if (value === "Destoca") {
+                $("#tipo-poda-div").hide();
+                $("#substituicao-laudo-div").show();
+                $("#substituicao-div").show();
+                $("#laudo-pdf-div").hide();
+                $("#laudo-div").hide();
             }
             else {
                 $("#tipo-poda-div").hide();
-                $("#substituicao-div").hide();
+                $("#substituicao-laudo-div").hide();
                 $("#laudo-div").hide();
+                $("#laudo-pdf-div").hide();
             }
         });
         
