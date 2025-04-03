@@ -58,7 +58,7 @@
                                 ]) ?>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
                             <label class="form-label">Nº da Solicitação</label>
                             <?= $this->Form->control('numero_solicitacao_emergencia', [
                                 'type' => 'text',
@@ -90,7 +90,7 @@
                                 ]) ?>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
                             <label class="form-label">Nº da Solicitação</label>
                             <?= $this->Form->control('numero_solicitacao_sbc', [
                                 'type' => 'text',
@@ -99,7 +99,7 @@
                                 'placeholder' => 'Nº da Solicitação'
                             ]) ?>
                         </div>
-                        <div class="row" id="gam-sbc-div" style="display:none;">
+                        <div class="row mb-2" id="gam-sbc-div" style="display:none;">
                             <label class="form-label">Nº da GAM</label>
                             <?= $this->Form->control('gam_sbc', [
                                 'type' => 'text',
@@ -175,7 +175,7 @@
                                 'empty' => 'Selecione a secretaria'
                             ]) ?>
                         </div>
-                        <div class="row" id="proprio-memorando-div" style="display:none;">
+                        <div class="row mb-2" id="proprio-memorando-div" style="display:none;">
                             <label class="form-label">Próprio Municipal</label>
                             <?= $this->Form->control('proprio_memorando', [
                                 'type' => 'text',
@@ -184,7 +184,7 @@
                                 'placeholder' => 'Nome do Próprio Municipal'
                             ]) ?>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
                             <label class="form-label">Nº da Solicitação</label>
                             <?= $this->Form->control('numero_solicitacao_memorando', [
                                 'type' => 'text',
@@ -193,7 +193,7 @@
                                 'placeholder' => 'Nº da Solicitação'
                             ]) ?>
                         </div>
-                        <div class="row" id="gam-memorando-div" style="display:none;">
+                        <div class="row mb-2" id="gam-memorando-div" style="display:none;">
                             <label class="form-label">Nº da GAM</label>
                             <?= $this->Form->control('gam_memorando', [
                                 'type' => 'text',
@@ -223,7 +223,7 @@
                                 ]) ?>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
                             <label class="form-label">Nº da Solicitação</label>
                             <?= $this->Form->control('numero_solicitacao_vcsbc', [
                                 'type' => 'text',
@@ -232,7 +232,7 @@
                                 'placeholder' => 'Nº da Solicitação'
                             ]) ?>
                         </div>
-                        <div class="row" id="gam-vcsbc-div" style="display:none;">
+                        <div class="row mb-2" id="gam-vcsbc-div" style="display:none;">
                             <label class="form-label">Nº da GAM</label>
                             <?= $this->Form->control('gam_vcsbc', [
                                 'type' => 'text',
@@ -326,7 +326,7 @@
                                 ]) ?>
                             </div>
                         </div>
-                        <div class="row" id="gam-legislativo-div" style="display:none;">
+                        <div class="row mb-2" id="gam-legislativo-div" style="display:none;">
                             <label class="form-label">Nº da GAM</label>
                             <?= $this->Form->control('gam_legislativo', [
                                 'type' => 'text',
@@ -421,7 +421,7 @@
                                     'empty' => 'Selecione a secretaria'
                                 ]) ?>
                             </div>
-                            <div class="row" id="proprio-interna-div" style="display:none;">
+                            <div class="row mb-2" id="proprio-interna-div" style="display:none;">
                                 <label class="form-label">Próprio Municipal</label>
                                 <?= $this->Form->control('proprio_interna', [
                                     'type' => 'text',
@@ -431,7 +431,7 @@
                                 ]) ?>
                             </div>
                         </div>
-                        <div class="row" id="gam-interna-div" style="display:none;">
+                        <div class="row mb-2" id="gam-interna-div" style="display:none;">
                             <label class="form-label">Nº da GAM</label>
                             <?= $this->Form->control('gam_interna', [
                                 'type' => 'text',
