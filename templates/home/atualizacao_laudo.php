@@ -21,7 +21,7 @@
                 <tbody>
                     <?php if(isset($resultados)) : ?>
                         <?php foreach ($resultados as $resultado): ?>
-                            <tr>		
+                            <tr>        
                                 <td><p class="max-w-500-px"><?= h($resultado['loc_datetimeinsert'] ? date('d/m/Y', strtotime($resultado['loc_datetimeinsert'])) : '') ?></p></td>
                                 <td><p class="max-w-500-px"><?= h($resultado['e_tipoatendimento']) ?></p></td>
                                 <td><p class="max-w-500-px"><?= h($resultado['loc_description']) ?></p></td>
@@ -31,7 +31,7 @@
                                     <button class="btn btn-sm btn-primary btn-atualizar" 
                                             data-loc-id="<?= h($resultado['loc_id']) ?>"
                                             data-loc-desc="<?= h($resultado['loc_description']) ?>">
-                                        Atualizar
+                                        <iconify-icon icon="tabler:refresh"></iconify-icon>
                                     </button>
                                 </td>
                             </tr>
@@ -46,39 +46,31 @@
     <div id="LoadAll"></div>
 </div>
 
-<!-- Modal para Atualizar Laudo -->
-<div class="modal fade" id="atualizarLaudoModal" tabindex="-1" aria-labelledby="atualizarLaudoModalLabel" aria-hidden="true">
+<!-- Modal para Anexar Laudo -->
+<div class="modal fade" id="anexarLaudoModal" tabindex="-1" aria-labelledby="anexarLaudoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="atualizarLaudoModalLabel">Atualizar Laudo</h5>
+                <h5 class="modal-title" id="anexarLaudoModalLabel">Anexar Laudo</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="formAtualizarLaudo">
+                <form id="formAnexarLaudo" enctype="multipart/form-data">
                     <input type="hidden" id="locId">
                     <div class="mb-3">
                         <label class="form-label">Local:</label>
-                        <p id="locDescriptionDisplay" class="form-control-static"></p>
+                        <p id="locDescriptionDisplay" class="form-control-static fw-bold"></p>
                     </div>
                     <div class="mb-3">
-                        <label for="statusLaudo" class="form-label">Status</label>
-                        <select class="form-select" id="statusLaudo" required>
-                            <option value="">Selecione o status</option>
-                            <option value="pendente">Pendente</option>
-                            <option value="em_andamento">Em Andamento</option>
-                            <option value="concluido">Concluído</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="observacoes" class="form-label">Observações</label>
-                        <textarea class="form-control" id="observacoes" rows="3"></textarea>
+                        <label for="arquivoLaudo" class="form-label">Selecione o arquivo do laudo (PDF)</label>
+                        <input class="form-control" type="file" id="arquivoLaudo" accept=".pdf" required>
+                        <div class="form-text">Apenas arquivos PDF são permitidos.</div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="salvarAtualizacao">Salvar</button>
+                <button type="button" class="btn btn-primary" id="salvarAnexo">Salvar</button>
             </div>
         </div>
     </div>
@@ -222,26 +214,50 @@
             
             $('#locId').val(locId);
             $('#locDescriptionDisplay').text(locDesc);
-            $('#atualizarLaudoModal').modal('show');
+            $('#anexarLaudoModal').modal('show');
         });
 
-        $('#salvarAtualizacao').click(function() {
+        $('#salvarAnexo').click(function() {
             var locId = $('#locId').val();
-            var status = $('#statusLaudo').val();
-            var observacoes = $('#observacoes').val();
+            var arquivo = $('#arquivoLaudo')[0].files[0];
             
-            // Aqui você pode adicionar a chamada AJAX para salvar os dados
-            console.log("Dados para salvar:", {
-                loc_id: locId,
-                status: status,
-                observacoes: observacoes
+            if (!arquivo) {
+                alert('Por favor, selecione um arquivo PDF para enviar.');
+                return;
+            }
+            
+            // Verifica se o arquivo é PDF
+            if (arquivo.type !== 'application/pdf') {
+                alert('Por favor, selecione apenas arquivos PDF.');
+                return;
+            }
+            
+            // Cria FormData para enviar o arquivo
+            var formData = new FormData();
+            formData.append('loc_id', locId);
+            formData.append('arquivo', arquivo);
+            
+            // Aqui você pode adicionar a chamada AJAX para enviar o arquivo
+            $.ajax({
+                url: '<?= $this->Url->build(['controller' => 'Laudos', 'action' => 'upload']) ?>',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+                        alert('Laudo enviado com sucesso!');
+                        $('#anexarLaudoModal').modal('hide');
+                        $('#formAnexarLaudo')[0].reset();
+                        table.ajax.reload(); // Atualiza a tabela
+                    } else {
+                        alert('Erro ao enviar laudo: ' + response.message);
+                    }
+                },
+                error: function(xhr) {
+                    alert('Erro na requisição. Por favor, tente novamente.');
+                }
             });
-            
-            // Fecha o modal após salvar
-            $('#atualizarLaudoModal').modal('hide');
-            
-            // Limpa o formulário
-            $('#formAtualizarLaudo')[0].reset();
         });
 
         // Conectar input de busca ao DataTable
